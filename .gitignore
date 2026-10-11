@@ -1,0 +1,13 @@
+CLAUDE.md
+PROGRESS.md
+.claude/
+.venv/
+data/raw/
+data/interim/
+*.pkl
+*.pt
+*.joblib
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+.env
