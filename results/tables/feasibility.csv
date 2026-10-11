@@ -1,0 +1,172 @@
+section,key,value,rank,subjects
+counts,raw_pages,76.0,,
+counts,duplicate_nct_ids_dropped,0.0,,
+counts,studies_with_results,75748.0,,
+counts,randomized_2plus_arms,47931.0,,
+counts,has_participant_flow_module,75748.0,,
+counts,has_dropwithdraw_reasons_per_group,45955.0,,
+counts,has_dropwithdraw_reasons_2plus_groups,35284.0,,
+counts,has_control_arm,41633.0,,
+counts,usable_trials,24473.0,,
+usable_by_phase,EARLY_PHASE1,86.0,,
+usable_by_phase,NA,5840.0,,
+usable_by_phase,PHASE1,1136.0,,
+usable_by_phase,PHASE1|PHASE2,677.0,,
+usable_by_phase,PHASE2,5961.0,,
+usable_by_phase,PHASE2|PHASE3,582.0,,
+usable_by_phase,PHASE3,7539.0,,
+usable_by_phase,PHASE4,2652.0,,
+usable_by_start_year,NA,2.0,,
+usable_by_start_year,1988,1.0,,
+usable_by_start_year,1989,1.0,,
+usable_by_start_year,1990,1.0,,
+usable_by_start_year,1991,2.0,,
+usable_by_start_year,1992,2.0,,
+usable_by_start_year,1993,7.0,,
+usable_by_start_year,1994,3.0,,
+usable_by_start_year,1995,10.0,,
+usable_by_start_year,1996,4.0,,
+usable_by_start_year,1997,12.0,,
+usable_by_start_year,1998,12.0,,
+usable_by_start_year,1999,28.0,,
+usable_by_start_year,2000,54.0,,
+usable_by_start_year,2001,72.0,,
+usable_by_start_year,2002,130.0,,
+usable_by_start_year,2003,235.0,,
+usable_by_start_year,2004,353.0,,
+usable_by_start_year,2005,577.0,,
+usable_by_start_year,2006,985.0,,
+usable_by_start_year,2007,1267.0,,
+usable_by_start_year,2008,1392.0,,
+usable_by_start_year,2009,1391.0,,
+usable_by_start_year,2010,1385.0,,
+usable_by_start_year,2011,1382.0,,
+usable_by_start_year,2012,1337.0,,
+usable_by_start_year,2013,1355.0,,
+usable_by_start_year,2014,1405.0,,
+usable_by_start_year,2015,1444.0,,
+usable_by_start_year,2016,1446.0,,
+usable_by_start_year,2017,1466.0,,
+usable_by_start_year,2018,1386.0,,
+usable_by_start_year,2019,1392.0,,
+usable_by_start_year,2020,1211.0,,
+usable_by_start_year,2021,1203.0,,
+usable_by_start_year,2022,820.0,,
+usable_by_start_year,2023,494.0,,
+usable_by_start_year,2024,179.0,,
+usable_by_start_year,2025,27.0,,
+reasons,n_unique_raw_strings,30293.0,,
+reasons,n_unique_lowercased_stripped,27305.0,,
+reasons,n_dropwithdraw_entries_total,189151.0,,
+top_reasons,Withdrawal by Subject,31072.0,1.0,514591.0
+top_reasons,Lost to Follow-up,23617.0,2.0,458945.0
+top_reasons,Adverse Event,22218.0,3.0,318031.0
+top_reasons,Death,11995.0,4.0,369085.0
+top_reasons,Physician Decision,9754.0,5.0,57767.0
+top_reasons,Protocol Violation,9513.0,6.0,75274.0
+top_reasons,Lack of Efficacy,6653.0,7.0,106643.0
+top_reasons,Other,4726.0,8.0,94015.0
+top_reasons,Pregnancy,1663.0,9.0,5881.0
+top_reasons,Progressive Disease,1022.0,10.0,46772.0
+top_reasons,Disease Progression,942.0,11.0,38347.0
+top_reasons,Disease progression,797.0,12.0,41017.0
+top_reasons,Progressive disease,709.0,13.0,36054.0
+top_reasons,Study Terminated by Sponsor,664.0,14.0,83130.0
+top_reasons,Sponsor Decision,643.0,15.0,22696.0
+top_reasons,Protocol Deviation,521.0,16.0,2653.0
+top_reasons,Study terminated by sponsor,512.0,17.0,59255.0
+top_reasons,Ineligible,503.0,18.0,3704.0
+top_reasons,Non-compliance,441.0,19.0,2360.0
+top_reasons,Protocol deviation,391.0,20.0,2263.0
+top_reasons,Withdrew Consent,362.0,21.0,5071.0
+top_reasons,Other reasons,322.0,22.0,4733.0
+top_reasons,Administrative problems,292.0,23.0,9135.0
+top_reasons,Noncompliance,277.0,24.0,1688.0
+top_reasons,Reason not Specified,275.0,25.0,6186.0
+top_reasons,Miscellaneous,272.0,26.0,3380.0
+top_reasons,Screen Failure,263.0,27.0,3295.0
+top_reasons,Randomized but not treated,261.0,28.0,2019.0
+top_reasons,Not treated,250.0,29.0,1075.0
+top_reasons,Reason Not Specified,226.0,30.0,4295.0
+top_reasons,Non-compliance with study drug,219.0,31.0,793.0
+top_reasons,Sponsor decision,214.0,32.0,22340.0
+top_reasons,Withdrawal of Consent,210.0,33.0,3760.0
+top_reasons,Withdrew consent,202.0,34.0,2626.0
+top_reasons,Other Reasons,186.0,35.0,4806.0
+top_reasons,Other than specified,185.0,36.0,3849.0
+top_reasons,Other Reason,178.0,37.0,4081.0
+top_reasons,Unsatisfactory therapeutic effect,178.0,38.0,3086.0
+top_reasons,Missing,174.0,39.0,2962.0
+top_reasons,Ongoing,166.0,40.0,29282.0
+top_reasons,Investigator Decision,162.0,41.0,895.0
+top_reasons,Study terminated by Sponsor,156.0,42.0,25219.0
+top_reasons,Participant withdrew consent,151.0,43.0,1290.0
+top_reasons,Investigator's Discretion,146.0,44.0,984.0
+top_reasons,Administrative,145.0,45.0,3038.0
+top_reasons,Unclassified,140.0,46.0,2188.0
+top_reasons,Entry Criteria Not Met,138.0,47.0,1445.0
+top_reasons,Not Treated,138.0,48.0,912.0
+top_reasons,Non-Compliance,132.0,49.0,817.0
+top_reasons,Withdrawal of consent,131.0,50.0,2151.0
+top_reasons,Study drug toxicity,123.0,51.0,4729.0
+top_reasons,Study Terminated By Sponsor,119.0,52.0,15833.0
+top_reasons,Other reason,117.0,53.0,1659.0
+top_reasons,Withdrawal by parent/guardian,117.0,54.0,1599.0
+top_reasons,Screen failure,117.0,55.0,781.0
+top_reasons,Progression,117.0,56.0,4251.0
+top_reasons,Voluntary Withdrawal,114.0,57.0,3364.0
+top_reasons,Withdrawal by Parent/Guardian,114.0,58.0,1393.0
+top_reasons,Non-Compliance with Study Drug,112.0,59.0,554.0
+top_reasons,Subject/guardian decision,112.0,60.0,2345.0
+top_reasons,Migrated/moved from study area,110.0,61.0,1851.0
+top_reasons,Subject withdrew consent,102.0,62.0,1787.0
+top_reasons,Non-compliance with Study Drug,100.0,63.0,312.0
+top_reasons,Symptomatic Deterioration,99.0,64.0,1422.0
+top_reasons,Reason not specified,95.0,65.0,1261.0
+top_reasons,Serious Adverse Event,94.0,66.0,2035.0
+top_reasons,Poor compliance to protocol,91.0,67.0,1549.0
+top_reasons,Adverse event unrelated to study drug,91.0,68.0,1900.0
+top_reasons,Investigator decision,90.0,69.0,295.0
+top_reasons,Personal Reasons,88.0,70.0,740.0
+top_reasons,Subject decision,88.0,71.0,998.0
+top_reasons,Non-Compliance With Study Drug,87.0,72.0,321.0
+top_reasons,Technical problems,84.0,73.0,250.0
+top_reasons,Site Terminated by Sponsor,84.0,74.0,1512.0
+top_reasons,Alternative therapy,83.0,75.0,693.0
+top_reasons,"Other, not specified",82.0,76.0,2085.0
+top_reasons,Consent withdrawn,82.0,77.0,2477.0
+top_reasons,Consent Withdrawn,79.0,78.0,1974.0
+top_reasons,Subject Withdrew Consent,79.0,79.0,1692.0
+top_reasons,Other than specified above,78.0,80.0,2145.0
+top_reasons,Study Drug Toxicity,78.0,81.0,3416.0
+top_reasons,Study Termination,77.0,82.0,6653.0
+top_reasons,Study Terminated,74.0,83.0,2098.0
+top_reasons,"Other, Not Specified",74.0,84.0,1532.0
+top_reasons,Insufficient Therapeutic Response,74.0,85.0,4208.0
+top_reasons,Clinical Progression,73.0,86.0,1085.0
+top_reasons,Subject Decision,73.0,87.0,1525.0
+top_reasons,Abnormal laboratory value(s),72.0,88.0,686.0
+top_reasons,Toxicity,71.0,89.0,506.0
+top_reasons,Randomized but not Treated,71.0,90.0,518.0
+top_reasons,Refused further treatment,69.0,91.0,355.0
+top_reasons,Clinical progression,69.0,92.0,544.0
+top_reasons,Treatment Failure,69.0,93.0,1671.0
+top_reasons,Administrative Problems,68.0,94.0,612.0
+top_reasons,Missed Visit,67.0,95.0,571.0
+top_reasons,Moved,64.0,96.0,1029.0
+top_reasons,Relocation,64.0,97.0,334.0
+top_reasons,Abnormal test procedure result(s),63.0,98.0,1309.0
+top_reasons,Other Miscellaneous Reasons,63.0,99.0,510.0
+top_reasons,Sponsor's decision,63.0,100.0,25915.0
+matching,usable_trials_evaluated,24473.0,,
+matching,flow_groups_evaluated,71165.0,,
+matching,trials_same_n_flowgroups_and_arms,21377.0,,
+matching,median_group_score,100.0,,
+matching,group_match_rate_ge60,0.8695004566851683,,
+matching,trial_all_groups_matched_ge60,0.8561680219016876,,
+matching,group_match_rate_ge70,0.8408627836717487,,
+matching,trial_all_groups_matched_ge70,0.8272790422097822,,
+matching,group_match_rate_ge80,0.8068010960444039,,
+matching,trial_all_groups_matched_ge80,0.7939361745597189,,
+matching,group_match_rate_ge90,0.7679898826670414,,
+matching,trial_all_groups_matched_ge90,0.7572018142442692,,
