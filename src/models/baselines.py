@@ -216,8 +216,11 @@ def renormalize(P):
     return np.where(s > 0, P / np.where(s > 0, s, 1), 1.0 / P.shape[1])
 
 
-def fit_flat(name, AX, A, preds, selected):
-    """Per-arm LightGBM: rate regressors + one regressor per reason proportion."""
+def fit_flat(name, AX, A, preds, selected, models=None):
+    """Per-arm LightGBM: rate regressors + one regressor per reason proportion.
+
+    If a dict is passed as models, fitted boosters are stored under keys like "rate_primary" or a
+    proportion column name (used for SHAP)."""
     for s in preds:
         preds[s][name] = {}
     for k in KINDS:
@@ -225,6 +228,8 @@ def fit_flat(name, AX, A, preds, selected):
         model, info = fit_lgbm(AX["train"], A["train"][col].values, AX["val"], A["val"][col].values,
                                RATE_OBJECTIVES, M.mae)
         selected[f"{name}_{k}"] = info
+        if models is not None:
+            models[f"rate_{k}"] = model
         for s in preds:
             preds[s][name][f"rate_{k}"] = predict(model, AX[s])
     mtr, mva = A["train"].y_has_composition.values, A["val"].y_has_composition.values
@@ -235,6 +240,8 @@ def fit_flat(name, AX, A, preds, selected):
                                lambda y, p: float(np.mean(-(y * np.log(np.clip(p, 1e-6, 1)) +
                                                             (1 - y) * np.log(np.clip(1 - p, 1e-6, 1))))))
         selected[f"{name}_{c}"] = info
+        if models is not None:
+            models[c] = model
         for s in preds:
             comp[s][:, j] = predict(model, AX[s])
     for s in preds:

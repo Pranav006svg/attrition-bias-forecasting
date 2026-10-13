@@ -18,9 +18,11 @@ E) Sensitivity of the primary endpoints: m70, m90 matched sets and a random
    trial-grouped split of m80.
 
 Usage:
-    python -m src.eval.final_analysis
+    python -m src.eval.final_analysis [--summary-only]
+    --summary-only  relabel tests and rewrite final_summary.md from results/tables/final_*.csv
 """
 import json
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -176,12 +178,45 @@ def evaluate(arms, trials, covered_ids, preds, subsets=SUBSETS):
             tests.append({"subset": subset, "target": target, "metric": metric, "comparison": f"FINAL - {comp}",
                           "family": "primary" if primary else "secondary", "diff": d, "ci_low": lo, "ci_high": hi,
                           "p_raw": p, "p_boot_percentile": p_perc, "n_trials": len(np.unique(groups)), "n_rows": len(y)})
-    tests = pd.DataFrame(tests)
-    if len(tests):
-        sec = tests.family == "secondary"
-        tests["p_holm"] = np.nan
-        tests.loc[sec, "p_holm"] = M.holm(tests.loc[sec, "p_raw"].values)
-    return pd.DataFrame(est), tests
+    return pd.DataFrame(est), adjust_tests(pd.DataFrame(tests))
+
+
+def differential_target(target):
+    return target.startswith(("pairwise_", "flag_"))
+
+
+def adjust_tests(tests):
+    """Exclude non-meaningful comparisons and Holm-adjust the secondary family.
+
+    trial_lgbm predicts one rate per trial, so its predicted within-trial differential is zero by
+    construction; FINAL-vs-trial_lgbm tests on concordance and flags are labelled not_meaningful
+    and excluded from the Holm family. Differential targets are compared only against
+    reference_class and flat_lgbm.
+    """
+    if tests.empty:
+        return tests
+    tests = tests.copy()
+    nm = (tests.comparison == "FINAL - trial_lgbm") & tests.target.map(differential_target)
+    tests.loc[nm, "family"] = "not_meaningful"
+    sec = tests.family == "secondary"
+    tests["p_holm"] = np.nan
+    tests.loc[sec, "p_holm"] = M.holm(tests.loc[sec, "p_raw"].values)
+    return tests
+
+
+def robustness_labels(sens):
+    """Per primary endpoint: 'robust' if every sensitivity CI excludes 0 with the main-analysis sign."""
+    labels = {}
+    for i, (subset, target, metric, comp) in enumerate(PRIMARY_ENDPOINTS, 1):
+        r = sens[(sens.target == target) & (sens.metric == metric) & (sens.comparison == f"FINAL - {comp}")]
+        main = r[(r.matched_set == "m80") & (r.split_scheme == "temporal")].iloc[0]
+        sign = np.sign(main["diff"])
+        fails = [f"{x.matched_set}" + ("" if x.split_scheme == "temporal" else " random split")
+                 for _, x in r.iterrows()
+                 if not ((x.ci_low > 0 and sign > 0) or (x.ci_high < 0 and sign < 0))]
+        labels[i] = ("robust across sensitivity analyses" if not fails else
+                     f"exploratory, not robust (fails at {', '.join(fails)})")
+    return labels
 
 
 # ------------------------------------------------------------------ C) conformal
@@ -248,7 +283,23 @@ def planning(test_arms, assumed: dict):
 
 
 # ------------------------------------------------------------------ main
+def summary_only():
+    """Rebuild final_summary.md (and the test-family labels) from the saved final_*.csv tables."""
+    est = pd.read_csv(TABLES / "final_estimates.csv")
+    tests = adjust_tests(pd.read_csv(TABLES / "final_paired_tests.csv"))
+    tests.to_csv(TABLES / "final_paired_tests.csv", index=False)
+    arms, trials = load_set("m80", "temporal")
+    A = {s: arms[arms.split == s] for s in SPLITS}
+    T = {s: trials[trials.split == s] for s in SPLITS}
+    n_cov = int(est[(est.subset == "covered") & (est.target == "pairwise_primary") & (est.model == "FINAL")].n_trials.iloc[0])
+    write_summary(est, tests, pd.read_csv(TABLES / "final_conformal.csv"),
+                  pd.read_csv(TABLES / "final_planning_simulation.csv"), pd.read_csv(TABLES / "final_sensitivity.csv"),
+                  A, T, n_cov)
+
+
 def main():
+    if "--summary-only" in sys.argv:
+        return summary_only()
     dates = pd.read_parquet("data/interim/trial_dates.parquet")
     arms, trials = load_set("m80", "temporal")
     P = compute_prior_features(arms, dates)
@@ -287,7 +338,7 @@ def main():
     plan.to_csv(TABLES / "final_planning_simulation.csv", index=False)
     sens.to_csv(TABLES / "final_sensitivity.csv", index=False)
     (TABLES / "final_selected_params.json").write_text(json.dumps(selected, indent=1, default=str), encoding="utf-8")
-    write_summary(est, tests, conf, plan, sens, A, T, covered)
+    write_summary(est, tests, conf, plan, sens, A, T, len(covered["test"]))
 
 
 # ------------------------------------------------------------------ summary
@@ -301,7 +352,8 @@ def pfmt(p):
     return f"{p:.1e}" if p < 0.001 else f"{p:.3f}"
 
 
-def write_summary(est, tests, conf, plan, sens, A, T, covered):
+def write_summary(est, tests, conf, plan, sens, A, T, n_covered):
+    robust = robustness_labels(sens)
     L = ["# Forecasting arm-level attrition from pre-enrollment protocol data: final results", "",
          "## Setup", "",
          f"- Benchmark: ClinicalTrials.gov interventional randomized trials with posted results, >= 1 control arm, all "
@@ -316,7 +368,7 @@ def write_summary(est, tests, conf, plan, sens, A, T, covered):
          "time-respecting prior-evidence features (same normalized drug in earlier trials whose results were posted "
          "before the target trial started; missing when no evidence).",
          f"- Subsets: all; reliable (arms started >= 100; trials whose pooled control and every experimental arm started "
-         f">= 100); covered (trials whose experimental arms all have prior evidence: {len(covered['test']):,} test "
+         f">= 100); covered (trials whose experimental arms all have prior evidence: {n_covered:,} test "
          "trials); covered_reliable.",
          "- 95% CIs: 1,000 bootstrap resamples of trials (seed 42), percentile intervals. Paired comparisons resample "
          "trials jointly for both models; p-values are two-sided Wald tests of the paired difference using its "
@@ -328,17 +380,19 @@ def write_summary(est, tests, conf, plan, sens, A, T, covered):
          "in the prior-evidence experiment. These endpoints are therefore pre-specified for this report but not "
          "confirmatory; a prospective evaluation on trials posting results after this analysis is needed.", "",
          "## Pre-specified primary endpoints (test set, unadjusted)", "",
-         "| # | Endpoint | Subset | FINAL | Comparator | Difference (FINAL - comparator) | p |",
-         "|---|---|---|---|---|---|---|"]
+         "| # | Endpoint | Subset | FINAL | Comparator | Difference (FINAL - comparator) | p | Status |",
+         "|---|---|---|---|---|---|---|---|"]
     for i, (subset, target, metric, comp) in enumerate(PRIMARY_ENDPOINTS, 1):
         t = tests[(tests.subset == subset) & (tests.target == target) & (tests.metric == metric)
                   & (tests.comparison == f"FINAL - {comp}")].iloc[0]
         f = est[(est.subset == subset) & (est.target == target) & (est.metric == metric) & (est.model == "FINAL")].iloc[0]
         c = est[(est.subset == subset) & (est.target == target) & (est.metric == metric) & (est.model == comp)].iloc[0]
         L.append(f"| {i} | {target} {metric} | {subset} | {fmt(f.value, f.ci_low, f.ci_high)} | {comp}: "
-                 f"{fmt(c.value, c.ci_low, c.ci_high)} | {fmt(t['diff'], t.ci_low, t.ci_high)} | {pfmt(t.p_raw)} |")
+                 f"{fmt(c.value, c.ci_low, c.ci_high)} | {fmt(t['diff'], t.ci_low, t.ci_high)} | {pfmt(t.p_raw)} | "
+                 f"{robust[i]} |")
     L += ["", "Lower is better for MAE and KL; higher is better for concordance (0.5 = chance). Primary endpoints are "
-          "reported without multiplicity adjustment.", ""]
+          "reported without multiplicity adjustment. Status is derived from the sensitivity analyses below (a CI "
+          "that includes 0 or flips sign in any matched set or split counts as a failure).", ""]
 
     L += ["## Model comparison (test set)", ""]
     targets = [("arm_rate_primary", "MAE"), ("arm_rate_primary", "Spearman"), ("arm_rate_nonendpoint", "MAE"),
@@ -359,14 +413,22 @@ def write_summary(est, tests, conf, plan, sens, A, T, covered):
             cells = []
             for m in MODELS:
                 x = r[r.model == m]
+                if m == "trial_lgbm" and differential_target(target):
+                    cells.append("n/m†")
+                    continue
                 cells.append("–" if x.empty or pd.isna(x.value.iloc[0]) else
                              fmt(x.value.iloc[0], x.ci_low.iloc[0], x.ci_high.iloc[0]))
             L.append(f"| {target} | {metric} | {int(r.n_trials.iloc[0]):,} / {int(r.n_rows.iloc[0]):,} | " + " | ".join(cells) + " |")
         L.append("")
+    L += ["† Not meaningful: trial_lgbm assigns the same rate to every arm of a trial, so its within-trial "
+          "differential is zero by construction (concordance 0.5, flag AUROC 0.5). Differential targets are compared "
+          "only against reference_class and flat_lgbm.", ""]
 
     sec = tests[tests.family == "secondary"]
+    n_nm = int((tests.family == "not_meaningful").sum())
     L += ["## Secondary paired comparisons (Holm-adjusted across the secondary family)", "",
-          f"{len(sec)} secondary tests. Tests with Holm-adjusted p < 0.05:", "",
+          f"{len(sec)} secondary tests ({n_nm} FINAL-vs-trial_lgbm tests on concordance/flags excluded as not "
+          "meaningful). Tests with Holm-adjusted p < 0.05:", "",
           "| Subset | Target | Metric | Comparison | Difference | p raw | p Holm |", "|---|---|---|---|---|---|---|"]
     for _, t in sec[sec.p_holm < 0.05].sort_values(["subset", "target", "metric"]).iterrows():
         L.append(f"| {t.subset} | {t.target} | {t.metric} | {t.comparison} | {fmt(t['diff'], t.ci_low, t.ci_high)} | "
@@ -395,6 +457,35 @@ def write_summary(est, tests, conf, plan, sens, A, T, covered):
         L.append(f"| {s} | {cell('pct_under_recruited')} | {cell('mean_over_recruitment_pct_among_not_under')} | "
                  f"{cell('mean_shortfall_pct_among_under')} |")
     L.append("")
+
+    fpath, mpath = TABLES / "final_recruitment_frontier.csv", TABLES / "final_recruitment_matched.csv"
+    if fpath.exists() and mpath.exists():
+        mt = pd.read_csv(mpath)
+        L += ["### Recruitment trade-off frontier", "",
+              "Each strategy is swept over its parameter (fixed attrition 0.05-0.50; reference class + margin 0-0.30; "
+              "FINAL one-sided Mondrian conformal upper quantile at levels 0.50-0.95). Over-recruitment at matched "
+              "under-recruitment rates (linear interpolation; paired trial-grouped bootstrap CIs):", "",
+              "| Under-recruited | Metric | Fixed rule | Reference class | FINAL | FINAL - fixed | FINAL - reference |",
+              "|---|---|---|---|---|---|---|"]
+        for (u, metric), g in mt.groupby(["under_recruitment_pct", "metric"], sort=False):
+            gi = g.set_index("comparison")
+            cell = lambda k: fmt(gi.loc[k].value, gi.loc[k].ci_low, gi.loc[k].ci_high, 1)
+            L.append(f"| {u:.0f}% | {metric} | {cell('fixed')} | {cell('reference_class')} | {cell('FINAL')} | "
+                     f"{cell('FINAL - fixed')} | {cell('FINAL - reference_class')} |")
+        L += ["", "Full frontier: results/tables/final_recruitment_frontier.csv.", ""]
+    spath = TABLES / "final_shap_families.csv"
+    if spath.exists():
+        sf = pd.read_csv(spath)
+        fams = ["design", "condition", "eligibility_text", "arm", "prior_evidence"]
+        pv = sf.pivot(index="target", columns="family", values="share_of_total")[fams]
+        nf = sf.drop_duplicates("family").set_index("family").n_features
+        L += ["## Interpretability (TreeSHAP, FINAL, test arms)", "",
+              "Share of summed mean |SHAP| by feature family (log-odds scale). Shares are sums over features and grow "
+              "with family size; prior-evidence features are missing for most test arms.", "",
+              "| Target | " + " | ".join(f"{f} ({int(nf[f])})" for f in fams) + " |", "|---|" + "---:|" * len(fams)]
+        for t, r in pv.iterrows():
+            L.append(f"| {t} | " + " | ".join(f"{100 * r[f]:.1f}%" for f in fams) + " |")
+        L += ["", "Top-15 features per target: results/tables/final_shap_top15.csv.", ""]
 
     L += ["## Sensitivity of the primary endpoints", "",
           "| Matched set | Split | Endpoint | Subset | n trials | Difference (FINAL - comparator) | p |",
