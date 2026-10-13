@@ -1,6 +1,8 @@
-# Reason-normalization agreement (human vs pipeline)
+# Reason-normalization agreement (human vs pipeline) - UNBLINDED PILOT v1 (annotator had seen the key)
 
-Blind sample of 100 raw reason strings (34 rule / 33 llm / 33 knn, frequency-stratified). 95% CIs from 1,000 bootstrap resamples (seed 42).
+> **UNBLINDED PILOT (v1).** The annotator had seen the pipeline key before labelling, so these numbers are not a blind validation and must be reported only as a pilot. The blind validation is v2 (annotation/validation_sample.csv).
+
+Sample of 100 raw reason strings (34 rule / 33 llm / 33 knn, frequency-stratified). 95% CIs from 1,000 bootstrap resamples (seed 42).
 
 | Group | n | Accuracy | Cohen's kappa | Macro-F1 | Primary-inclusion agreement | Nonendpoint-inclusion agreement |
 |---|---:|---|---|---|---|---|
@@ -14,7 +16,7 @@ Dataset-level accuracy (tier accuracies weighted by tier coverage; stratified bo
 - weighted by entries: 0.960 [0.901, 0.992]
 - weighted by subjects: 0.960 [0.910, 0.998]
 
-Disagreements: 6 of 100 (see results/tables/reason_agreement_disagreements.csv).
+Disagreements: 6 of 100 (see results/tables/reason_agreement_disagreements_v1_unblinded.csv).
 
 Most frequent (human -> pipeline) confusions:
 

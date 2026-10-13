@@ -14,7 +14,7 @@ arms, results posted, reasons present, >=1 control arm).
 Usage:
     python -m src.data.reasons queue     # Tier 1 + write Tier 2 queue
     python -m src.data.reasons finalize  # Tier 2 labels + Tier 3 + outputs
-    python -m src.data.reasons sample    # (re)draw the blind validation sample only
+    python -m src.data.reasons sample    # draw the blind v2 validation sample (excludes v1 pilot)
 """
 import argparse
 import re
@@ -41,6 +41,8 @@ INTERIM = Path("data/interim")
 ANNOT = Path("annotation")
 LLM_LABELS = ANNOT / "llm_labels.csv"
 QUEUE = INTERIM / "tier2_queue.csv"
+V1_SAMPLE = ANNOT / "validation_sample_v1_unblinded.csv"
+BLIND_KEY = INTERIM / ".blind" / "validation_key.csv"
 
 _DEATH_WORDS = r"(death|deaths|died|dead|deceased|fatal|mortality)"
 
@@ -260,23 +262,33 @@ def cmd_finalize():
 
 
 def write_validation_sample(mapping: pd.DataFrame):
-    """Blind validation sample (frequency-stratified per tier); never overwrites labels."""
+    """Blind validation sample v2 (frequency-stratified per tier); never overwrites labels.
+
+    Excludes every string of the unblinded v1 pilot (exact raw string and its
+    normalized key). The key (tier + pipeline category) is written only to
+    data/interim/.blind/validation_key.csv and is never printed.
+    """
     vs_path = ANNOT / "validation_sample.csv"
     if vs_path.exists() and pd.read_csv(vs_path)["category"].notna().any():
         print(f"{vs_path} already contains manual labels; not regenerating it.")
         return
+    pool = mapping
+    if V1_SAMPLE.exists():
+        v1 = pd.read_csv(V1_SAMPLE, keep_default_na=False).raw_reason
+        excl_raw, excl_key = set(v1), set(v1.map(normalize_key))
+        pool = mapping[~mapping.raw_reason.isin(excl_raw) & ~mapping.normalized_key.isin(excl_key)]
+        print(f"excluding v1 pilot: {len(mapping) - len(pool)} raw strings removed from the sampling pool")
     rng = np.random.default_rng(SEED)
     parts = []
     for meth, n in VALIDATION_PER_TIER.items():
-        s = stratified_sample(mapping[mapping.method == meth].reset_index(drop=True), n, rng)
+        s = stratified_sample(pool[pool.method == meth].reset_index(drop=True), n, rng)
         parts.append(s.assign(tier=meth))
     vs = pd.concat(parts).sample(frac=1, random_state=SEED).reset_index(drop=True)
-    vs.insert(0, "id", [f"V{i + 1:03d}" for i in range(len(vs))])
+    vs.insert(0, "id", [f"B{i + 1:03d}" for i in range(len(vs))])
     vs[["id", "raw_reason"]].assign(category="").to_csv(vs_path, index=False)
-    # Key with tiers and predictions stays local so annotators stay blind.
-    vs[["id", "raw_reason", "tier", "category", "frequency", "subjects"]].to_csv(
-        INTERIM / "validation_sample_key.csv", index=False)
-    print(f"validation sample: {len(vs)} strings ({vs.tier.value_counts().to_dict()})")
+    BLIND_KEY.parent.mkdir(parents=True, exist_ok=True)
+    vs[["id", "raw_reason", "tier", "category", "frequency", "subjects"]].to_csv(BLIND_KEY, index=False)
+    print(f"validation sample: {len(vs)} strings ({vs.tier.value_counts().to_dict()}); key written (not shown)")
 
 
 def cmd_sample():
