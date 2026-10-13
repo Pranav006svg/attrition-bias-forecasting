@@ -128,7 +128,7 @@ def extract_study(s, tables):
         "primary_purpose": dinfo.get("primaryPurpose"),
         "n_arms": len(arms),
         "sponsor_class": (ps.get("sponsorCollaboratorsModule", {}).get("leadSponsor") or {}).get("class"),
-        "mesh_branches": "|".join(branches) if branches else "NONE",
+        "mesh_branches": "|".join(branches) if branches else "UNKNOWN",
         "healthy_volunteers": elig.get("healthyVolunteers"),
         "sex": elig.get("sex"),
         "min_age_years": parse_age_years(elig.get("minimumAge")),

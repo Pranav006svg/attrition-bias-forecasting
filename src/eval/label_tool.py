@@ -1,6 +1,8 @@
 """Blind keyboard labelling tool for annotation/validation_sample.csv.
 
-Shows one raw_reason at a time; a single keypress records its category.
+The sample holds 100 raw reason strings (34 rule / 33 llm / 33 knn tier,
+shuffled; tiers are not shown). Shows one raw_reason at a time with a
+progress counter; a single keypress records its category.
 The file is saved after every keypress, so you can quit and resume any time:
 labelling restarts at the first row without a category. Only the id,
 raw_reason and category columns are read; no predicted label is ever shown.

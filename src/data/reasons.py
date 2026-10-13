@@ -14,6 +14,7 @@ arms, results posted, reasons present, >=1 control arm).
 Usage:
     python -m src.data.reasons queue     # Tier 1 + write Tier 2 queue
     python -m src.data.reasons finalize  # Tier 2 labels + Tier 3 + outputs
+    python -m src.data.reasons sample    # (re)draw the blind validation sample only
 """
 import argparse
 import re
@@ -34,6 +35,7 @@ TIER2_COVERAGE = 0.98
 TIER2_MAX_KEYS = 3000
 KNN_MODEL = "all-MiniLM-L6-v2"
 KNN_MIN_SIM = 0.6
+VALIDATION_PER_TIER = {"rule": 34, "llm": 33, "knn": 33}
 
 INTERIM = Path("data/interim")
 ANNOT = Path("annotation")
@@ -254,30 +256,38 @@ def cmd_finalize():
     cov.to_csv("results/tables/reason_coverage.csv", index=False)
     print(cov.to_string(index=False))
 
-    # Validation sample: 100 raw strings per tier, frequency-stratified, no labels.
+    write_validation_sample(mapping)
+
+
+def write_validation_sample(mapping: pd.DataFrame):
+    """Blind validation sample (frequency-stratified per tier); never overwrites labels."""
     vs_path = ANNOT / "validation_sample.csv"
     if vs_path.exists() and pd.read_csv(vs_path)["category"].notna().any():
         print(f"{vs_path} already contains manual labels; not regenerating it.")
         return
     rng = np.random.default_rng(SEED)
     parts = []
-    for meth in ["rule", "llm", "knn"]:
-        s = stratified_sample(mapping[mapping.method == meth].reset_index(drop=True), 100, rng)
+    for meth, n in VALIDATION_PER_TIER.items():
+        s = stratified_sample(mapping[mapping.method == meth].reset_index(drop=True), n, rng)
         parts.append(s.assign(tier=meth))
     vs = pd.concat(parts).sample(frac=1, random_state=SEED).reset_index(drop=True)
     vs.insert(0, "id", [f"V{i + 1:03d}" for i in range(len(vs))])
-    vs[["id", "raw_reason"]].assign(category="").to_csv(ANNOT / "validation_sample.csv", index=False)
+    vs[["id", "raw_reason"]].assign(category="").to_csv(vs_path, index=False)
     # Key with tiers and predictions stays local so annotators stay blind.
     vs[["id", "raw_reason", "tier", "category", "frequency", "subjects"]].to_csv(
         INTERIM / "validation_sample_key.csv", index=False)
     print(f"validation sample: {len(vs)} strings ({vs.tier.value_counts().to_dict()})")
 
 
+def cmd_sample():
+    write_validation_sample(pd.read_csv(ANNOT / "reason_mapping.csv", keep_default_na=False))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("stage", choices=["queue", "finalize"])
+    ap.add_argument("stage", choices=["queue", "finalize", "sample"])
     a = ap.parse_args()
-    cmd_queue() if a.stage == "queue" else cmd_finalize()
+    {"queue": cmd_queue, "finalize": cmd_finalize, "sample": cmd_sample}[a.stage]()
 
 
 if __name__ == "__main__":

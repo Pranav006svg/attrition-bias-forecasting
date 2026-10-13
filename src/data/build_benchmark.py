@@ -16,14 +16,18 @@ Column conventions in the outputs:
   everything else          pre-enrollment features (checked by leakage_check.py)
 
 Usage:
-    python -m src.data.build_benchmark
+    python -m src.data.build_benchmark [--reuse]
+    --reuse  skip the per-trial build and reuse data/interim/built_*.{parquet,json}
+             (valid while extract outputs and reason_mapping.csv are unchanged)
 """
+import argparse
 import json
 import re
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import fisher_exact
 from tqdm import tqdm
 
 from src.data.feasibility import assign_groups
@@ -44,6 +48,8 @@ CONTROL_PRIORITY = ["PLACEBO_COMPARATOR", "SHAM_COMPARATOR", "NO_INTERVENTION", 
 EXPERIMENTAL_TYPES = {"EXPERIMENTAL", "OTHER"}
 NOT_PRIMARY = {"SPONSOR_ADMINISTRATIVE", "NOT_ATTRITION"}
 NOT_NONENDPOINT = NOT_PRIMARY | {"DEATH", "DISEASE_PROGRESSION"}
+PRIMARY_CATS = [c for c in CATEGORIES if c not in NOT_PRIMARY]
+FLAG_THRESHOLDS = [5, 10]  # percentage points; flag also requires Fisher p < 0.05
 
 TRIAL_FEATURES = ["phase", "allocation", "masking", "intervention_model", "primary_purpose", "n_arms",
                   "sponsor_class", "mesh_branches", "healthy_volunteers", "sex", "min_age_years",
@@ -57,6 +63,10 @@ def split_of(year: int) -> str:
 
 def cat_col(c: str) -> str:
     return f"y_n_{c.lower()}"
+
+
+def prop_col(c: str) -> str:
+    return f"y_prop_{c.lower()}"
 
 
 def load():
@@ -112,34 +122,62 @@ def build_trial(nct, t_arms, t_fg, t_periods, t_started, t_dw, reason_cat):
     return {"arms": a, "n_periods": len(titles), "n_periods_excluded": n_excl}, None
 
 
-def trial_labels(a: pd.DataFrame) -> dict:
-    """Trial-level differential attrition from labeled arm rows."""
-    types = a.arm_type.values
-    ctrl_type = next((c for c in CONTROL_PRIORITY if c in set(types)), None)
-    ctrl = a[a.arm_type == ctrl_type]
-    exp = a[a.arm_type.isin(EXPERIMENTAL_TYPES)]
-    fallback = exp.empty
+def arm_roles(arm_types: pd.Series):
+    """(control_type, exp_fallback, role per arm) from the protocol arm types of a trial.
+
+    Control = all arms of the highest-priority control type present (pooled).
+    Experimental = EXPERIMENTAL/OTHER arms; if none, every non-control-type arm
+    (fallback). Remaining arms (e.g. an active comparator next to a placebo) = other.
+    """
+    types = set(arm_types)
+    ctrl_type = next((c for c in CONTROL_PRIORITY if c in types), None)
+    is_exp = arm_types.isin(EXPERIMENTAL_TYPES)
+    fallback = not is_exp.any()
     if fallback:
-        exp = a[a.arm_type != ctrl_type]
-    out = {"meta_control_type": ctrl_type, "meta_exp_fallback": bool(fallback),
-           "meta_n_exp_arms": len(exp), "meta_n_control_arms": len(ctrl)}
+        is_exp = arm_types != ctrl_type
+    role = np.where(arm_types == ctrl_type, "control", np.where(is_exp, "experimental", "other"))
+    return ctrl_type, fallback, role
+
+
+def trial_labels(a: pd.DataFrame) -> dict:
+    """Trial-level differential attrition from labeled arm rows (a has meta_role)."""
+    ctrl = a.meta_role.values == "control"
+    exp = a.meta_role.values == "experimental"
+    has_diff = bool(exp.any())
+    out = {"meta_n_exp_arms": int(exp.sum()), "meta_n_control_arms": int(ctrl.sum()),
+           "y_has_differential": has_diff}
     for kind in ["primary", "nonendpoint"]:
         cols = [cat_col(c) for c in CATEGORIES if c not in (NOT_PRIMARY if kind == "primary" else NOT_NONENDPOINT)]
-        c_rate = ctrl[cols].values.sum() / ctrl.y_started.sum()
-        e_rates = exp[cols].sum(axis=1) / exp.y_started
-        diff = float(e_rates.max() - c_rate) if len(exp) else np.nan
+        w = a[cols].sum(axis=1).values
+        s = a.y_started.values
+        c_w, c_s = w[ctrl].sum(), s[ctrl].sum()
+        c_rate = c_w / c_s
         out[f"y_control_{kind}_rate"] = float(c_rate)
-        out[f"y_differential_{kind}"] = diff
-        out[f"y_differential_{kind}_absmax"] = float((e_rates - c_rate).abs().max()) if len(exp) else np.nan
-        out[f"y_flag_{kind}_5pp"] = bool(abs(diff) >= 0.05) if not np.isnan(diff) else None
-        out[f"y_flag_{kind}_10pp"] = bool(abs(diff) >= 0.10) if not np.isnan(diff) else None
+        if not has_diff:
+            out[f"y_differential_{kind}"] = np.nan
+            out[f"y_differential_{kind}_absmax"] = np.nan
+            out[f"meta_fisher_p_{kind}"] = np.nan
+            for thr in FLAG_THRESHOLDS:
+                out[f"y_flag_{kind}_{thr}_sig"] = None
+            continue
+        e_rates = w[exp] / s[exp]
+        diffs = e_rates - c_rate
+        j = int(np.abs(diffs).argmax())
+        absmax = float(abs(diffs[j]))
+        ew, es = int(w[exp][j]), int(s[exp][j])
+        p = fisher_exact([[ew, es - ew], [int(c_w), int(c_s - c_w)]])[1]
+        out[f"y_differential_{kind}"] = float(e_rates.max() - c_rate)
+        out[f"y_differential_{kind}_absmax"] = absmax
+        out[f"meta_fisher_p_{kind}"] = float(p)
+        for thr in FLAG_THRESHOLDS:
+            out[f"y_flag_{kind}_{thr}_sig"] = bool(absmax >= thr / 100 and p < 0.05)
     total = a[[cat_col(c) for c in CATEGORIES]].values.sum()
     out["y_sponsor_admin_share"] = float(a[cat_col("SPONSOR_ADMINISTRATIVE")].sum() / total) if total else np.nan
     return out
 
 
-def main():
-    trials, arms, fg, periods, started, dw, mapping = load()
+def build_all(trials, arms, fg, periods, started, dw, mapping):
+    """Per-trial arm rows for the whole eligible pool (slow; cached by main)."""
     reason_cat = dict(zip(mapping.raw_reason, mapping.category))
     pool = eligible_pool_ids()
     funnel = {"eligible_pool": len(pool)}
@@ -163,17 +201,41 @@ def main():
         built.append(res["arms"])
     funnel.update({f"dropped_{k}": v for k, v in drops.items()})
     all_arms = pd.concat(built, ignore_index=True)
-    pinfo = pd.DataFrame(period_info)
-    funnel["built"] = all_arms.nct_id.nunique()
+    funnel["built"] = int(all_arms.nct_id.nunique())
+    return all_arms, pd.DataFrame(period_info), funnel
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--reuse", action="store_true")
+    args = ap.parse_args()
+
+    trials, arms, fg, periods, started, dw, mapping = load()
+    cache = [INTERIM / "built_arms.parquet", INTERIM / "built_periods.parquet", INTERIM / "built_funnel.json"]
+    if args.reuse and all(p.exists() for p in cache):
+        all_arms, pinfo = pd.read_parquet(cache[0]), pd.read_parquet(cache[1])
+        funnel = json.loads(cache[2].read_text(encoding="utf-8"))
+        print("Reusing cached per-trial build.")
+    else:
+        all_arms, pinfo, funnel = build_all(trials, arms, fg, periods, started, dw, mapping)
+        all_arms.to_parquet(cache[0], index=False)
+        pinfo.to_parquet(cache[1], index=False)
+        cache[2].write_text(json.dumps(funnel), encoding="utf-8")
 
     # Attach protocol arm features (unmatched flow groups have arm_idx -1 -> NaN features).
     all_arms = all_arms.merge(arms[["nct_id", "arm_idx"] + ARM_FEATURES], on=["nct_id", "arm_idx"], how="left")
     cat_cols = [cat_col(c) for c in CATEGORIES]
-    prim = [cat_col(c) for c in CATEGORIES if c not in NOT_PRIMARY]
+    prim = [cat_col(c) for c in PRIMARY_CATS]
     nonend = [cat_col(c) for c in CATEGORIES if c not in NOT_NONENDPOINT]
     all_arms["y_withdrawals_total"] = all_arms[cat_cols].sum(axis=1)
+    all_arms["y_withdrawals_primary"] = all_arms[prim].sum(axis=1)
     all_arms["y_primary_attrition_rate"] = all_arms[prim].sum(axis=1) / all_arms.y_started.replace(0, np.nan)
     all_arms["y_nonendpoint_attrition_rate"] = all_arms[nonend].sum(axis=1) / all_arms.y_started.replace(0, np.nan)
+    # Reason composition over primary-attrition categories (arms with >= 1 such withdrawal).
+    all_arms["y_has_composition"] = all_arms.y_withdrawals_primary >= 1
+    denom = all_arms.y_withdrawals_primary.where(all_arms.y_has_composition)
+    for c in PRIMARY_CATS:
+        all_arms[prop_col(c)] = all_arms[cat_col(c)] / denom
 
     tfeat = trials.set_index("nct_id")[TRIAL_FEATURES]
     per_trial = all_arms.groupby("nct_id").agg(
@@ -194,7 +256,14 @@ def main():
             funnel[f"{name}_after_{step}"] = int(keep.sum())
         ids = keep.index[keep]
         a = all_arms[all_arms.nct_id.isin(ids)].copy()
+        roles, tmeta = [], []
+        for k, v in a.groupby("nct_id", sort=False):
+            ctrl_type, fallback, role = arm_roles(v.arm_type)
+            roles.append(pd.Series(role, index=v.index))
+            tmeta.append({"nct_id": k, "meta_control_type": ctrl_type, "meta_exp_fallback": bool(fallback)})
+        a["meta_role"] = pd.concat(roles)
         t = pd.DataFrame([{"nct_id": k, **trial_labels(v)} for k, v in a.groupby("nct_id")])
+        t = t.merge(pd.DataFrame(tmeta), on="nct_id")
         t = t.merge(tfeat, left_on="nct_id", right_index=True).merge(pinfo, on="nct_id")
         t["start_year"] = t.start_year.astype(int)
         t["split"] = t.start_year.map(split_of)
@@ -222,6 +291,7 @@ def main():
 
 def write_stats(sets, funnel, pinfo):
     rows = []
+    splits = ["train", "val", "test"]
 
     def add(section, key, value):
         rows.append({"section": section, "key": str(key), "value": value})
@@ -236,36 +306,55 @@ def write_stats(sets, funnel, pinfo):
     for name, (sa, st) in sets.items():
         add("matched_sets", f"{name}_trials", len(st))
         add("matched_sets", f"{name}_arms", len(sa))
+        add("matched_sets", f"{name}_differential_trials", int(st.y_has_differential.sum()))
 
     add("overall", "trials", len(t))
     add("overall", "arms", len(a))
-    for s in ["train", "val", "test"]:
+    for s in splits:
         add("split_trials", s, int((t.split == s).sum()))
         add("split_arms", s, int((a.split == s).sum()))
     for ph, n in t.phase.value_counts().items():
         add("phase_trials", ph, int(n))
-    add("design", "exp_arm_fallback_trials", int(t.meta_exp_fallback.sum()))
-    add("design", "trials_without_differential_no_comparison_arm", int(t.y_differential_primary.isna().sum()))
+    add("features", "mesh_branch_unknown_trials", int((t.mesh_branches == "UNKNOWN").sum()))
+
+    # Arm roles and differential-task eligibility.
     for ct, n in t.meta_control_type.value_counts().items():
         add("control_type", ct, int(n))
+    for r, n in a.meta_role.value_counts().items():
+        add("arm_roles", r, int(n))
+    for s in ["all"] + splits:
+        ts = t if s == "all" else t[t.split == s]
+        add("differential_task", f"{s}_trials_with_differential", int(ts.y_has_differential.sum()))
+        add("differential_task", f"{s}_trials_without_differential", int((~ts.y_has_differential).sum()))
+        add("differential_task", f"{s}_exp_side_is_noncontrol_arms_fallback",
+            int((ts.meta_exp_fallback & ts.y_has_differential).sum()))
 
     for kind in ["primary", "nonendpoint"]:
         r = a[f"y_{kind}_attrition_rate"]
-        for s in ["all", "train", "val", "test"]:
+        for s in ["all"] + splits:
             rr = r if s == "all" else r[a.split == s]
             add(f"arm_{kind}_rate", f"{s}_mean", float(rr.mean()))
             add(f"arm_{kind}_rate", f"{s}_median", float(rr.median()))
-        d = t[f"y_differential_{kind}"]
-        add(f"trial_differential_{kind}", "mean", float(d.mean()))
-        add(f"trial_differential_{kind}", "median", float(d.median()))
-        add(f"trial_differential_{kind}", "abs_mean", float(d.abs().mean()))
-        for pp in ["5pp", "10pp"]:
-            f = t[f"y_flag_{kind}_{pp}"].astype(float)
-            add(f"flag_prevalence_{kind}", f"{pp}_all", float(f.mean()))
-            for s in ["train", "val", "test"]:
-                add(f"flag_prevalence_{kind}", f"{pp}_{s}", float(f[t.split == s].mean()))
+        td = t[t.y_has_differential]
+        for col, lab in [(f"y_differential_{kind}", "signed"), (f"y_differential_{kind}_absmax", "absmax")]:
+            add(f"trial_differential_{kind}", f"{lab}_mean", float(td[col].mean()))
+            add(f"trial_differential_{kind}", f"{lab}_median", float(td[col].median()))
+        for thr in FLAG_THRESHOLDS:
+            f = td[f"y_flag_{kind}_{thr}_sig"].astype(float)
+            add(f"flag_prevalence_{kind}", f"{thr}_sig_all", float(f.mean()))
+            for s in splits:
+                add(f"flag_prevalence_{kind}", f"{thr}_sig_{s}", float(f[td.split == s].mean()))
+                add(f"flag_positives_{kind}", f"{thr}_sig_{s}", int(f[td.split == s].sum()))
     add("trial_sponsor_admin_share", "mean", float(t.y_sponsor_admin_share.mean()))
     add("trial_sponsor_admin_share", "trials_gt0", int((t.y_sponsor_admin_share > 0).sum()))
+
+    # Reason composition (per-arm proportions over primary categories, equal arm weight).
+    comp = a[a.y_has_composition]
+    add("composition", "arms_with_composition_all", len(comp))
+    for s in splits:
+        add("composition", f"arms_with_composition_{s}", int((comp.split == s).sum()))
+    for c in PRIMARY_CATS:
+        add("composition_mean_prop", c, float(comp[prop_col(c)].mean()))
 
     cat_cols = [cat_col(c) for c in CATEGORIES]
     tot = a[cat_cols].values.sum()
@@ -280,7 +369,6 @@ def write_stats(sets, funnel, pinfo):
     out.to_csv(TABLES / "dataset_stats.csv", index=False)
     pd.set_option("display.width", 200)
     print(out.to_string(index=False))
-
 
 if __name__ == "__main__":
     main()
