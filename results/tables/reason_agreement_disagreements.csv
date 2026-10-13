@@ -1,0 +1,7 @@
+id,tier,raw_reason,human,pipeline,frequency,subjects
+V003,knn,Dose Arm Exceeds Maximum Tolerated Dose (MTD),ADVERSE_EVENT,OTHER_UNSPECIFIED,1,7
+V056,knn,musculoskeletal chest discomfort with us,SPONSOR_ADMINISTRATIVE,OTHER_UNSPECIFIED,1,3
+V001,knn,Unacceptable subjective vision,ADVERSE_EVENT,OTHER_UNSPECIFIED,1,2
+V054,llm,Did not cont. into 2nd Ext (verified),SPONSOR_ADMINISTRATIVE,OTHER_UNSPECIFIED,1,537
+V002,llm,No Longer met eligibility criteria,ADVERSE_EVENT,PRE_TREATMENT_EXCLUSION,1,8
+V020,rule,Abnormal laboratory value,WITHDRAWAL_BY_SUBJECT,ADVERSE_EVENT,21,81
