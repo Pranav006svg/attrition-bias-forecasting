@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this benchmark or code, please cite it as below (manuscript in preparation)."
+title: "Attrition Bias Forecasting"
+abstract: "Can clinical trial attrition be forecast before enrollment? An arm-level, reason-coded benchmark from ClinicalTrials.gov."
+authors:
+  - family-names: "Kumar M P"
+    given-names: "Pranav"
+date-released: 2026-10-14
+license: MIT
+repository-code: "https://github.com/Pranav006svg/attrition-bias-forecasting"
+keywords:
+  - clinical trials
+  - attrition
+  - differential attrition
+  - ClinicalTrials.gov
+  - conformal prediction
+  - benchmark
+preferred-citation:
+  type: unpublished
+  title: "Can clinical trial attrition be forecast before enrollment? An arm-level, reason-coded benchmark from ClinicalTrials.gov"
+  authors:
+    - family-names: "Kumar M P"
+      given-names: "Pranav"
+  year: 2026
+  notes: "Manuscript in preparation"
