@@ -1,0 +1,48 @@
+{
+ "base": {
+  "primary": {
+   "objective": "cross_entropy",
+   "num_leaves": 63,
+   "min_child_samples": 20,
+   "best_iteration": 308,
+   "val_score": 0.11314859981538118
+  },
+  "ae": {
+   "objective": "cross_entropy",
+   "num_leaves": 63,
+   "min_child_samples": 20,
+   "best_iteration": 304,
+   "val_score": 0.020677175206191317
+  },
+  "efficacy": {
+   "objective": "cross_entropy",
+   "num_leaves": 63,
+   "min_child_samples": 100,
+   "best_iteration": 187,
+   "val_score": 0.02201411922786563
+  }
+ },
+ "prior": {
+  "primary": {
+   "objective": "cross_entropy",
+   "num_leaves": 63,
+   "min_child_samples": 20,
+   "best_iteration": 410,
+   "val_score": 0.1120189432523234
+  },
+  "ae": {
+   "objective": "cross_entropy",
+   "num_leaves": 63,
+   "min_child_samples": 20,
+   "best_iteration": 298,
+   "val_score": 0.020763897718351198
+  },
+  "efficacy": {
+   "objective": "cross_entropy",
+   "num_leaves": 15,
+   "min_child_samples": 100,
+   "best_iteration": 584,
+   "val_score": 0.021891796532435136
+  }
+ }
+}
