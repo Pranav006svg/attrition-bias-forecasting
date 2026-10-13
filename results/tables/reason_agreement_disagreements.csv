@@ -1,0 +1,3 @@
+id,tier,raw_reason,human,pipeline,frequency,subjects
+B038,llm,Clinical Endpoint Reached,PRE_TREATMENT_EXCLUSION,OTHER_UNSPECIFIED,3,79
+B037,llm,Entry Criteria Exclusion,SPONSOR_ADMINISTRATIVE,PRE_TREATMENT_EXCLUSION,10,40

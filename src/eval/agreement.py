@@ -26,6 +26,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import beta
 from sklearn.metrics import accuracy_score, cohen_kappa_score, f1_score
 
 from src.data.build_benchmark import NOT_NONENDPOINT, NOT_PRIMARY
@@ -52,6 +53,13 @@ def macro_f1(h, p):
 
 
 METRICS = {"accuracy": accuracy_score, "cohen_kappa": cohen_kappa_score, "macro_f1": macro_f1}
+
+
+def clopper_pearson(k, n, alpha=0.05):
+    """Exact binomial CI; unlike the percentile bootstrap it is not degenerate at 0% or 100%."""
+    lo = 0.0 if k == 0 else float(beta.ppf(alpha / 2, k, n - k + 1))
+    hi = 1.0 if k == n else float(beta.ppf(1 - alpha / 2, k + 1, n - k))
+    return lo, hi
 
 
 def boot(fn, h, p, rng):
@@ -83,6 +91,10 @@ def main():
     groups = [("all", d)] + [(t, d[d.tier == t]) for t in TIERS]
     for name, g in groups:
         h, p = g.human.values, g.pipeline.values
+        k = int((h == p).sum())
+        lo, hi = clopper_pearson(k, len(g))
+        rows.append({"group": name, "metric": "accuracy_exact_ci", "value": k / len(g), "ci_low": lo, "ci_high": hi,
+                     "n": len(g)})
         for m, fn in METRICS.items():
             val, lo, hi = boot(fn, h, p, rng)
             rows.append({"group": name, "metric": m, "value": val, "ci_low": lo, "ci_high": hi, "n": len(g)})
@@ -133,12 +145,13 @@ def write_summary(res, conf, dis, cfg):
         L += [f"> {cfg['note']}", ""]
     L += [
          "Sample of 100 raw reason strings (34 rule / 33 llm / 33 knn, frequency-stratified). "
-         "95% CIs from 1,000 bootstrap resamples (seed 42).", "",
-         "| Group | n | Accuracy | Cohen's kappa | Macro-F1 | Primary-inclusion agreement | Nonendpoint-inclusion agreement |",
-         "|---|---:|---|---|---|---|---|"]
+         "95% CIs from 1,000 bootstrap resamples (seed 42); accuracy also with exact Clopper-Pearson intervals, "
+         "which remain informative when a group scores 100%.", "",
+         "| Group | n | Accuracy (exact Clopper-Pearson CI) | Accuracy (bootstrap CI) | Cohen's kappa | Macro-F1 | Primary-inclusion agreement | Nonendpoint-inclusion agreement |",
+         "|---|---:|---|---|---|---|---|---|"]
     for g in ["all"] + TIERS:
         n = int(res[res.group == g].n.iloc[0])
-        L.append(f"| {g} | {n} | {fmt(g, 'accuracy')} | {fmt(g, 'cohen_kappa')} | {fmt(g, 'macro_f1')} | "
+        L.append(f"| {g} | {n} | {fmt(g, 'accuracy_exact_ci')} | {fmt(g, 'accuracy')} | {fmt(g, 'cohen_kappa')} | {fmt(g, 'macro_f1')} | "
                  f"{fmt(g, 'primary_inclusion_agreement')} | {fmt(g, 'nonendpoint_inclusion_agreement')} |")
     L += ["", "Dataset-level accuracy (tier accuracies weighted by tier coverage; stratified bootstrap):", "",
           f"- weighted by entries: {fmt('dataset_weighted_by_entries', 'accuracy')}",

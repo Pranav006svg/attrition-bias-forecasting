@@ -21,6 +21,7 @@ import os
 import shutil
 import sys
 import textwrap
+import time
 
 KEYMAP = {
     "1": "ADVERSE_EVENT", "2": "LACK_OF_EFFICACY", "3": "DISEASE_PROGRESSION",
@@ -70,13 +71,50 @@ def load(path):
     return fields, rows
 
 
-def save(path, fields, rows):
-    tmp = path + ".tmp"
-    with open(tmp, "w", newline="", encoding="utf-8") as f:
+def _write(target, fields, rows):
+    with open(target, "w", newline="", encoding="utf-8") as f:
         w = csv.DictWriter(f, fieldnames=fields)
         w.writeheader()
         w.writerows(rows)
-    os.replace(tmp, path)
+
+
+def save(path, fields, rows) -> bool:
+    """Save atomically; on Windows, retry while another program (OneDrive sync, an
+    editor) briefly locks the file, then fall back to an in-place write. Returns
+    False if the main file could not be updated (labels remain in path + '.tmp')."""
+    tmp = path + ".tmp"
+    _write(tmp, fields, rows)
+    for _ in range(20):
+        try:
+            os.replace(tmp, path)
+            return True
+        except PermissionError:
+            time.sleep(0.25)
+    try:
+        _write(path, fields, rows)
+        os.remove(tmp)
+        return True
+    except PermissionError:
+        return False
+
+
+def recover_tmp(path, fields, rows):
+    """Use a leftover .tmp from an interrupted save if it keeps every saved label and adds more."""
+    tmp = path + ".tmp"
+    if not os.path.exists(tmp):
+        return rows
+    try:
+        _, trows = load(tmp)
+    except SystemExit:
+        return rows
+    same_rows = [(r["id"], r["raw_reason"]) for r in rows] == [(r["id"], r["raw_reason"]) for r in trows]
+    keeps_saved = all(r["category"] == t["category"] for r, t in zip(rows, trows) if r["category"].strip())
+    if same_rows and keeps_saved and sum(bool(t["category"].strip()) for t in trows) > \
+            sum(bool(r["category"].strip()) for r in rows):
+        if save(path, fields, trows):
+            print("Recovered labels from an interrupted save.")
+        return trows
+    return rows
 
 
 def render(i, rows, message=""):
@@ -112,6 +150,7 @@ def main():
     fields, rows = load(args.file)
     if not rows:
         sys.exit("No rows to label.")
+    rows = recover_tmp(args.file, fields, rows)
     unlabelled = [k for k, r in enumerate(rows) if not r["category"].strip()]
     if not unlabelled:
         print("All rows already labelled. Done")
@@ -123,9 +162,12 @@ def main():
         message = ""
         key = getch().lower()
         if key in ("q", "\x03"):  # q or Ctrl+C
-            save(args.file, fields, rows)
             done = sum(1 for r in rows if r["category"].strip())
-            print(f"\nSaved {done}/{len(rows)} labels to {args.file}. Run again to resume.")
+            if save(args.file, fields, rows):
+                print(f"\nSaved {done}/{len(rows)} labels to {args.file}. Run again to resume.")
+            else:
+                print(f"\n{args.file} is locked by another program; {done} labels are kept in {args.file}.tmp "
+                      "and will be recovered automatically on the next run.")
             return
         if key == "b":
             if i > 0:
@@ -139,10 +181,17 @@ def main():
             continue
 
         rows[i]["category"] = KEYMAP[key]
-        save(args.file, fields, rows)
+        saved = save(args.file, fields, rows)
+        if not saved:
+            message = ("Warning: the file is locked by another program (OneDrive/editor?). Labels are kept "
+                       "and will be saved on the next keypress.")
         remaining = [k for k, r in enumerate(rows) if not r["category"].strip()]
         if not remaining:
             os.system("cls" if os.name == "nt" else "clear")
+            if not saved:
+                print(f"All rows labelled, but {args.file} is locked; labels are in {args.file}.tmp. "
+                      "Close the program locking it and run the tool again to finish saving.")
+                return
             print(f"All {len(rows)} rows labelled and saved to {args.file}.")
             print("Done")
             return

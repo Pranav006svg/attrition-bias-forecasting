@@ -1,101 +1,101 @@
 id,raw_reason,category
-B001,Unable to understand training instructions,
-B002,Other Complicating Disease,
-B003,Due to COVID 19 restrictions,
-B004,Refused vaccination step of the study,
-B005,No prescripion after surgery,
-B006,participants ongoing at data cut-off,
-B007,OTHER REASONS,
-B008,Unknown Reason not specified,
-B009,Adverse Event (Worsening of Disease),
-B010,Ineligible or wrong diagnosis,
-B011,Sponsor Decision to Discontinue the Participant,
-B012,Withdrew Consent,
-B013,QIDS Score >=11,
-B014,Withdrew informed consent,
-B015,Participant deterioration becoming a candidate for treatment with TZB,
-B016,Study terminated by sponsor (after primary endpoint was met),
-B017,Other: Prohibited medication taken,
-B018,Switched to thrice-weekly HD,
-B019,noncompliance with study requirements,
-B020,Study terminated prematurely,
-B021,Unable to get to clinic,
-B022,Lack of Metastatic Site,
-B023,Technical problem,
-B024,Refused/Did Not Cooperate/Withdrew,
-B025,"different, e.g adm other hospital",
-B026,Other miscellaneous reasons.,
-B027,not HIV seroconversion-related,
-B028,Run in failure,
-B029,Not eligible after randomization,
-B030,not evaluable for primary endpoint,
-B031,moved to another place,
-B032,failed to attend appointments,
-B033,Impossible to visit,
-B034,Study was terminated,
-B035,ligament imbalance,
-B036,Adverse event (AE): Not related to Coronavirus Disease-2019 (COVID-19),
-B037,Entry Criteria Exclusion,
-B038,Clinical Endpoint Reached,
-B039,Already received influenza vaccination,
-B040,Did not meet Inclusion Criteria,
-B041,"Other reasons, not protocol specified",
-B042,study ended before due,
-B043,Drug related toxicity,
-B044,poor data quality,
-B045,Clinical disease progression,
-B046,Subject withdrawal - related to drug,
-B047,Advice from primary care physician,
-B048,Protocol Deviation Eligibility Criteria,
-B049,Clinical adverse experience,
-B050,Non compliance/Protocol deviations,
-B051,Trial discontinued,
-B052,Lost to follow up after study treatment,
-B053,Adverse event after completing wk16,
-B054,Continued in OLE,
-B055,Ongoing at DCO,
-B056,nausea / discomfort,
-B057,"Lost to follow-up,incomplete vaccination",
-B058,Violation of Selection Criteria at Entry,
-B059,Transferred to study SRA-MMB-4365,
-B060,Participant ran out of study drug,
-B061,Withdrawal by sponsor,
-B062,Try to get pregnant,
-B063,Did Not Wish to Continue,
-B064,Not Related to Study Drug,
-B065,Received negative results by mailed letter,
-B066,Protocol-specified withdrawal met,
-B067,Care Recipient Died before First Follow-up,
-B068,Development of Study Specific Withdrawal Criteria,
-B069,New cancer therapy,
-B070,Met discontinuation criteria,
-B071,Incomplete radiotherapy,
-B072,Withdrawn due to Study Termination,
-B073,Entry criteria exclusion,
-B074,Did not have residual symptoms,
-B075,Unable to return for follow-up,
-B076,Did not receive any study medication,
-B077,Missing diary data,
-B078,Randomized but never treated,
-B079,Unacceptable Lens Movement,
-B080,Caregiver Decision,
-B081,Study-specific discontinuation criteria,
-B082,Hyperglicaemia,
-B083,Participant unable to be contacted within 60-day interview window,
-B084,Non-compliant with study medication,
-B085,"Death, Other Cause",
-B086,Multiple Reasons Specified,
-B087,subject request,
-B088,Withdrawal of consent by participant,
-B089,Withdrawal by subject at Visit 2,
-B090,Hypoglycaemic events,
-B091,Questionable onset of epilepsy,
-B092,"Dissatisfaction with surveys (length, time commitment, too personal) or other study procedures",
-B093,Not treated in accordance to guidelines,
-B094,Reason = LVEF,
-B095,Physician decision: lack of efficacy,
-B096,non-specified,
-B097,Cesarean after 4pm / Unable to complete enrollment due to floor acuity,
-B098,Trial Terminated Prematurely,
-B099,Sponsor discontinuation,
-B100,Other termination reason,
+B001,Unable to understand training instructions,OTHER_UNSPECIFIED
+B002,Other Complicating Disease,OTHER_UNSPECIFIED
+B003,Due to COVID 19 restrictions,OTHER_UNSPECIFIED
+B004,Refused vaccination step of the study,WITHDRAWAL_BY_SUBJECT
+B005,No prescripion after surgery,OTHER_UNSPECIFIED
+B006,participants ongoing at data cut-off,NOT_ATTRITION
+B007,OTHER REASONS,OTHER_UNSPECIFIED
+B008,Unknown Reason not specified,OTHER_UNSPECIFIED
+B009,Adverse Event (Worsening of Disease),ADVERSE_EVENT
+B010,Ineligible or wrong diagnosis,PRE_TREATMENT_EXCLUSION
+B011,Sponsor Decision to Discontinue the Participant,SPONSOR_ADMINISTRATIVE
+B012,Withdrew Consent,WITHDRAWAL_BY_SUBJECT
+B013,QIDS Score >=11,OTHER_UNSPECIFIED
+B014,Withdrew informed consent,WITHDRAWAL_BY_SUBJECT
+B015,Participant deterioration becoming a candidate for treatment with TZB,OTHER_UNSPECIFIED
+B016,Study terminated by sponsor (after primary endpoint was met),SPONSOR_ADMINISTRATIVE
+B017,Other: Prohibited medication taken,PROTOCOL_VIOLATION
+B018,Switched to thrice-weekly HD,OTHER_UNSPECIFIED
+B019,noncompliance with study requirements,PROTOCOL_VIOLATION
+B020,Study terminated prematurely,SPONSOR_ADMINISTRATIVE
+B021,Unable to get to clinic,LOST_TO_FOLLOW_UP
+B022,Lack of Metastatic Site,OTHER_UNSPECIFIED
+B023,Technical problem,OTHER_UNSPECIFIED
+B024,Refused/Did Not Cooperate/Withdrew,WITHDRAWAL_BY_SUBJECT
+B025,"different, e.g adm other hospital",OTHER_UNSPECIFIED
+B026,Other miscellaneous reasons.,OTHER_UNSPECIFIED
+B027,not HIV seroconversion-related,OTHER_UNSPECIFIED
+B028,Run in failure,PRE_TREATMENT_EXCLUSION
+B029,Not eligible after randomization,PRE_TREATMENT_EXCLUSION
+B030,not evaluable for primary endpoint,LOST_TO_FOLLOW_UP
+B031,moved to another place,LOST_TO_FOLLOW_UP
+B032,failed to attend appointments,LOST_TO_FOLLOW_UP
+B033,Impossible to visit,LOST_TO_FOLLOW_UP
+B034,Study was terminated,SPONSOR_ADMINISTRATIVE
+B035,ligament imbalance,OTHER_UNSPECIFIED
+B036,Adverse event (AE): Not related to Coronavirus Disease-2019 (COVID-19),ADVERSE_EVENT
+B037,Entry Criteria Exclusion,SPONSOR_ADMINISTRATIVE
+B038,Clinical Endpoint Reached,PRE_TREATMENT_EXCLUSION
+B039,Already received influenza vaccination,PRE_TREATMENT_EXCLUSION
+B040,Did not meet Inclusion Criteria,PRE_TREATMENT_EXCLUSION
+B041,"Other reasons, not protocol specified",OTHER_UNSPECIFIED
+B042,study ended before due,SPONSOR_ADMINISTRATIVE
+B043,Drug related toxicity,ADVERSE_EVENT
+B044,poor data quality,OTHER_UNSPECIFIED
+B045,Clinical disease progression,DISEASE_PROGRESSION
+B046,Subject withdrawal - related to drug,WITHDRAWAL_BY_SUBJECT
+B047,Advice from primary care physician,PHYSICIAN_DECISION
+B048,Protocol Deviation Eligibility Criteria,PROTOCOL_VIOLATION
+B049,Clinical adverse experience,ADVERSE_EVENT
+B050,Non compliance/Protocol deviations,PROTOCOL_VIOLATION
+B051,Trial discontinued,SPONSOR_ADMINISTRATIVE
+B052,Lost to follow up after study treatment,LOST_TO_FOLLOW_UP
+B053,Adverse event after completing wk16,ADVERSE_EVENT
+B054,Continued in OLE,NOT_ATTRITION
+B055,Ongoing at DCO,NOT_ATTRITION
+B056,nausea / discomfort,ADVERSE_EVENT
+B057,"Lost to follow-up,incomplete vaccination",LOST_TO_FOLLOW_UP
+B058,Violation of Selection Criteria at Entry,PRE_TREATMENT_EXCLUSION
+B059,Transferred to study SRA-MMB-4365,NOT_ATTRITION
+B060,Participant ran out of study drug,OTHER_UNSPECIFIED
+B061,Withdrawal by sponsor,SPONSOR_ADMINISTRATIVE
+B062,Try to get pregnant,OTHER_UNSPECIFIED
+B063,Did Not Wish to Continue,WITHDRAWAL_BY_SUBJECT
+B064,Not Related to Study Drug,OTHER_UNSPECIFIED
+B065,Received negative results by mailed letter,OTHER_UNSPECIFIED
+B066,Protocol-specified withdrawal met,OTHER_UNSPECIFIED
+B067,Care Recipient Died before First Follow-up,OTHER_UNSPECIFIED
+B068,Development of Study Specific Withdrawal Criteria,OTHER_UNSPECIFIED
+B069,New cancer therapy,OTHER_UNSPECIFIED
+B070,Met discontinuation criteria,OTHER_UNSPECIFIED
+B071,Incomplete radiotherapy,WITHDRAWAL_BY_SUBJECT
+B072,Withdrawn due to Study Termination,SPONSOR_ADMINISTRATIVE
+B073,Entry criteria exclusion,PRE_TREATMENT_EXCLUSION
+B074,Did not have residual symptoms,PRE_TREATMENT_EXCLUSION
+B075,Unable to return for follow-up,LOST_TO_FOLLOW_UP
+B076,Did not receive any study medication,PRE_TREATMENT_EXCLUSION
+B077,Missing diary data,OTHER_UNSPECIFIED
+B078,Randomized but never treated,PRE_TREATMENT_EXCLUSION
+B079,Unacceptable Lens Movement,OTHER_UNSPECIFIED
+B080,Caregiver Decision,WITHDRAWAL_BY_SUBJECT
+B081,Study-specific discontinuation criteria,OTHER_UNSPECIFIED
+B082,Hyperglicaemia,ADVERSE_EVENT
+B083,Participant unable to be contacted within 60-day interview window,LOST_TO_FOLLOW_UP
+B084,Non-compliant with study medication,PROTOCOL_VIOLATION
+B085,"Death, Other Cause",DEATH
+B086,Multiple Reasons Specified,OTHER_UNSPECIFIED
+B087,subject request,WITHDRAWAL_BY_SUBJECT
+B088,Withdrawal of consent by participant,WITHDRAWAL_BY_SUBJECT
+B089,Withdrawal by subject at Visit 2,WITHDRAWAL_BY_SUBJECT
+B090,Hypoglycaemic events,ADVERSE_EVENT
+B091,Questionable onset of epilepsy,ADVERSE_EVENT
+B092,"Dissatisfaction with surveys (length, time commitment, too personal) or other study procedures",LOST_TO_FOLLOW_UP
+B093,Not treated in accordance to guidelines,PROTOCOL_VIOLATION
+B094,Reason = LVEF,OTHER_UNSPECIFIED
+B095,Physician decision: lack of efficacy,PHYSICIAN_DECISION
+B096,non-specified,OTHER_UNSPECIFIED
+B097,Cesarean after 4pm / Unable to complete enrollment due to floor acuity,OTHER_UNSPECIFIED
+B098,Trial Terminated Prematurely,SPONSOR_ADMINISTRATIVE
+B099,Sponsor discontinuation,SPONSOR_ADMINISTRATIVE
+B100,Other termination reason,OTHER_UNSPECIFIED
