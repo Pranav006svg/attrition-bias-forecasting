@@ -8,6 +8,12 @@ Models (fit on train, hyperparameters selected on val, final numbers on test):
                    applied equally to every arm of the trial
   flat_lgbm        LightGBM per arm (trial + arm features + TF-IDF); one regressor for
                    the rate and one per reason proportion (renormalized to sum to 1)
+  flat_lgbm_enriched  same, with enriched arm features (dose, dose rank, intervention
+                   class, combination flag, active interventions, arm type x masking)
+
+Evaluation subsets: all and reliable (arms / pairs / trials with arms started >= 100).
+Extra targets: within-trial pairwise concordance; AE and EFFICACY reason-group
+differentials and their flags (predicted group rate = rate x group proportion).
 
 Targets: primary and nonendpoint arm rates; reason composition (primary categories,
 arms with >= 1 withdrawal); trial differential derived from predicted arm rates
@@ -15,17 +21,19 @@ arms with >= 1 withdrawal); trial differential derived from predicted arm rates
 predicted |absmax differential|.
 
 Usage:
-    python -m src.models.baselines
+    python -m src.models.baselines [--summary-only]   # --summary-only: rewrite markdown from baselines.csv
 """
 import itertools
 import json
+import sys
 from pathlib import Path
 
 import lightgbm as lgb
 import numpy as np
 import pandas as pd
 
-from src.data.build_benchmark import FLAG_THRESHOLDS, PRIMARY_CATS, prop_col
+from src.data.build_benchmark import (FLAG_THRESHOLDS, GROUP_FLAG_TARGETS, GROUP_FLAG_THRESHOLD, PRIMARY_CATS,
+                                      REASON_GROUPS, RELIABLE_MIN_STARTED, prop_col)
 from src.eval import metrics as M
 from src.features.build_features import FeatureBuilder
 
@@ -111,45 +119,95 @@ def trial_differentials(arms: pd.DataFrame, pred_rate: np.ndarray) -> pd.DataFra
 
 
 # ---------------------------------------------------------------- evaluation
+def concordance_pairs(arms: pd.DataFrame):
+    """Within-trial (experimental, control-arm) row-index pairs; reliable = both arms started >= 100."""
+    e = arms[arms.meta_role == "experimental"][["nct_id", "y_started"]].reset_index()
+    c = arms[arms.meta_role == "control"][["nct_id", "y_started"]].reset_index()
+    pr = e.merge(c, on="nct_id", suffixes=("_e", "_c"))
+    rel = (pr.y_started_e >= RELIABLE_MIN_STARTED) & (pr.y_started_c >= RELIABLE_MIN_STARTED)
+    return pr.index_e.values, pr.index_c.values, pr.nct_id.values, rel.values
+
+
+def concordance(true_d, pred_d):
+    """Share of pairs ordered correctly; true ties dropped, predicted ties count 0.5."""
+    m = true_d != 0
+    if not m.any():
+        return np.nan
+    t, p = np.sign(true_d[m]), np.sign(np.round(pred_d[m], 12))
+    return float(np.mean(np.where(p == 0, 0.5, (p == t).astype(float))))
+
+
 def evaluate(rows, split, model, arms, trials, preds):
-    """Append metric rows; preds = {"rate_<kind>": arr, "comp": (n_arms x 10) or None}."""
+    """Append metric rows for subsets all / reliable.
+
+    preds = {"rate_<kind>": arr, "comp": (n_arms x 10) or None}; arms has a 0..n-1 index.
+    reliable: arm rates on arms started >= 100; trial targets on trials whose pooled
+    control and every experimental arm started >= 100; concordance on pairs with
+    both arms started >= 100.
+    """
     boot = split == "test"
 
-    def add(target, metric, fn, groups, *arrays):
+    def add(subset, target, metric, fn, groups, *arrays):
+        if len(arrays[0]) == 0:
+            return
         if boot:
             v, lo, hi = M.bootstrap_ci(fn, groups, *arrays)
         else:
             v, lo, hi = fn(*arrays), np.nan, np.nan
-        rows.append({"split": split, "model": model, "target": target, "metric": metric, "value": v,
-                     "ci_low": lo, "ci_high": hi, "n_rows": len(arrays[0]), "n_trials": len(np.unique(groups))})
+        rows.append({"split": split, "subset": subset, "model": model, "target": target, "metric": metric,
+                     "value": v, "ci_low": lo, "ci_high": hi, "n_rows": len(arrays[0]),
+                     "n_trials": len(np.unique(groups))})
 
     g = arms.nct_id.values
-    for kind in KINDS:
-        y = arms[f"y_{kind}_attrition_rate"].values
-        p = preds[f"rate_{kind}"]
-        add(f"arm_rate_{kind}", "MAE", M.mae, g, y, p)
-        add(f"arm_rate_{kind}", "RMSE", M.rmse, g, y, p)
-        add(f"arm_rate_{kind}", "Spearman", M.spearman, g, y, p)
-
-        td = trials[trials.y_has_differential].set_index("nct_id")
-        pdiff = trial_differentials(arms, p).reindex(td.index)
-        tg = td.index.values
-        add(f"differential_{kind}_absmax", "MAE", M.mae, tg,
-            td[f"y_differential_{kind}_absmax"].values, pdiff.pred_absmax.values)
-        add(f"differential_{kind}_signed", "MAE", M.mae, tg,
-            td[f"y_differential_{kind}"].values, pdiff.pred_signed.values)
-        for thr in FLAG_THRESHOLDS:
-            yf = td[f"y_flag_{kind}_{thr}_sig"].astype(int).values
-            s = pdiff.pred_absmax.values
-            add(f"flag_{kind}_{thr}_sig", "AUROC", M.auroc, tg, yf, s)
-            add(f"flag_{kind}_{thr}_sig", "AUPRC", M.auprc, tg, yf, s)
-
+    td_all = trials[trials.y_has_differential].set_index("nct_id")
+    ie, ic, pg, prel = concordance_pairs(arms)
+    group_rates = {}
     if preds.get("comp") is not None:
-        m = arms.y_has_composition.values
-        T = arms.loc[m, PROP_COLS].values
-        P = preds["comp"][m]
-        add("composition", "mean_KL", lambda t, q: float(M.kl_rows(t, q).mean()), g[m], T, P)
-        add("composition", "mean_Aitchison", lambda t, q: float(M.aitchison_rows(t, q).mean()), g[m], T, P)
+        for gname in GROUP_FLAG_TARGETS:
+            idx = [PROP_COLS.index(prop_col(c)) for c in REASON_GROUPS[gname]]
+            group_rates[gname] = preds["rate_primary"] * preds["comp"][:, idx].sum(axis=1)
+
+    for subset in ["all", "reliable"]:
+        am = np.ones(len(arms), bool) if subset == "all" else (arms.y_started.values >= RELIABLE_MIN_STARTED)
+        td = td_all if subset == "all" else td_all[td_all.meta_reliable]
+        tg = td.index.values
+        pm = np.ones(len(ie), bool) if subset == "all" else prel
+        for kind in KINDS:
+            y = arms[f"y_{kind}_attrition_rate"].values
+            p = preds[f"rate_{kind}"]
+            add(subset, f"arm_rate_{kind}", "MAE", M.mae, g[am], y[am], p[am])
+            add(subset, f"arm_rate_{kind}", "RMSE", M.rmse, g[am], y[am], p[am])
+            add(subset, f"arm_rate_{kind}", "Spearman", M.spearman, g[am], y[am], p[am])
+            add(subset, f"pairwise_{kind}", "concordance", concordance, pg[pm],
+                (y[ie] - y[ic])[pm], (p[ie] - p[ic])[pm])
+
+            pdiff = trial_differentials(arms, p).reindex(td.index)
+            add(subset, f"differential_{kind}_absmax", "MAE", M.mae, tg,
+                td[f"y_differential_{kind}_absmax"].values, pdiff.pred_absmax.values)
+            add(subset, f"differential_{kind}_signed", "MAE", M.mae, tg,
+                td[f"y_differential_{kind}"].values, pdiff.pred_signed.values)
+            for thr in FLAG_THRESHOLDS:
+                yf = td[f"y_flag_{kind}_{thr}_sig"].astype(int).values
+                sc = pdiff.pred_absmax.values
+                add(subset, f"flag_{kind}_{thr}_sig", "AUROC", M.auroc, tg, yf, sc)
+                add(subset, f"flag_{kind}_{thr}_sig", "AUPRC", M.auprc, tg, yf, sc)
+
+        for gname, gr in group_rates.items():
+            pdiff = trial_differentials(arms, gr).reindex(td.index)
+            add(subset, f"differential_{gname}_absmax", "MAE", M.mae, tg,
+                td[f"y_differential_{gname}_absmax"].values, pdiff.pred_absmax.values)
+            yf = td[f"y_flag_{gname}_{GROUP_FLAG_THRESHOLD}_sig"].astype(int).values
+            sc = pdiff.pred_absmax.values
+            add(subset, f"flag_{gname}_{GROUP_FLAG_THRESHOLD}_sig", "AUROC", M.auroc, tg, yf, sc)
+            add(subset, f"flag_{gname}_{GROUP_FLAG_THRESHOLD}_sig", "AUPRC", M.auprc, tg, yf, sc)
+
+        if preds.get("comp") is not None:
+            m = arms.y_has_composition.values & am
+            T = arms.loc[m, PROP_COLS].values
+            P = preds["comp"][m]
+            add(subset, "composition", "mean_KL", lambda t, q: float(M.kl_rows(t, q).mean()), g[m], T, P)
+            add(subset, "composition", "mean_Aitchison", lambda t, q: float(M.aitchison_rows(t, q).mean()),
+                g[m], T, P)
 
 
 def renormalize(P):
@@ -158,10 +216,43 @@ def renormalize(P):
     return np.where(s > 0, P / np.where(s > 0, s, 1), 1.0 / P.shape[1])
 
 
+def fit_flat(name, AX, A, preds, selected):
+    """Per-arm LightGBM: rate regressors + one regressor per reason proportion."""
+    for s in preds:
+        preds[s][name] = {}
+    for k in KINDS:
+        col = f"y_{k}_attrition_rate"
+        model, info = fit_lgbm(AX["train"], A["train"][col].values, AX["val"], A["val"][col].values,
+                               RATE_OBJECTIVES, M.mae)
+        selected[f"{name}_{k}"] = info
+        for s in preds:
+            preds[s][name][f"rate_{k}"] = predict(model, AX[s])
+    mtr, mva = A["train"].y_has_composition.values, A["val"].y_has_composition.values
+    comp = {s: np.zeros((len(A[s]), len(PROP_COLS))) for s in preds}
+    for j, c in enumerate(PROP_COLS):
+        model, info = fit_lgbm(AX["train"][mtr], A["train"].loc[mtr, c].values, AX["val"][mva],
+                               A["val"].loc[mva, c].values, ["cross_entropy"],
+                               lambda y, p: float(np.mean(-(y * np.log(np.clip(p, 1e-6, 1)) +
+                                                            (1 - y) * np.log(np.clip(1 - p, 1e-6, 1))))))
+        selected[f"{name}_{c}"] = info
+        for s in preds:
+            comp[s][:, j] = predict(model, AX[s])
+    for s in preds:
+        preds[s][name]["comp"] = renormalize(comp[s])
+
+
 def main():
+    if "--summary-only" in sys.argv:
+        arms = pd.read_parquet(PROCESSED / "arms.parquet")
+        trials = pd.read_parquet(PROCESSED / "trials.parquet")
+        write_summary(pd.read_csv(TABLES / "baselines.csv"),
+                      {s: arms[arms.split == s] for s in ["train", "val", "test"]},
+                      {s: trials[trials.split == s] for s in ["train", "val", "test"]})
+        return
     arms = pd.read_parquet(PROCESSED / "arms.parquet")
     trials = pd.read_parquet(PROCESSED / "trials.parquet")
     arms = arms.merge(trials[["nct_id", "phase", "mesh_branches"]], on="nct_id")
+    arms = arms.sort_values(["nct_id", "arm_idx"]).reset_index(drop=True)
     A = {s: arms[arms.split == s].reset_index(drop=True) for s in ["train", "val", "test"]}
     T = {s: trials[trials.split == s].reset_index(drop=True) for s in ["train", "val", "test"]}
 
@@ -203,28 +294,12 @@ def main():
             tp = pd.Series(predict(model, TXf[s]), index=T[s].nct_id.values)
             preds[s]["trial_lgbm"][f"rate_{k}"] = tp.reindex(A[s].nct_id).values
 
-    # flat per-arm LightGBM
-    for s in preds:
-        preds[s]["flat_lgbm"] = {}
-    for k in KINDS:
-        col = f"y_{k}_attrition_rate"
-        model, info = fit_lgbm(AX["train"], A["train"][col].values, AX["val"], A["val"][col].values,
-                               RATE_OBJECTIVES, M.mae)
-        selected[f"flat_lgbm_{k}"] = info
-        for s in preds:
-            preds[s]["flat_lgbm"][f"rate_{k}"] = predict(model, AX[s])
-    mtr, mva = A["train"].y_has_composition.values, A["val"].y_has_composition.values
-    comp = {s: np.zeros((len(A[s]), len(PROP_COLS))) for s in preds}
-    for j, c in enumerate(PROP_COLS):
-        model, info = fit_lgbm(AX["train"][mtr], A["train"].loc[mtr, c].values, AX["val"][mva],
-                               A["val"].loc[mva, c].values, ["cross_entropy"],
-                               lambda y, p: float(np.mean(-(y * np.log(np.clip(p, 1e-6, 1)) +
-                                                            (1 - y) * np.log(np.clip(1 - p, 1e-6, 1))))))
-        selected[f"flat_lgbm_{c}"] = info
-        for s in preds:
-            comp[s][:, j] = predict(model, AX[s])
-    for s in preds:
-        preds[s]["flat_lgbm"]["comp"] = renormalize(comp[s])
+    # flat per-arm LightGBM: base arm features, then enriched arm features
+    fit_flat("flat_lgbm", AX, A, preds, selected)
+    fbe = FeatureBuilder(enriched=True).fit(T["train"], A["train"])
+    AXe = {s: fbe.arm_matrix(A[s], fbe.trial_matrix(T[s])) for s in A}
+    print(f"enriched arm features: {AXe['train'].shape[1]}")
+    fit_flat("flat_lgbm_enriched", AXe, A, preds, selected)
 
     rows = []
     for s in ["val", "test"]:
@@ -239,39 +314,74 @@ def main():
     write_summary(res, A, T)
 
 
+def level_auroc(arms, trials, gname):
+    """AUROC of the true trial-mean reason-group rate for that group's flag (level-only reference)."""
+    td = trials[trials.y_has_differential].set_index("nct_id")
+    lvl = arms.groupby("nct_id")[f"y_{gname}_rate"].mean().reindex(td.index)
+    return M.auroc(td[f"y_flag_{gname}_{GROUP_FLAG_THRESHOLD}_sig"].astype(int).values, lvl.values)
+
+
 def write_summary(res, A, T):
     test = res[res.split == "test"]
-    models = ["global_mean", "reference_class", "trial_lgbm", "flat_lgbm"]
+    models = ["global_mean", "reference_class", "trial_lgbm", "flat_lgbm", "flat_lgbm_enriched"]
 
-    def cell(target, metric, model):
-        r = test[(test.target == target) & (test.metric == metric) & (test.model == model)]
+    def cell(target, metric, model, subset):
+        r = test[(test.target == target) & (test.metric == metric) & (test.model == model) & (test.subset == subset)]
         if r.empty or pd.isna(r.value.iloc[0]):
             return "n/a"
         r = r.iloc[0]
         return f"{r.value:.3f} [{r.ci_low:.3f}, {r.ci_high:.3f}]"
 
+    def n_of(target, subset):
+        r = test[(test.target == target) & (test.subset == subset)]
+        return f"{int(r.n_trials.iloc[0]):,} / {int(r.n_rows.iloc[0]):,}" if len(r) else "n/a"
+
     L = ["# Baselines (test split, primary benchmark m80)", "",
          f"Train/val/test trials: {len(T['train']):,} / {len(T['val']):,} / {len(T['test']):,}; "
          f"arms: {len(A['train']):,} / {len(A['val']):,} / {len(A['test']):,}. "
          "Values are point estimates with 95% bootstrap CIs (1,000 trial-grouped resamples, seed 42). "
-         "Models were fit on train with hyperparameters selected on val; test was used once.", ""]
+         "Models were fit on train with hyperparameters selected on val; no tuning or selection used test.", "",
+         "Subsets: **all**; **reliable** = arm rates on arms started >= 100, trial targets on trials whose pooled "
+         "control and every experimental arm started >= 100, pairwise concordance on pairs with both arms >= 100. "
+         "n = trials / rows (arms, pairs or trials).", ""]
     blocks = [("Arm attrition rate", [(f"arm_rate_{k}", m) for k in KINDS for m in ["MAE", "RMSE", "Spearman"]]),
+              ("Within-trial pairwise concordance (experimental vs control arm ordering; 0.5 = chance)",
+               [(f"pairwise_{k}", "concordance") for k in KINDS]),
               ("Reason composition (arms with >= 1 primary withdrawal; lower is better)",
                [("composition", "mean_KL"), ("composition", "mean_Aitchison")]),
-              ("Trial differential (trials with a computable differential)",
-               [(f"differential_{k}_{v}", "MAE") for k in KINDS for v in ["absmax", "signed"]]),
+              ("Trial differential MAE (trials with a computable differential)",
+               [(f"differential_{k}_{v}", "MAE") for k in KINDS for v in ["absmax", "signed"]]
+               + [(f"differential_{g}_absmax", "MAE") for g in GROUP_FLAG_TARGETS]),
               ("Differential-attrition flags (score = predicted |absmax differential|)",
-               [(f"flag_{k}_{t}_sig", m) for k in KINDS for t in FLAG_THRESHOLDS for m in ["AUROC", "AUPRC"]])]
-    for title, items in blocks:
-        L += [f"## {title}", "", "| Target | Metric | " + " | ".join(models) + " |",
-              "|---|---|" + "---|" * len(models)]
-        for target, metric in items:
-            L.append(f"| {target} | {metric} | " + " | ".join(cell(target, metric, m) for m in models) + " |")
-        L.append("")
-    L += ["Notes: trial_lgbm predicts one rate per trial, so its predicted differential is 0 for every trial "
-          "(flag AUROC undefined -> n/a or 0.5) and it has no composition model. Composition KL uses "
-          f"prediction smoothing eps={M.KL_EPS}; Aitchison uses multiplicative zero replacement "
-          f"delta={M.ZERO_DELTA}.", ""]
+               [(f"flag_{k}_{t}_sig", m) for k in KINDS for t in FLAG_THRESHOLDS for m in ["AUROC", "AUPRC"]]
+               + [(f"flag_{g}_{GROUP_FLAG_THRESHOLD}_sig", m) for g in GROUP_FLAG_TARGETS for m in ["AUROC", "AUPRC"]])]
+    for subset in ["all", "reliable"]:
+        L += [f"# Subset: {subset}", ""]
+        for title, items in blocks:
+            L += [f"## {title}", "", "| Target | Metric | n | " + " | ".join(models) + " |",
+                  "|---|---|---|" + "---|" * len(models)]
+            for target, metric in items:
+                L.append(f"| {target} | {metric} | {n_of(target, subset)} | "
+                         + " | ".join(cell(target, metric, m, subset) for m in models) + " |")
+            L.append("")
+    L += ["## Effect of arm-feature enrichment (flat_lgbm_enriched minus flat_lgbm, test, point estimates)", "",
+          "| Subset | Target | Metric | flat_lgbm | enriched | change |", "|---|---|---|---:|---:|---:|"]
+    for subset in ["all", "reliable"]:
+        b = test[(test.model == "flat_lgbm") & (test.subset == subset)].set_index(["target", "metric"]).value
+        e = test[(test.model == "flat_lgbm_enriched") & (test.subset == subset)].set_index(["target", "metric"]).value
+        for (target, metric), bv in b.items():
+            ev = e.get((target, metric), np.nan)
+            L.append(f"| {subset} | {target} | {metric} | {bv:.3f} | {ev:.3f} | {ev - bv:+.3f} |")
+    L += ["", "Notes: trial_lgbm predicts one rate per trial, so its predicted differential is 0 for every trial "
+          "(flag AUROC 0.5, concordance 0.5) and it has no composition model. AE/EFFICACY differentials use predicted "
+          "group rates = predicted primary rate x predicted group proportion (models with a composition head only). "
+          f"Composition KL uses prediction smoothing eps={M.KL_EPS}; Aitchison uses multiplicative zero replacement "
+          f"delta={M.ZERO_DELTA}.", "",
+          "Caveat on reason-group flags: these flags are largely determined by the trial's overall level of the "
+          "reason group. On test, the TRUE trial-mean group rate alone ranks the flag with AUROC "
+          + ", ".join(f"{g}: {level_auroc(A['test'], T['test'], g):.3f}" for g in GROUP_FLAG_TARGETS)
+          + ". Their AUROCs therefore mainly reflect predicting reason-group levels, not which arm is higher; "
+          "direction is measured by pairwise concordance.", ""]
     Path("results/baselines_summary.md").write_text("\n".join(L), encoding="utf-8")
     print("\n".join(L))
 

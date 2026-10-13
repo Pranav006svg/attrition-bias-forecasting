@@ -50,6 +50,16 @@ NOT_PRIMARY = {"SPONSOR_ADMINISTRATIVE", "NOT_ATTRITION"}
 NOT_NONENDPOINT = NOT_PRIMARY | {"DEATH", "DISEASE_PROGRESSION"}
 PRIMARY_CATS = [c for c in CATEGORIES if c not in NOT_PRIMARY]
 FLAG_THRESHOLDS = [5, 10]  # percentage points; flag also requires Fisher p < 0.05
+# Reason groups over the primary-attrition categories (they partition PRIMARY_CATS).
+REASON_GROUPS = {
+    "ae": ["ADVERSE_EVENT"],
+    "efficacy": ["LACK_OF_EFFICACY", "DISEASE_PROGRESSION"],
+    "subject": ["WITHDRAWAL_BY_SUBJECT", "LOST_TO_FOLLOW_UP"],
+    "othergroup": ["DEATH", "PHYSICIAN_DECISION", "PROTOCOL_VIOLATION", "PRE_TREATMENT_EXCLUSION", "OTHER_UNSPECIFIED"],
+}
+GROUP_FLAG_TARGETS = ["ae", "efficacy"]
+GROUP_FLAG_THRESHOLD = 5
+RELIABLE_MIN_STARTED = 100
 
 TRIAL_FEATURES = ["phase", "allocation", "masking", "intervention_model", "primary_purpose", "n_arms",
                   "sponsor_class", "mesh_branches", "healthy_volunteers", "sex", "min_age_years",
@@ -171,6 +181,26 @@ def trial_labels(a: pd.DataFrame) -> dict:
         out[f"meta_fisher_p_{kind}"] = float(p)
         for thr in FLAG_THRESHOLDS:
             out[f"y_flag_{kind}_{thr}_sig"] = bool(absmax >= thr / 100 and p < 0.05)
+    # Reason-group differentials (experimental arm with max |group diff| vs pooled control).
+    for gname in GROUP_FLAG_TARGETS:
+        w = a[[cat_col(c) for c in REASON_GROUPS[gname]]].sum(axis=1).values
+        s = a.y_started.values
+        if not has_diff:
+            out[f"y_differential_{gname}_absmax"] = np.nan
+            out[f"meta_fisher_p_{gname}"] = np.nan
+            out[f"y_flag_{gname}_{GROUP_FLAG_THRESHOLD}_sig"] = None
+            continue
+        c_w, c_s = w[ctrl].sum(), s[ctrl].sum()
+        diffs = w[exp] / s[exp] - c_w / c_s
+        j = int(np.abs(diffs).argmax())
+        ew, es = int(w[exp][j]), int(s[exp][j])
+        p = fisher_exact([[ew, es - ew], [int(c_w), int(c_s - c_w)]])[1]
+        out[f"y_differential_{gname}_absmax"] = float(abs(diffs[j]))
+        out[f"meta_fisher_p_{gname}"] = float(p)
+        out[f"y_flag_{gname}_{GROUP_FLAG_THRESHOLD}_sig"] = bool(abs(diffs[j]) >= GROUP_FLAG_THRESHOLD / 100 and p < 0.05)
+    s = a.y_started.values
+    out["meta_reliable"] = bool(has_diff and s[ctrl].sum() >= RELIABLE_MIN_STARTED
+                                and (s[exp] >= RELIABLE_MIN_STARTED).all())
     total = a[[cat_col(c) for c in CATEGORIES]].values.sum()
     out["y_sponsor_admin_share"] = float(a[cat_col("SPONSOR_ADMINISTRATIVE")].sum() / total) if total else np.nan
     return out
@@ -231,6 +261,8 @@ def main():
     all_arms["y_withdrawals_primary"] = all_arms[prim].sum(axis=1)
     all_arms["y_primary_attrition_rate"] = all_arms[prim].sum(axis=1) / all_arms.y_started.replace(0, np.nan)
     all_arms["y_nonendpoint_attrition_rate"] = all_arms[nonend].sum(axis=1) / all_arms.y_started.replace(0, np.nan)
+    for gname, cats in REASON_GROUPS.items():
+        all_arms[f"y_{gname}_rate"] = all_arms[[cat_col(c) for c in cats]].sum(axis=1) / all_arms.y_started
     # Reason composition over primary-attrition categories (arms with >= 1 such withdrawal).
     all_arms["y_has_composition"] = all_arms.y_withdrawals_primary >= 1
     denom = all_arms.y_withdrawals_primary.where(all_arms.y_has_composition)
@@ -345,6 +377,13 @@ def write_stats(sets, funnel, pinfo):
             for s in splits:
                 add(f"flag_prevalence_{kind}", f"{thr}_sig_{s}", float(f[td.split == s].mean()))
                 add(f"flag_positives_{kind}", f"{thr}_sig_{s}", int(f[td.split == s].sum()))
+    for s in ["all"] + splits:
+        ts = t[t.y_has_differential] if s == "all" else t[t.y_has_differential & (t.split == s)]
+        add("reliable_subset", f"{s}_trials", int(ts.meta_reliable.sum()))
+        for gname in GROUP_FLAG_TARGETS:
+            f = ts[f"y_flag_{gname}_{GROUP_FLAG_THRESHOLD}_sig"].astype(float)
+            add(f"flag_prevalence_{gname}", f"{GROUP_FLAG_THRESHOLD}_sig_{s}", float(f.mean()))
+            add(f"flag_positives_{gname}", f"{GROUP_FLAG_THRESHOLD}_sig_{s}", int(f.sum()))
     add("trial_sponsor_admin_share", "mean", float(t.y_sponsor_admin_share.mean()))
     add("trial_sponsor_admin_share", "trials_gt0", int((t.y_sponsor_admin_share > 0).sum()))
 

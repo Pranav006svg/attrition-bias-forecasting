@@ -116,5 +116,89 @@
   "min_child_samples": 100,
   "best_iteration": 286,
   "val_score": 0.34305141799501593
+ },
+ "flat_lgbm_enriched_primary": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 250,
+  "val_score": 0.11473859278856162
+ },
+ "flat_lgbm_enriched_nonendpoint": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 169,
+  "val_score": 0.09633525367616291
+ },
+ "flat_lgbm_enriched_y_prop_adverse_event": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 177,
+  "val_score": 0.3331888243933295
+ },
+ "flat_lgbm_enriched_y_prop_lack_of_efficacy": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 20,
+  "best_iteration": 152,
+  "val_score": 0.10422267617270885
+ },
+ "flat_lgbm_enriched_y_prop_disease_progression": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 196,
+  "val_score": 0.06254028430342626
+ },
+ "flat_lgbm_enriched_y_prop_death": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 408,
+  "val_score": 0.18127233122178
+ },
+ "flat_lgbm_enriched_y_prop_withdrawal_by_subject": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 107,
+  "val_score": 0.5940935902046547
+ },
+ "flat_lgbm_enriched_y_prop_lost_to_follow_up": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 186,
+  "val_score": 0.48027022733615077
+ },
+ "flat_lgbm_enriched_y_prop_physician_decision": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 20,
+  "best_iteration": 34,
+  "val_score": 0.13656831611567902
+ },
+ "flat_lgbm_enriched_y_prop_protocol_violation": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 20,
+  "best_iteration": 356,
+  "val_score": 0.23778480592074872
+ },
+ "flat_lgbm_enriched_y_prop_pre_treatment_exclusion": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 64,
+  "val_score": 0.151382140831089
+ },
+ "flat_lgbm_enriched_y_prop_other_unspecified": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 207,
+  "val_score": 0.3433414515804451
  }
 }
