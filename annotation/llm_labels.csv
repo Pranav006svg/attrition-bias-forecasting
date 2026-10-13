@@ -1,0 +1,1506 @@
+normalized_key,category
+dsmb design modification,SPONSOR_ADMINISTRATIVE
+did not complete any study assessment,LOST_TO_FOLLOW_UP
+did not complete mid-study/final survey,LOST_TO_FOLLOW_UP
+participants entered open label period,NOT_ATTRITION
+withdrawal information not recorded,OTHER_UNSPECIFIED
+"those participants who did not complete the 3 or 6 month surveys are considered ""not completed",LOST_TO_FOLLOW_UP
+surveys not fully completed,LOST_TO_FOLLOW_UP
+post not classified as crisis,OTHER_UNSPECIFIED
+other: study still ongoing,NOT_ATTRITION
+not part of the random sample selected,PRE_TREATMENT_EXCLUSION
+resident did not have adrd as defined by study (exclusion criteria),PRE_TREATMENT_EXCLUSION
+resident cognitive status could not be determined from cms data,OTHER_UNSPECIFIED
+refused screen (colorectal screening),OTHER_UNSPECIFIED
+did not post on network,OTHER_UNSPECIFIED
+no ovaries at baseline,PRE_TREATMENT_EXCLUSION
+discontinued from study in part b,OTHER_UNSPECIFIED
+subject received alternative authorised vaccine,OTHER_UNSPECIFIED
+absent at mda,LOST_TO_FOLLOW_UP
+opting out of the app,WITHDRAWAL_BY_SUBJECT
+did not return fit kit,OTHER_UNSPECIFIED
+refused screen (lung screening),OTHER_UNSPECIFIED
+non-response,LOST_TO_FOLLOW_UP
+no longer willing to participate,WITHDRAWAL_BY_SUBJECT
+did not continue into extension,OTHER_UNSPECIFIED
+participants ongoing,NOT_ATTRITION
+duplicate records,PRE_TREATMENT_EXCLUSION
+never been enrolled in snap and/or live in a household with at least 4 people,PRE_TREATMENT_EXCLUSION
+non-diagnostic,OTHER_UNSPECIFIED
+refused screen (ovarian screening),OTHER_UNSPECIFIED
+excluded for receiving one or more vaccine doses prior to outreach,PRE_TREATMENT_EXCLUSION
+"consent withdrawal, not due to a (s)ae",WITHDRAWAL_BY_SUBJECT
+patients with no follow-up visit and/or age 18-39 were not included in analyses,OTHER_UNSPECIFIED
+did not consent or declined follow-up,WITHDRAWAL_BY_SUBJECT
+no longer meets eligibility criteria,PRE_TREATMENT_EXCLUSION
+data not available at data cut-off point,OTHER_UNSPECIFIED
+condition under investigation worsened,DISEASE_PROGRESSION
+protocol-specified criteria: study ended,SPONSOR_ADMINISTRATIVE
+discontinued from study in part c,OTHER_UNSPECIFIED
+were not eligible for inclusion,PRE_TREATMENT_EXCLUSION
+refused asu (control),OTHER_UNSPECIFIED
+did not finish experimental regimen,OTHER_UNSPECIFIED
+refused screen (prostate screening),OTHER_UNSPECIFIED
+protocol specified withdrawal criterion met,OTHER_UNSPECIFIED
+"subcategories under ""other"" not reported",OTHER_UNSPECIFIED
+>=1 reason assigned per patient,OTHER_UNSPECIFIED
+option to switch to a rollover study,NOT_ATTRITION
+decision by participant or proxy,WITHDRAWAL_BY_SUBJECT
+smear during intervention,OTHER_UNSPECIFIED
+withdrawal criteria,OTHER_UNSPECIFIED
+already received influenza vaccination,PRE_TREATMENT_EXCLUSION
+no parental consent,WITHDRAWAL_BY_SUBJECT
+study ended by sponsor,SPONSOR_ADMINISTRATIVE
+sentinel node positive patients,PRE_TREATMENT_EXCLUSION
+entered extension study,NOT_ATTRITION
+excluded due to quality,OTHER_UNSPECIFIED
+discontinuation of study by sponsor,SPONSOR_ADMINISTRATIVE
+sponsor termination of study,SPONSOR_ADMINISTRATIVE
+did not qualify,PRE_TREATMENT_EXCLUSION
+withdrawal by facility,SPONSOR_ADMINISTRATIVE
+no consent for month 84 follow-up,WITHDRAWAL_BY_SUBJECT
+resident did not reside in facility for at least one day of study period (exclusion criteria),PRE_TREATMENT_EXCLUSION
+did not meet continuation criteria,OTHER_UNSPECIFIED
+terminated by sponsor,SPONSOR_ADMINISTRATIVE
+did not have qualifying follow-up visit,LOST_TO_FOLLOW_UP
+discontinued from study in part a,OTHER_UNSPECIFIED
+hyperglycemic rescue,LACK_OF_EFFICACY
+did not have weight recorded (visit 1),OTHER_UNSPECIFIED
+non-evaluable: patient on polytherapy,PROTOCOL_VIOLATION
+sponsor discontinued study,SPONSOR_ADMINISTRATIVE
+randomized not vaccinated (visit 1),PRE_TREATMENT_EXCLUSION
+on study treatment,NOT_ATTRITION
+received another covid-19 vaccine under eua,OTHER_UNSPECIFIED
+already excluded at time 1,PRE_TREATMENT_EXCLUSION
+study ongoing,NOT_ATTRITION
+ongoing as of week 52 (later participants were moved to treatment period 2 [week 52 to 200]),NOT_ATTRITION
+early study closure,SPONSOR_ADMINISTRATIVE
+other termination reason,OTHER_UNSPECIFIED
+refusal,WITHDRAWAL_BY_SUBJECT
+withdrawn as per protocol,OTHER_UNSPECIFIED
+did not keep appointment,LOST_TO_FOLLOW_UP
+resident could not be linked to cms data,OTHER_UNSPECIFIED
+did not consent to receive vax 2,WITHDRAWAL_BY_SUBJECT
+recurrence of disease,DISEASE_PROGRESSION
+run-in failure in early study,PRE_TREATMENT_EXCLUSION
+not influenza positive,PRE_TREATMENT_EXCLUSION
+refusal of further protocol therapy,WITHDRAWAL_BY_SUBJECT
+continuing treatment,NOT_ATTRITION
+did not meet treatment day baseline,PRE_TREATMENT_EXCLUSION
+disease relapse,DISEASE_PROGRESSION
+censored due to covid-19,OTHER_UNSPECIFIED
+follow-up terminated by sponsor,SPONSOR_ADMINISTRATIVE
+did not have source-verified blood loss data,OTHER_UNSPECIFIED
+not biochemically pregnant,PRE_TREATMENT_EXCLUSION
+subjects in extension,NOT_ATTRITION
+did not undergo active monitoring,OTHER_UNSPECIFIED
+failure to meet randomization criteria,PRE_TREATMENT_EXCLUSION
+participant ongoing in study,NOT_ATTRITION
+discotinued per protocol,OTHER_UNSPECIFIED
+excluded due to membership changes,LOST_TO_FOLLOW_UP
+"excluded from analysis, recent papanicolaou test prior to randomization date",PRE_TREATMENT_EXCLUSION
+disease recurrence,DISEASE_PROGRESSION
+discharged on prasugrel,OTHER_UNSPECIFIED
+"patient refusal to continue, not due to adverse event",WITHDRAWAL_BY_SUBJECT
+removed prior to mailing,PRE_TREATMENT_EXCLUSION
+did not meet entrance criteria,PRE_TREATMENT_EXCLUSION
+discontinued treatment,OTHER_UNSPECIFIED
+lack of qualifying event,PRE_TREATMENT_EXCLUSION
+inadequate glycaemic control,LACK_OF_EFFICACY
+patients ongoing study,NOT_ATTRITION
+died before asu (control),DEATH
+participant transferred to another study,OTHER_UNSPECIFIED
+non-specified,OTHER_UNSPECIFIED
+"reason not otherwise captured, eg; death",OTHER_UNSPECIFIED
+early termination of the study,SPONSOR_ADMINISTRATIVE
+died or disenrolled during blackout period,OTHER_UNSPECIFIED
+did not finish the shopping task,OTHER_UNSPECIFIED
+chemo completed or change in therapy,OTHER_UNSPECIFIED
+no-consent/eligible/seii continuing site,OTHER_UNSPECIFIED
+protocol-specified criteria,OTHER_UNSPECIFIED
+failed to meet screening criteria,PRE_TREATMENT_EXCLUSION
+participant was not eligible for biochem,PRE_TREATMENT_EXCLUSION
+run-in failure,PRE_TREATMENT_EXCLUSION
+on treatment,NOT_ATTRITION
+subject did not self-report abstinence,OTHER_UNSPECIFIED
+two consecutive ldl-c <15 mg/dl,ADVERSE_EVENT
+only vital status known,LOST_TO_FOLLOW_UP
+continuing study off treatment,NOT_ATTRITION
+withdrawn due to study closure,SPONSOR_ADMINISTRATIVE
+did not get tested,OTHER_UNSPECIFIED
+relapse,DISEASE_PROGRESSION
+sponsor ended study,SPONSOR_ADMINISTRATIVE
+"refused, health issues, wrong address",OTHER_UNSPECIFIED
+clinical endpoint reached,OTHER_UNSPECIFIED
+parent/caregiver decision,WITHDRAWAL_BY_SUBJECT
+maximum clinical benefit,OTHER_UNSPECIFIED
+patient did not sign icf 12,WITHDRAWAL_BY_SUBJECT
+"study drug stopped, reason missing",OTHER_UNSPECIFIED
+relapsed,DISEASE_PROGRESSION
+site terminated; study terminated; other,SPONSOR_ADMINISTRATIVE
+"failed verification, did not start time 1 survey",PRE_TREATMENT_EXCLUSION
+clinical efficacy endpoint reached,OTHER_UNSPECIFIED
+renal transplant,OTHER_UNSPECIFIED
+"poor data/ppt mgmt, regulatory problems",SPONSOR_ADMINISTRATIVE
+received emergency use authorization (eua) vaccine,OTHER_UNSPECIFIED
+did not complete year 4 follow-up,LOST_TO_FOLLOW_UP
+global deterioration of health status,DISEASE_PROGRESSION
+study participation ongoing,NOT_ATTRITION
+failure to return,LOST_TO_FOLLOW_UP
+data monitoring committee recommendation due to negative interim analysis,SPONSOR_ADMINISTRATIVE
+"patient refusal to continue, not due to ae",WITHDRAWAL_BY_SUBJECT
+sponsor ends the study,SPONSOR_ADMINISTRATIVE
+not reported,OTHER_UNSPECIFIED
+various,OTHER_UNSPECIFIED
+participant would not respond,LOST_TO_FOLLOW_UP
+did not enter period ii,OTHER_UNSPECIFIED
+withdrew from the study,WITHDRAWAL_BY_SUBJECT
+non-sae: mostly asymptomatic ecgs,ADVERSE_EVENT
+randomization criteria not met,PRE_TREATMENT_EXCLUSION
+other event,OTHER_UNSPECIFIED
+ongoing; still in treatment phase as of primary completion date (pcd) cutoff date 31 jan 2023,NOT_ATTRITION
+did not meet criteria,PRE_TREATMENT_EXCLUSION
+withdrawal by sponsor,SPONSOR_ADMINISTRATIVE
+other adverse event,ADVERSE_EVENT
+discontinued after 5 years completion,OTHER_UNSPECIFIED
+continued in ole,NOT_ATTRITION
+met protocol-defined stopping criteria,OTHER_UNSPECIFIED
+status not recorded,OTHER_UNSPECIFIED
+missed assessment,LOST_TO_FOLLOW_UP
+pretreatment event/adverse event,ADVERSE_EVENT
+"excluded from analysis, recent disenrollment from kpwa",PRE_TREATMENT_EXCLUSION
+did not cont. into 2nd ext (verified),OTHER_UNSPECIFIED
+admin problems: terminated # patients,SPONSOR_ADMINISTRATIVE
+"randomized, not treated",PRE_TREATMENT_EXCLUSION
+non stroke = non target population,PRE_TREATMENT_EXCLUSION
+decision by sponsor,SPONSOR_ADMINISTRATIVE
+pharmacist did not activate patient,OTHER_UNSPECIFIED
+didn't use cvc for at least 21 days,OTHER_UNSPECIFIED
+did not meet protocol eligibility,PRE_TREATMENT_EXCLUSION
+preferred time entry in extension study,NOT_ATTRITION
+resident was enrolled in hospice care at study start (exclusion criteria),PRE_TREATMENT_EXCLUSION
+participant moved,LOST_TO_FOLLOW_UP
+did not complete survey,LOST_TO_FOLLOW_UP
+participants dosed in sub-study,NOT_ATTRITION
+other than listed above,OTHER_UNSPECIFIED
+end of data collection,SPONSOR_ADMINISTRATIVE
+withdrew or lost to follow-up,OTHER_UNSPECIFIED
+"due to administrative issues, implementation partner was unable to continue study activities",SPONSOR_ADMINISTRATIVE
+excluded/ruled ineligible,PRE_TREATMENT_EXCLUSION
+met withdrawal criteria,OTHER_UNSPECIFIED
+covid-19 pandemic,OTHER_UNSPECIFIED
+voluntarily withdrew,WITHDRAWAL_BY_SUBJECT
+did not receive open-label bnt162b2 30 mcg,OTHER_UNSPECIFIED
+did not start t1 survey,LOST_TO_FOLLOW_UP
+age not recorded (used for cross-linkage,OTHER_UNSPECIFIED
+unavailable,OTHER_UNSPECIFIED
+multiple reasons (primarily discontinuation of blinded treatment),OTHER_UNSPECIFIED
+subject no longer meets study criteria,PRE_TREATMENT_EXCLUSION
+continue in long term follow up,NOT_ATTRITION
+prevalent case,PRE_TREATMENT_EXCLUSION
+failed to return,LOST_TO_FOLLOW_UP
+"participants who died, withdrew or did not enroll into dppos",OTHER_UNSPECIFIED
+participants ongoing at data cut-off,NOT_ATTRITION
+study treatment ongoing,NOT_ATTRITION
+failure to meet maintenance randomization criteria,OTHER_UNSPECIFIED
+"received general anesthesia, explarel or naloxone; return to or; switched groups",PROTOCOL_VIOLATION
+eligible for phase 2,OTHER_UNSPECIFIED
+sponsor early termination of study,SPONSOR_ADMINISTRATIVE
+study prematurely terminated,SPONSOR_ADMINISTRATIVE
+other than those specified,OTHER_UNSPECIFIED
+discontinued without taking study drug,PRE_TREATMENT_EXCLUSION
+baseline drug resistance,PRE_TREATMENT_EXCLUSION
+"refusal to continue, not due to ae",WITHDRAWAL_BY_SUBJECT
+enrolment in long term extension,NOT_ATTRITION
+discontinue treatment survival follow up,NOT_ATTRITION
+never started protocol therapy,PRE_TREATMENT_EXCLUSION
+hospice patient death,DEATH
+participant files could not be located,OTHER_UNSPECIFIED
+morbidity or mortality primary endpoint,OTHER_UNSPECIFIED
+"completed study, but not positive for influenza by rt-pcr (not included in itti population)",PRE_TREATMENT_EXCLUSION
+not start protocol therapy,PRE_TREATMENT_EXCLUSION
+lack of qualifying migraines,PRE_TREATMENT_EXCLUSION
+objective pd assessed by recist v1.1,DISEASE_PROGRESSION
+patients ongoing study at data cut off,NOT_ATTRITION
+subject no longer met study criteria,PRE_TREATMENT_EXCLUSION
+unblinded due to futility,SPONSOR_ADMINISTRATIVE
+non medical reason,OTHER_UNSPECIFIED
+did not have a non-va encounter during study period (includes death before a non-va encounter),OTHER_UNSPECIFIED
+other adverse event (ae),ADVERSE_EVENT
+joined another gilead-sponsored study,OTHER_UNSPECIFIED
+ctdna positive screened for treatment phase,PRE_TREATMENT_EXCLUSION
+randomized but not vaccinated,PRE_TREATMENT_EXCLUSION
+data unavailable due to regulatory issues,SPONSOR_ADMINISTRATIVE
+baseline dst result pre-xdr/xdr,PRE_TREATMENT_EXCLUSION
+crossed over to other treatment arm,OTHER_UNSPECIFIED
+other reasons as defined per protocol,OTHER_UNSPECIFIED
+"disease progression, study terminated",OTHER_UNSPECIFIED
+poor/non-compliance,PROTOCOL_VIOLATION
+protocol-specified disease worsening,DISEASE_PROGRESSION
+other reason than specified,OTHER_UNSPECIFIED
+no functioning phone number,LOST_TO_FOLLOW_UP
+investigator dec./not protocol-related,PHYSICIAN_DECISION
+diagnosed with prostate cancer,OTHER_UNSPECIFIED
+"ae, non-serious non-fatal",ADVERSE_EVENT
+still on-study,NOT_ATTRITION
+other serious adverse event,ADVERSE_EVENT
+study-specific discontinuation criteria,OTHER_UNSPECIFIED
+hiv infected at baseline,PRE_TREATMENT_EXCLUSION
+administrative/other,OTHER_UNSPECIFIED
+treatment ongoing,NOT_ATTRITION
+on study treatment/ follow up,NOT_ATTRITION
+did not enter 1-year blood draw,LOST_TO_FOLLOW_UP
+discontinued intervention,OTHER_UNSPECIFIED
+recurrence,DISEASE_PROGRESSION
+patients who did not have a treatment visit,LOST_TO_FOLLOW_UP
+terminated the study,OTHER_UNSPECIFIED
+due to study closure,SPONSOR_ADMINISTRATIVE
+finished the trial (did the 2 year visit) prior to or during trial closeout,NOT_ATTRITION
+patient refusal,WITHDRAWAL_BY_SUBJECT
+other-non protocol specified,OTHER_UNSPECIFIED
+other adverse events (non-serious),ADVERSE_EVENT
+poor/noncompliance,PROTOCOL_VIOLATION
+relapsed (spga ≥3),DISEASE_PROGRESSION
+failure to meet continuation criteria,OTHER_UNSPECIFIED
+no rbcs received 96hrs after randomized,PRE_TREATMENT_EXCLUSION
+the subject was not eligible for part b,PRE_TREATMENT_EXCLUSION
+not cimt eligible at visit 3,PRE_TREATMENT_EXCLUSION
+graft loss,OTHER_UNSPECIFIED
+relapse of erosive esophagitis,DISEASE_PROGRESSION
+reassigned to treatment ii period,NOT_ATTRITION
+protocol interim criteria not met,OTHER_UNSPECIFIED
+invest. product commercially available,OTHER_UNSPECIFIED
+did not complete a visit during study intervention period,LOST_TO_FOLLOW_UP
+protocol-defined stopping criteria,OTHER_UNSPECIFIED
+transition to rollover protocol,NOT_ATTRITION
+not randomized into period iii,OTHER_UNSPECIFIED
+treatment ongoing at cutoff date,NOT_ATTRITION
+early escape,LACK_OF_EFFICACY
+refused/did not cooperate/withdrew,WITHDRAWAL_BY_SUBJECT
+disease worsening,DISEASE_PROGRESSION
+oral anticoagulant required,OTHER_UNSPECIFIED
+other than listed,OTHER_UNSPECIFIED
+loss of therapeutic response,LACK_OF_EFFICACY
+study-specific withdrawal criteria,OTHER_UNSPECIFIED
+sponsor stopping study,SPONSOR_ADMINISTRATIVE
+"reused same ip address, and/or finished the survey in under one-third of median completion time",OTHER_UNSPECIFIED
+reason missing,OTHER_UNSPECIFIED
+availability of study medication locally,OTHER_UNSPECIFIED
+includes premature discontinuation due to study termination and unknown,OTHER_UNSPECIFIED
+providers not included in the primary outcome,PRE_TREATMENT_EXCLUSION
+relapse criteria met,DISEASE_PROGRESSION
+ongoing treatment at cutoff date,NOT_ATTRITION
+did not meet criteria for remission,LACK_OF_EFFICACY
+participants are disenrolled upon hospital discharge,OTHER_UNSPECIFIED
+other adverse event (ae)/ serious ae,ADVERSE_EVENT
+at the participant's own request,WITHDRAWAL_BY_SUBJECT
+caregiver decision,WITHDRAWAL_BY_SUBJECT
+discontinued imp,OTHER_UNSPECIFIED
+left workforce,LOST_TO_FOLLOW_UP
+other; n=245 due to early study closure,SPONSOR_ADMINISTRATIVE
+currently on treatment,NOT_ATTRITION
+did not treat cold sore during study,OTHER_UNSPECIFIED
+last visit outside protocol visit window,PROTOCOL_VIOLATION
+without adult consent in place,WITHDRAWAL_BY_SUBJECT
+"reaching endpoints, noncompliance, etc",OTHER_UNSPECIFIED
+refusal unrelated to adverse event,WITHDRAWAL_BY_SUBJECT
+negative baseline culture result,PRE_TREATMENT_EXCLUSION
+heart transplant,OTHER_UNSPECIFIED
+pt has very high risk all characteristic,PRE_TREATMENT_EXCLUSION
+other ae,ADVERSE_EVENT
+patient convenience,WITHDRAWAL_BY_SUBJECT
+partial completion,OTHER_UNSPECIFIED
+identified as ph+ patients,PRE_TREATMENT_EXCLUSION
+entered open label (ol); sorafenib only,NOT_ATTRITION
+atrial fibrillation/flutter recurrence,DISEASE_PROGRESSION
+woman: stillborn infant,OTHER_UNSPECIFIED
+missing data,OTHER_UNSPECIFIED
+protocol defined discontinuation criteria met at week 76,OTHER_UNSPECIFIED
+discontinued because of study closure,SPONSOR_ADMINISTRATIVE
+severe non-compliance to protocol,PROTOCOL_VIOLATION
+facility closed,SPONSOR_ADMINISTRATIVE
+alive,NOT_ATTRITION
+not hiv seroconversion-related,OTHER_UNSPECIFIED
+study participation terminated by sponsor,SPONSOR_ADMINISTRATIVE
+relapse of nsclc,DISEASE_PROGRESSION
+insufficient therapy,LACK_OF_EFFICACY
+they did not have a seizure requiring tx,OTHER_UNSPECIFIED
+incident case,OTHER_UNSPECIFIED
+enrolled but not treated,PRE_TREATMENT_EXCLUSION
+excluded as ineligible after randomization,PRE_TREATMENT_EXCLUSION
+didn't meet randomization criteria,PRE_TREATMENT_EXCLUSION
+failed eligibility criteria,PRE_TREATMENT_EXCLUSION
+protocol specified criteria,OTHER_UNSPECIFIED
+subject reached protocol-defined stopping criteria,OTHER_UNSPECIFIED
+withdrawn due to study termination,SPONSOR_ADMINISTRATIVE
+clinical pd,DISEASE_PROGRESSION
+confirmed metastasis,DISEASE_PROGRESSION
+not treated: lack of qualifying event,PRE_TREATMENT_EXCLUSION
+missed session but returned for subsequent sessions,NOT_ATTRITION
+movement into re-treatment study,NOT_ATTRITION
+other reason not defined above,OTHER_UNSPECIFIED
+unspecified reasons,OTHER_UNSPECIFIED
+protocol amendment,SPONSOR_ADMINISTRATIVE
+plan to receive other anticancer therapy,OTHER_UNSPECIFIED
+survey non-response,LOST_TO_FOLLOW_UP
+participant relocated,LOST_TO_FOLLOW_UP
+premature study closure,SPONSOR_ADMINISTRATIVE
+"reaching endpoints,noncompliance,etc",OTHER_UNSPECIFIED
+failed attention check,OTHER_UNSPECIFIED
+physician withdrew consent,PHYSICIAN_DECISION
+excluded from analysis at nih request (due to suspected scientific misconduct at site level),SPONSOR_ADMINISTRATIVE
+participants no longer with health plan,LOST_TO_FOLLOW_UP
+perceived lack of efficacy,LACK_OF_EFFICACY
+alive in follow-up,NOT_ATTRITION
+adverse event-serious fatal events,DEATH
+lost enrollment,LOST_TO_FOLLOW_UP
+participant unable to adhere to visit schedule,PROTOCOL_VIOLATION
+pd based on modified recist criteria,DISEASE_PROGRESSION
+refused,WITHDRAWAL_BY_SUBJECT
+hba1c>7.5%,LACK_OF_EFFICACY
+all other,OTHER_UNSPECIFIED
+other reason than listed,OTHER_UNSPECIFIED
+kidney transplantation,OTHER_UNSPECIFIED
+withdrawal by legally authorized representative,WITHDRAWAL_BY_SUBJECT
+identified as vhr at end of induction,OTHER_UNSPECIFIED
+study ended before due,SPONSOR_ADMINISTRATIVE
+unclassifiable response,OTHER_UNSPECIFIED
+investigator site closed,SPONSOR_ADMINISTRATIVE
+sponsor termination,SPONSOR_ADMINISTRATIVE
+discontinued by sponsor,SPONSOR_ADMINISTRATIVE
+clinical hold - consent withdrawn,SPONSOR_ADMINISTRATIVE
+participants censored (no death events),NOT_ATTRITION
+"ongoing: in database - january 29, 2009",NOT_ATTRITION
+early termination of study,SPONSOR_ADMINISTRATIVE
+mpp other programming,OTHER_UNSPECIFIED
+child had 2 years of hs,OTHER_UNSPECIFIED
+continued the follow-up period,NOT_ATTRITION
+disenrolled or died prior to first follow-up day - not included in outcome or adverse event counts,OTHER_UNSPECIFIED
+on study,NOT_ATTRITION
+patient still alive,NOT_ATTRITION
+study-specific; site terminated; screen failure; study terminated; other,OTHER_UNSPECIFIED
+adverse event-non-fatal events,ADVERSE_EVENT
+randomization failure,PRE_TREATMENT_EXCLUSION
+non-specific,OTHER_UNSPECIFIED
+protocol specified discontinuation,OTHER_UNSPECIFIED
+satisfactory relief after ibuprofen administration. exited study,OTHER_UNSPECIFIED
+admin/other,OTHER_UNSPECIFIED
+ongoing; participants still in long-time follow-up phase as of the pcd cutoff date (31 january 2023),NOT_ATTRITION
+non-resident,PRE_TREATMENT_EXCLUSION
+participant refusal,WITHDRAWAL_BY_SUBJECT
+didn't use cvc for at least 21 day,OTHER_UNSPECIFIED
+kidney transplant,OTHER_UNSPECIFIED
+protocol driven decision point,OTHER_UNSPECIFIED
+entered olpvf phase,NOT_ATTRITION
+dropped post-rand for any reason,OTHER_UNSPECIFIED
+failure to return t! survey,LOST_TO_FOLLOW_UP
+incarcerated,OTHER_UNSPECIFIED
+study specific discontinuation criteria,OTHER_UNSPECIFIED
+stopped per nih hold,SPONSOR_ADMINISTRATIVE
+did not meet on-demand eligibility criteria,PRE_TREATMENT_EXCLUSION
+terminated by the sponsor's decision,SPONSOR_ADMINISTRATIVE
+other reason (not specified),OTHER_UNSPECIFIED
+transferred to extension study,NOT_ATTRITION
+"adverse event, non-fatal event",ADVERSE_EVENT
+randomized not treated,PRE_TREATMENT_EXCLUSION
+not vaccinated,PRE_TREATMENT_EXCLUSION
+related to study drug administration,ADVERSE_EVENT
+patient still in follow-up,NOT_ATTRITION
+became ineligible after randomisation,PRE_TREATMENT_EXCLUSION
+not classified,OTHER_UNSPECIFIED
+early study termination,SPONSOR_ADMINISTRATIVE
+intervention workshops cancelled,SPONSOR_ADMINISTRATIVE
+extubated,OTHER_UNSPECIFIED
+other non serious adverse event,ADVERSE_EVENT
+randomized not vaccinated,PRE_TREATMENT_EXCLUSION
+early termination,OTHER_UNSPECIFIED
+did not complete phase; reason unknown,OTHER_UNSPECIFIED
+discontinued at clinical cutoff (due to end of data collection period),SPONSOR_ADMINISTRATIVE
+participant defaulted,LOST_TO_FOLLOW_UP
+refusal by patient/parent/guardian,WITHDRAWAL_BY_SUBJECT
+discontinued,OTHER_UNSPECIFIED
+initiated prohibited medication,PROTOCOL_VIOLATION
+data not disclosed due to lack of hgrac filings,OTHER_UNSPECIFIED
+multiple reasons,OTHER_UNSPECIFIED
+declined,WITHDRAWAL_BY_SUBJECT
+unable to attend,LOST_TO_FOLLOW_UP
+new therapy for study indication,OTHER_UNSPECIFIED
+no reason from the subject,OTHER_UNSPECIFIED
+non-variceal bleeding on endoscopy,OTHER_UNSPECIFIED
+out of window,PROTOCOL_VIOLATION
+patient declined to participate,WITHDRAWAL_BY_SUBJECT
+discharged from us military active service,LOST_TO_FOLLOW_UP
+did not meet randomization criteria,PRE_TREATMENT_EXCLUSION
+early termination from the study,OTHER_UNSPECIFIED
+the study was terminated early,SPONSOR_ADMINISTRATIVE
+did not complete stage 2 survey,LOST_TO_FOLLOW_UP
+outmigrated to non-study community,LOST_TO_FOLLOW_UP
+thromboembolic/outcome event,OTHER_UNSPECIFIED
+included in 2nd cycle,NOT_ATTRITION
+completed later timepoint,NOT_ATTRITION
+not specified in study report,OTHER_UNSPECIFIED
+never started treatment,PRE_TREATMENT_EXCLUSION
+"randomized, but not treated",PRE_TREATMENT_EXCLUSION
+"lost to follow-up (ltfu), patient withdrawal or physician decision but not specified",OTHER_UNSPECIFIED
+participants ongoing on study,NOT_ATTRITION
+treatment (crovalimab) ongoing,NOT_ATTRITION
+declined to participate,WITHDRAWAL_BY_SUBJECT
+reasons other than stated above,OTHER_UNSPECIFIED
+by sponsor due to protocol amendment,SPONSOR_ADMINISTRATIVE
+normal gram stain or neg yeast culture,PRE_TREATMENT_EXCLUSION
+participant no longer meets study criteria,PRE_TREATMENT_EXCLUSION
+"adverse event, non-fatal",ADVERSE_EVENT
+unable to get to clinic,LOST_TO_FOLLOW_UP
+participant unable to get to clinic,LOST_TO_FOLLOW_UP
+participants ongoing in follow-up,NOT_ATTRITION
+terminated phone call early or requested to not receive a kit,WITHDRAWAL_BY_SUBJECT
+subject unable to get to clinic,LOST_TO_FOLLOW_UP
+parts 1 and 2 termination by sponsor,SPONSOR_ADMINISTRATIVE
+terminated study on interim analysis,SPONSOR_ADMINISTRATIVE
+symptomatic hypotension,ADVERSE_EVENT
+radiological pd,DISEASE_PROGRESSION
+patient moved,LOST_TO_FOLLOW_UP
+did not receive allocated intervention,PRE_TREATMENT_EXCLUSION
+judgment of the investigator,PHYSICIAN_DECISION
+completed evaluation at 1 month,NOT_ATTRITION
+transferred out to another facility,LOST_TO_FOLLOW_UP
+virologic stopping rule,LACK_OF_EFFICACY
+missing final visit,LOST_TO_FOLLOW_UP
+did not require medication,OTHER_UNSPECIFIED
+participant ongoing in trial,NOT_ATTRITION
+worsening or ae of underlying disease,OTHER_UNSPECIFIED
+missing at least 1 survey or intervention task,LOST_TO_FOLLOW_UP
+overquotas removed,PRE_TREATMENT_EXCLUSION
+missing subject summary status,OTHER_UNSPECIFIED
+other complicating disease,OTHER_UNSPECIFIED
+insufficient data entry,OTHER_UNSPECIFIED
+other than stated above,OTHER_UNSPECIFIED
+missing end-of-study page,OTHER_UNSPECIFIED
+no ta/t1,OTHER_UNSPECIFIED
+did hot complete survey,LOST_TO_FOLLOW_UP
+personal reason(s),WITHDRAWAL_BY_SUBJECT
+did not achieve response after induction,LACK_OF_EFFICACY
+missed follow-up dental exam,LOST_TO_FOLLOW_UP
+no follow up due to covid19 restrictions or left center,OTHER_UNSPECIFIED
+violation of inclusion/exclusion criteria,PRE_TREATMENT_EXCLUSION
+discontinue treatment survival follow-up,NOT_ATTRITION
+subject moved,LOST_TO_FOLLOW_UP
+any other reason not above-mentioned,OTHER_UNSPECIFIED
+unacceptable toxicity,ADVERSE_EVENT
+completed all planned assessments,NOT_ATTRITION
+died or disenrolled,OTHER_UNSPECIFIED
+found to be ineligible,PRE_TREATMENT_EXCLUSION
+enrolled another cog therapeutic study,OTHER_UNSPECIFIED
+continuation criteria not met,OTHER_UNSPECIFIED
+no longer met eligibility criteria,PRE_TREATMENT_EXCLUSION
+includes premature discontinuation due to study termination,SPONSOR_ADMINISTRATIVE
+other - as reported by the investigator,OTHER_UNSPECIFIED
+gcp violations,PROTOCOL_VIOLATION
+subject no longer requires study drug,OTHER_UNSPECIFIED
+followup phase completed as per protocol,NOT_ATTRITION
+no information chacked on casereportform,OTHER_UNSPECIFIED
+sponsor discontinued trial,SPONSOR_ADMINISTRATIVE
+switched to open label phase,NOT_ATTRITION
+misc,OTHER_UNSPECIFIED
+discontinued prior to taking study drug,PRE_TREATMENT_EXCLUSION
+patients lost to post or 6-month follow-up,LOST_TO_FOLLOW_UP
+disenrolled from health plan,LOST_TO_FOLLOW_UP
+los<48 hours,PRE_TREATMENT_EXCLUSION
+russia sites closed due to operational limitations & participants unable to attend their final visit,SPONSOR_ADMINISTRATIVE
+termination of the clinical development of elamipretide in subjects with pmm,SPONSOR_ADMINISTRATIVE
+other unspecified,OTHER_UNSPECIFIED
+physician refused to continue treatment,PHYSICIAN_DECISION
+no longer meets study criteria,PRE_TREATMENT_EXCLUSION
+metastasis by local reading,DISEASE_PROGRESSION
+discontinued due to study closure,SPONSOR_ADMINISTRATIVE
+other (listed in the study report),OTHER_UNSPECIFIED
+discharge from facility,OTHER_UNSPECIFIED
+clinical relapse,DISEASE_PROGRESSION
+participant noncompliance,PROTOCOL_VIOLATION
+withdrawal by physician or subject,OTHER_UNSPECIFIED
+withdrawn consent,WITHDRAWAL_BY_SUBJECT
+early escape: transitioned to ol period,LACK_OF_EFFICACY
+identified as hr patients,PRE_TREATMENT_EXCLUSION
+t1 survey not 14-180 post education,OTHER_UNSPECIFIED
+incorrect enrollment,PRE_TREATMENT_EXCLUSION
+copd exacerbation,DISEASE_PROGRESSION
+didn't meet inclusion/exclusion criteria,PRE_TREATMENT_EXCLUSION
+other case,OTHER_UNSPECIFIED
+no endpoint blood draw,LOST_TO_FOLLOW_UP
+various reasons,OTHER_UNSPECIFIED
+met stopping criteria,OTHER_UNSPECIFIED
+early discontinue,OTHER_UNSPECIFIED
+refused to participate,WITHDRAWAL_BY_SUBJECT
+death caused by progression of disease,DEATH
+"did not complete afeqt, or failed to start the study period",OTHER_UNSPECIFIED
+run-in failures,PRE_TREATMENT_EXCLUSION
+parent or legal guardian request,WITHDRAWAL_BY_SUBJECT
+missed 12 month visit,LOST_TO_FOLLOW_UP
+disconnected phone,LOST_TO_FOLLOW_UP
+missed closeout visit,LOST_TO_FOLLOW_UP
+transfer to hemodialysis,OTHER_UNSPECIFIED
+patients continuing in long term follow up,NOT_ATTRITION
+subject non-compliance,PROTOCOL_VIOLATION
+"listed as ""other"" on case report form",OTHER_UNSPECIFIED
+urine culture negative or indeterminate,PRE_TREATMENT_EXCLUSION
+participants' wish,WITHDRAWAL_BY_SUBJECT
+remained in this period at time of data cut,NOT_ATTRITION
+withdrawn,OTHER_UNSPECIFIED
+patients remaining ongoing at data lock,NOT_ATTRITION
+participation in study terminated by sponsor,SPONSOR_ADMINISTRATIVE
+withdrawn by parent/guardian,WITHDRAWAL_BY_SUBJECT
+pretreatment event or adverse event,ADVERSE_EVENT
+less than 31 days of follow-up,OTHER_UNSPECIFIED
+rescue therapy use,LACK_OF_EFFICACY
+inevaluable,OTHER_UNSPECIFIED
+loss/absence of response (per protocol),LACK_OF_EFFICACY
+lack of migraine attack,PRE_TREATMENT_EXCLUSION
+not experienced moderate/severe migraine,PRE_TREATMENT_EXCLUSION
+study drug recall,SPONSOR_ADMINISTRATIVE
+conflict schedule/uninterested/barriers,WITHDRAWAL_BY_SUBJECT
+left vitality,OTHER_UNSPECIFIED
+not protocol specified,OTHER_UNSPECIFIED
+familial and personal reasons,WITHDRAWAL_BY_SUBJECT
+never received study drug,PRE_TREATMENT_EXCLUSION
+procedure cancelled,OTHER_UNSPECIFIED
+bone mineral density > 0,OTHER_UNSPECIFIED
+off treatment reasons not reported,OTHER_UNSPECIFIED
+early response,OTHER_UNSPECIFIED
+transfer to open-label treatment,NOT_ATTRITION
+did not start time 3 survey,LOST_TO_FOLLOW_UP
+other (not specified),OTHER_UNSPECIFIED
+dropped,OTHER_UNSPECIFIED
+refused unrelated to adverse event,WITHDRAWAL_BY_SUBJECT
+uspecified,OTHER_UNSPECIFIED
+met exclusion criteria,PRE_TREATMENT_EXCLUSION
+never treated migraine,PRE_TREATMENT_EXCLUSION
+rolled over to study amap (nct03519945),NOT_ATTRITION
+classified as inadequate responders (ir),LACK_OF_EFFICACY
+on-treatment,NOT_ATTRITION
+mitt failure,OTHER_UNSPECIFIED
+reasons off treatment not documented,OTHER_UNSPECIFIED
+other reasons+ trial site terminated by sponsor + study terminated by sponsor,SPONSOR_ADMINISTRATIVE
+protocol-specified withdrawal criterion met,OTHER_UNSPECIFIED
+agreed to continue in part b,NOT_ATTRITION
+negative baseline culture for candida,PRE_TREATMENT_EXCLUSION
+treatment duration completed,NOT_ATTRITION
+parent/legal guardian request,WITHDRAWAL_BY_SUBJECT
+administrative or other reason,OTHER_UNSPECIFIED
+early pregnancy loss,OTHER_UNSPECIFIED
+no embryo transfer,OTHER_UNSPECIFIED
+remission criteria not met,LACK_OF_EFFICACY
+no fertilization,OTHER_UNSPECIFIED
+did not receive any study medication,PRE_TREATMENT_EXCLUSION
+premature termination of clinical trial,SPONSOR_ADMINISTRATIVE
+clinical adverse event,ADVERSE_EVENT
+patient did not use study medication,OTHER_UNSPECIFIED
+study completed by sponsor,SPONSOR_ADMINISTRATIVE
+transferred to study sra-mmb-4365,NOT_ATTRITION
+minor bleeding,ADVERSE_EVENT
+not included because they had not yet reached month 3 visit at time of analysis,NOT_ATTRITION
+survey non-respondent,LOST_TO_FOLLOW_UP
+did not meet criteria for inclusion in data analysis,PRE_TREATMENT_EXCLUSION
+hiv seroconversion-related,OTHER_UNSPECIFIED
+not clear/almost clear after rescue med,LACK_OF_EFFICACY
+visit missed,LOST_TO_FOLLOW_UP
+sponsors decision,SPONSOR_ADMINISTRATIVE
+did not manage to get pregnant,OTHER_UNSPECIFIED
+could not reach by telephone,LOST_TO_FOLLOW_UP
+randomized but did not enter treatment,PRE_TREATMENT_EXCLUSION
+no receipt of study drug,PRE_TREATMENT_EXCLUSION
+date of scheduled followup visit was after trial stop date,SPONSOR_ADMINISTRATIVE
+did not enter survival follow up,OTHER_UNSPECIFIED
+site went on hold,SPONSOR_ADMINISTRATIVE
+not randomized,PRE_TREATMENT_EXCLUSION
+subjects continuing,NOT_ATTRITION
+completed study at acute phase,NOT_ATTRITION
+end of follow up by sponsor,SPONSOR_ADMINISTRATIVE
+pregnancy interrupted,OTHER_UNSPECIFIED
+sponsor premature discontinuation decision,SPONSOR_ADMINISTRATIVE
+other un-specified,OTHER_UNSPECIFIED
+non-responder,LACK_OF_EFFICACY
+no dmsa,OTHER_UNSPECIFIED
+virologic failure,LACK_OF_EFFICACY
+adverse event (including death),ADVERSE_EVENT
+baseline survey not done,LOST_TO_FOLLOW_UP
+entered expanded access program,OTHER_UNSPECIFIED
+switched to part d treatment,NOT_ATTRITION
+incarceration,OTHER_UNSPECIFIED
+protocol defined stopping criteria,OTHER_UNSPECIFIED
+subject reached a virologic endpoint,LACK_OF_EFFICACY
+withdrawal consent to continue treatment,WITHDRAWAL_BY_SUBJECT
+converted to cdms,OTHER_UNSPECIFIED
+no follow up data,LOST_TO_FOLLOW_UP
+other reasons for not completing study,OTHER_UNSPECIFIED
+site termination/copd exacerbation/other,OTHER_UNSPECIFIED
+prohibited antiarrhythmic medication,PROTOCOL_VIOLATION
+reversible ischemic defect not present,PRE_TREATMENT_EXCLUSION
+travel,LOST_TO_FOLLOW_UP
+response criteria not met,LACK_OF_EFFICACY
+trial partner/caregiver withdrew consent,WITHDRAWAL_BY_SUBJECT
+did not return saliva sample to laboratory,LOST_TO_FOLLOW_UP
+extension study,NOT_ATTRITION
+not pre-specified/not coded,OTHER_UNSPECIFIED
+tolvaptan titration/run-in failure,PRE_TREATMENT_EXCLUSION
+loss of asthma control,LACK_OF_EFFICACY
+patient met glycemic withdrawal criteria,LACK_OF_EFFICACY
+withdrawn by investigator,PHYSICIAN_DECISION
+discontinued imp before week 16,OTHER_UNSPECIFIED
+death of care recipient,OTHER_UNSPECIFIED
+incorrect entry,PRE_TREATMENT_EXCLUSION
+lack of fungal pathogen at baseline,PRE_TREATMENT_EXCLUSION
+study suspension,SPONSOR_ADMINISTRATIVE
+6-month contact; withdraw before vax 2,WITHDRAWAL_BY_SUBJECT
+could not be contacted,LOST_TO_FOLLOW_UP
+"lost to follow-up, ineligibility, or group 2 target met",OTHER_UNSPECIFIED
+need alternate therapy due to live lice,LACK_OF_EFFICACY
+"withdr, transfers-other prisons, dropout",OTHER_UNSPECIFIED
+exclusion criteria met,PRE_TREATMENT_EXCLUSION
+completed study,NOT_ATTRITION
+discontinued due to death or moving to higher level of care,OTHER_UNSPECIFIED
+entered the open-label phase,NOT_ATTRITION
+excluded post randomization,PRE_TREATMENT_EXCLUSION
+protocol-driven decision point,OTHER_UNSPECIFIED
+did not use study medication,OTHER_UNSPECIFIED
+not met inclusion/exclusion criteria,PRE_TREATMENT_EXCLUSION
+missing follow up,LOST_TO_FOLLOW_UP
+did not finish survey,LOST_TO_FOLLOW_UP
+consent withdrawal,WITHDRAWAL_BY_SUBJECT
+did not meet blood pressure criteria,PRE_TREATMENT_EXCLUSION
+did not receive appropriate drug in 7 days post-enrollment,PRE_TREATMENT_EXCLUSION
+negative baseline culture of candida,PRE_TREATMENT_EXCLUSION
+on protocol when study ended,NOT_ATTRITION
+study burden,WITHDRAWAL_BY_SUBJECT
+did not wish to continue,WITHDRAWAL_BY_SUBJECT
+availability of study drug locally,OTHER_UNSPECIFIED
+crossover participants,OTHER_UNSPECIFIED
+inclusion/exclusion failure,PRE_TREATMENT_EXCLUSION
+administratively withdrawn,SPONSOR_ADMINISTRATIVE
+completed 13 cycles of treatment,NOT_ATTRITION
+did not enter ol/ sorafenib only phase,OTHER_UNSPECIFIED
+did not meet revised inclusion criteria,PRE_TREATMENT_EXCLUSION
+need for additional prohibited treatment,PROTOCOL_VIOLATION
+sae including intercurrent illness,ADVERSE_EVENT
+treatment failure criteria met,LACK_OF_EFFICACY
+administrative or other reasons,OTHER_UNSPECIFIED
+no longer met criteria,PRE_TREATMENT_EXCLUSION
+protocol-defined clinical event,OTHER_UNSPECIFIED
+treatment arm closed,SPONSOR_ADMINISTRATIVE
+does not meet entrance criteria,PRE_TREATMENT_EXCLUSION
+discontinued due to death or moved to higher level of care,OTHER_UNSPECIFIED
+study early termination,SPONSOR_ADMINISTRATIVE
+cancer recurrence,DISEASE_PROGRESSION
+did not complete 12 month assessment,LOST_TO_FOLLOW_UP
+discontinued at af recurrence,DISEASE_PROGRESSION
+known to be alive at study end,NOT_ATTRITION
+missing baseline data,OTHER_UNSPECIFIED
+uninterested-barriers to participation,WITHDRAWAL_BY_SUBJECT
+other protocol specified criteria,OTHER_UNSPECIFIED
+did not consent to continue follow up,WITHDRAWAL_BY_SUBJECT
+unrelated adverse event,ADVERSE_EVENT
+md or participant decision,OTHER_UNSPECIFIED
+enrolled in long-term extension study,NOT_ATTRITION
+rescued and entered in long term safety,LACK_OF_EFFICACY
+determined ineligible after enrollment,PRE_TREATMENT_EXCLUSION
+non responder,LACK_OF_EFFICACY
+excluded from fas-modified 1 due to data integrity concerns at the site,SPONSOR_ADMINISTRATIVE
+premature termination of the study,SPONSOR_ADMINISTRATIVE
+refractory disease,LACK_OF_EFFICACY
+never signed in to access the app,OTHER_UNSPECIFIED
+"on step 2 as of february 12, 2024",NOT_ATTRITION
+protocol planed,OTHER_UNSPECIFIED
+recurrence of mood event,DISEASE_PROGRESSION
+surgery aborted/converted to open,OTHER_UNSPECIFIED
+treatment group terminated by sponsor,SPONSOR_ADMINISTRATIVE
+new cancer therapy,OTHER_UNSPECIFIED
+did not continue on extension study,OTHER_UNSPECIFIED
+final primary analysis,NOT_ATTRITION
+ongoing participants,NOT_ATTRITION
+enter open-label study,NOT_ATTRITION
+no longer with agency,LOST_TO_FOLLOW_UP
+on treatment/off study,NOT_ATTRITION
+plan to receive commercial bevacizumab,OTHER_UNSPECIFIED
+study close out,SPONSOR_ADMINISTRATIVE
+unknown reason for withdrawal,OTHER_UNSPECIFIED
+worsening of underlying cancer disease,DISEASE_PROGRESSION
+multiple reasons specified,OTHER_UNSPECIFIED
+alive on study treatment,NOT_ATTRITION
+died or left network,OTHER_UNSPECIFIED
+termination by sponsor,SPONSOR_ADMINISTRATIVE
+other/unknown,OTHER_UNSPECIFIED
+refusal to continue trial medication,WITHDRAWAL_BY_SUBJECT
+recurrent leukemia,DISEASE_PROGRESSION
+did not have good measurements,OTHER_UNSPECIFIED
+covid-19,OTHER_UNSPECIFIED
+scheduling conflict,WITHDRAWAL_BY_SUBJECT
+any other reason,OTHER_UNSPECIFIED
+negative baseline culture and others,PRE_TREATMENT_EXCLUSION
+received rescue therapy,LACK_OF_EFFICACY
+continued treatment beyond 12 mo,NOT_ATTRITION
+roll over to amax,NOT_ATTRITION
+other-unspecified,OTHER_UNSPECIFIED
+subject / guardian decision,WITHDRAWAL_BY_SUBJECT
+discharged,OTHER_UNSPECIFIED
+investigational study phase ongoing,NOT_ATTRITION
+administrative discont. at study termination,SPONSOR_ADMINISTRATIVE
+other reasons and patients who completed the 48-month follow-up period,OTHER_UNSPECIFIED
+patients alive or lost to follow-up at dco,OTHER_UNSPECIFIED
+request from sponsor to withdraw patient in survival follow-up,SPONSOR_ADMINISTRATIVE
+incomplete data,OTHER_UNSPECIFIED
+ae unrelated to study drug,ADVERSE_EVENT
+missed interview,LOST_TO_FOLLOW_UP
+graft abandonment,OTHER_UNSPECIFIED
+subject unblinded by sponsor,SPONSOR_ADMINISTRATIVE
+due to termination of the study,SPONSOR_ADMINISTRATIVE
+participant unblinded between day 98 and 198,OTHER_UNSPECIFIED
+surgery cancelled,OTHER_UNSPECIFIED
+hyperglycemia,ADVERSE_EVENT
+gout flare,ADVERSE_EVENT
+sponsor study termination,SPONSOR_ADMINISTRATIVE
+additional treatment excluding liver transplant,OTHER_UNSPECIFIED
+did not complete study measurements,LOST_TO_FOLLOW_UP
+insufficient tissue,PRE_TREATMENT_EXCLUSION
+subject / gardian decision,WITHDRAWAL_BY_SUBJECT
+transferred to openlabelextension,NOT_ATTRITION
+discontinued due to other reasons,OTHER_UNSPECIFIED
+completed treatment cycles per protocol,NOT_ATTRITION
+pasi90 non-response at week 16,LACK_OF_EFFICACY
+schedule conflict /uninterested/barriers,WITHDRAWAL_BY_SUBJECT
+serious haemorrhagic adverse event,ADVERSE_EVENT
+unable to attend termination visit,LOST_TO_FOLLOW_UP
+not otherwise specified,OTHER_UNSPECIFIED
+inclusion/exclusion criteria,PRE_TREATMENT_EXCLUSION
+did not start treatment,PRE_TREATMENT_EXCLUSION
+hyperglycemia meeting discontinuation criteria,ADVERSE_EVENT
+more than 15mm increase in mean vas,LACK_OF_EFFICACY
+do not fulfill rand criteria for dbt,PRE_TREATMENT_EXCLUSION
+not treated: lack of migraine attack,PRE_TREATMENT_EXCLUSION
+other reasons (include any category with a frequency <20 patients in total),OTHER_UNSPECIFIED
+patient declined to participate in the introductory session intervention,WITHDRAWAL_BY_SUBJECT
+no longer meets criteria,PRE_TREATMENT_EXCLUSION
+"adverse event,non-fatal",ADVERSE_EVENT
+did not start time 2 survey,LOST_TO_FOLLOW_UP
+no safety visit or sfu,LOST_TO_FOLLOW_UP
+sleep test negative for osa,PRE_TREATMENT_EXCLUSION
+upper gastrointestinal (ugi) ulcer,ADVERSE_EVENT
+inappropriate enrollment,PRE_TREATMENT_EXCLUSION
+undefined,OTHER_UNSPECIFIED
+outcome event,OTHER_UNSPECIFIED
+pd including death due to pd,DISEASE_PROGRESSION
+sponsor closing the study,SPONSOR_ADMINISTRATIVE
+study end not reached,NOT_ATTRITION
+subjects lost graft during the study up to the data cut-off,OTHER_UNSPECIFIED
+"adverse event, serious fatal",DEATH
+transferred out of clinic,LOST_TO_FOLLOW_UP
+other - unspecified,OTHER_UNSPECIFIED
+data monitor committee decision,SPONSOR_ADMINISTRATIVE
+participant unable to be contacted within 60-day interview window,LOST_TO_FOLLOW_UP
+"sae, non-fatal",ADVERSE_EVENT
+terminated at study completion,NOT_ATTRITION
+reason not listed,OTHER_UNSPECIFIED
+azacitidine tx discontinued,OTHER_UNSPECIFIED
+"intercurrent illness, recurrence of disease, subject proceeded to transplant or non-protocol therapy",OTHER_UNSPECIFIED
+parasite reappearance/malaria,LACK_OF_EFFICACY
+pd: inconvenience of dosing,WITHDRAWAL_BY_SUBJECT
+these individuals simply did not comply with 12-month screening in this compliance study,PROTOCOL_VIOLATION
+other medical reasons,OTHER_UNSPECIFIED
+study related symptoms/complaints,ADVERSE_EVENT
+"other, not protocol specified",OTHER_UNSPECIFIED
+qualifying condition not present,PRE_TREATMENT_EXCLUSION
+switched to pembrolizumab,OTHER_UNSPECIFIED
+withdrawn due to early closure,SPONSOR_ADMINISTRATIVE
+withdrew/lost to follow after delivery,OTHER_UNSPECIFIED
+had other reason,OTHER_UNSPECIFIED
+admitted from ed,OTHER_UNSPECIFIED
+breakthrough overt he episode,LACK_OF_EFFICACY
+planned study completion at 6-months. 2 final cohorts initiated with known follow up of 6 months,NOT_ATTRITION
+surveys lost by scanner,OTHER_UNSPECIFIED
+tumor recurrence,DISEASE_PROGRESSION
+unresectable at surgery,PRE_TREATMENT_EXCLUSION
+va did not implement top,SPONSOR_ADMINISTRATIVE
+did not complete 3 month assessment,LOST_TO_FOLLOW_UP
+no caregiver,OTHER_UNSPECIFIED
+switch to higher dose at end of period 1,NOT_ATTRITION
+terminated by sponsored,SPONSOR_ADMINISTRATIVE
+transferred to continuation phase,NOT_ATTRITION
+study ended,SPONSOR_ADMINISTRATIVE
+death/withdrew/criteria violation,OTHER_UNSPECIFIED
+not met protocol-specified criteria,OTHER_UNSPECIFIED
+participants ongoing at dco,NOT_ATTRITION
+withdrawn before any study vaccination,PRE_TREATMENT_EXCLUSION
+induction failure,LACK_OF_EFFICACY
+angiotensin ii receptor blocker required,OTHER_UNSPECIFIED
+participants continuing trial,NOT_ATTRITION
+pts unwilling to provide follow-up,WITHDRAWAL_BY_SUBJECT
+no longer met study criteria,PRE_TREATMENT_EXCLUSION
+liver transplant,OTHER_UNSPECIFIED
+parent or caregiver decision,WITHDRAWAL_BY_SUBJECT
+declined entry into extension period,OTHER_UNSPECIFIED
+other/missing/unknown,OTHER_UNSPECIFIED
+patient not resected,PRE_TREATMENT_EXCLUSION
+pft entry criteria not met,PRE_TREATMENT_EXCLUSION
+withdrawals between 6 and 24 months,OTHER_UNSPECIFIED
+efficacy outcome reached,OTHER_UNSPECIFIED
+"duke's a, b1, d disease",PRE_TREATMENT_EXCLUSION
+study concluded by sponsor,SPONSOR_ADMINISTRATIVE
+unable to classify,OTHER_UNSPECIFIED
+no longer clinically benefiting,LACK_OF_EFFICACY
+other not defined above,OTHER_UNSPECIFIED
+amendment 6 informed consent not signed,WITHDRAWAL_BY_SUBJECT
+no data available,OTHER_UNSPECIFIED
+joined healthyfood before intervention,OTHER_UNSPECIFIED
+patient lost to follow-up for mace,LOST_TO_FOLLOW_UP
+transferred to non-study facility,LOST_TO_FOLLOW_UP
+lost interest,WITHDRAWAL_BY_SUBJECT
+other - not protocol specified,OTHER_UNSPECIFIED
+incomplete follow-up,LOST_TO_FOLLOW_UP
+completed chemotherapy regimen,NOT_ATTRITION
+ae without clinical pd,ADVERSE_EVENT
+breast cancer recurrence/2nd primary,DISEASE_PROGRESSION
+randomisation failure,PRE_TREATMENT_EXCLUSION
+withdrew completely,WITHDRAWAL_BY_SUBJECT
+transference or evasion of school,LOST_TO_FOLLOW_UP
+transitioned to a separate extension study,NOT_ATTRITION
+did not complete 3 or more intervention sessions,PROTOCOL_VIOLATION
+indwelling device removed,OTHER_UNSPECIFIED
+nonparticipation in extension study,OTHER_UNSPECIFIED
+not a pci patient,PRE_TREATMENT_EXCLUSION
+part ii subjects did not have a period 2,OTHER_UNSPECIFIED
+unknown/no reason given,OTHER_UNSPECIFIED
+complicating disease,OTHER_UNSPECIFIED
+study discontinuation,OTHER_UNSPECIFIED
+primary tumour recurrence,DISEASE_PROGRESSION
+continuing in mmb extension study,NOT_ATTRITION
+deaths and less than 2 years followup,OTHER_UNSPECIFIED
+includes covid-related access problems,OTHER_UNSPECIFIED
+"other reasons, such as copd exacerbation",OTHER_UNSPECIFIED
+"sponsor termination of study, etc",SPONSOR_ADMINISTRATIVE
+intercurrent illness,OTHER_UNSPECIFIED
+prohibited medication,PROTOCOL_VIOLATION
+unspecified reason,OTHER_UNSPECIFIED
+related adverse event,ADVERSE_EVENT
+no positive serum pregnancy,PRE_TREATMENT_EXCLUSION
+investigator-initiated early closure,SPONSOR_ADMINISTRATIVE
+measurement have to take place in future,NOT_ATTRITION
+partial survey completion,LOST_TO_FOLLOW_UP
+participant is unwilling or unable to comply with required study,PROTOCOL_VIOLATION
+still ongoing at data cut-off,NOT_ATTRITION
+study close,SPONSOR_ADMINISTRATIVE
+weaned off earlier than 28 days,OTHER_UNSPECIFIED
+unable to schedule,LOST_TO_FOLLOW_UP
+impending relapse without adverse event,DISEASE_PROGRESSION
+begin conditioning for hsct,OTHER_UNSPECIFIED
+died during clinical follow-up,DEATH
+follow-up on going,NOT_ATTRITION
+missed due to covid-19/logistical issues,LOST_TO_FOLLOW_UP
+start of other or new therapy,OTHER_UNSPECIFIED
+violation of selection criteria at entry,PRE_TREATMENT_EXCLUSION
+unsatisfactory response-efficacy,LACK_OF_EFFICACY
+attempted to take the survey as both a smoker and a susceptible non-smoker,OTHER_UNSPECIFIED
+low pollen counts,OTHER_UNSPECIFIED
+missing blood sample,LOST_TO_FOLLOW_UP
+"patient refusal to cont., not due to ae",WITHDRAWAL_BY_SUBJECT
+reason not related to covid-19,OTHER_UNSPECIFIED
+recurrent leukemia after total remission,DISEASE_PROGRESSION
+withdrawn due to worsening fibromyalgia,DISEASE_PROGRESSION
+other than above,OTHER_UNSPECIFIED
+not defined,OTHER_UNSPECIFIED
+no follow-up data,LOST_TO_FOLLOW_UP
+other reasons- unspecified,OTHER_UNSPECIFIED
+loss/abscence of response (per protocol),LACK_OF_EFFICACY
+off treatment on post-treatment-discontinuation follow-up,NOT_ATTRITION
+"pi decision/disease progression by local conventional scan/psa, and other miscellaneous reasons",OTHER_UNSPECIFIED
+thromboembolic / outcome event,OTHER_UNSPECIFIED
+woman: miscarriage/abortion,OTHER_UNSPECIFIED
+all events required for primary analysis achieved (rolled over to argx-1113-1902),NOT_ATTRITION
+baseline dst result ds-tb,PRE_TREATMENT_EXCLUSION
+"follow-up period ended on dec 31, 2011",SPONSOR_ADMINISTRATIVE
+lost aetna coverage,LOST_TO_FOLLOW_UP
+no longer meet eligibility criteria,PRE_TREATMENT_EXCLUSION
+no tumor block assessments,OTHER_UNSPECIFIED
+roll over to cs7,NOT_ATTRITION
+switch to open label,NOT_ATTRITION
+switched to figitumumab,OTHER_UNSPECIFIED
+became ineligible,PRE_TREATMENT_EXCLUSION
+adverse event or death,OTHER_UNSPECIFIED
+early termination - no additional info,OTHER_UNSPECIFIED
+met protocol-specified reason(s),OTHER_UNSPECIFIED
+never initiated treatment,PRE_TREATMENT_EXCLUSION
+subject failed stabilization criteria,PRE_TREATMENT_EXCLUSION
+experienced relapse,DISEASE_PROGRESSION
+lack of baseline fungus,PRE_TREATMENT_EXCLUSION
+only 17 participants met compliance,OTHER_UNSPECIFIED
+other unspecified reasons,OTHER_UNSPECIFIED
+protocol-specified withdrawal criteria met,OTHER_UNSPECIFIED
+transitioned to part 2 (rapid),NOT_ATTRITION
+missing reason,OTHER_UNSPECIFIED
+ablation,OTHER_UNSPECIFIED
+enrolled onto another cog study,OTHER_UNSPECIFIED
+lack of ovarian response to stimulation,LACK_OF_EFFICACY
+not protocol-specified,OTHER_UNSPECIFIED
+not treated: lost to follow-up,PRE_TREATMENT_EXCLUSION
+completed evaluation by baseline,OTHER_UNSPECIFIED
+failed to attend appointments,LOST_TO_FOLLOW_UP
+protocol planed withdrawal,OTHER_UNSPECIFIED
+student failed to respond to follow-up survey,LOST_TO_FOLLOW_UP
+pregnancy wish,OTHER_UNSPECIFIED
+not provided,OTHER_UNSPECIFIED
+participant unable to adhere,PROTOCOL_VIOLATION
+study drug non-compliant,PROTOCOL_VIOLATION
+arm b crossed over to arm a acala 100 mg monotherapy,OTHER_UNSPECIFIED
+did not complete 1 year of diet,PROTOCOL_VIOLATION
+incomplete symptom resolution,LACK_OF_EFFICACY
+no longer eligible for waterbirth,PRE_TREATMENT_EXCLUSION
+participants did not experienced psvt before cutoff and did not enroll in part 2,OTHER_UNSPECIFIED
+relapse event during double-blind treatment period,DISEASE_PROGRESSION
+rollover to long-term follow-up study criteria,NOT_ATTRITION
+transfered to non-study clinic,LOST_TO_FOLLOW_UP
+due to covid-19 pandemic,OTHER_UNSPECIFIED
+randomized but did not receive treatment,PRE_TREATMENT_EXCLUSION
+inadequate control of iop,LACK_OF_EFFICACY
+death leading to discontinuation,DEATH
+failed to meet continuation criteria,OTHER_UNSPECIFIED
+diverse reasons,OTHER_UNSPECIFIED
+loss of asthma control (loac),LACK_OF_EFFICACY
+died unobstructed,DEATH
+dose regimen not selected,SPONSOR_ADMINISTRATIVE
+not included in primary outcome analysis,OTHER_UNSPECIFIED
+vital status assessment only,LOST_TO_FOLLOW_UP
+asthma exacerbation,DISEASE_PROGRESSION
+ak recurrence during recurrence follow-up period,DISEASE_PROGRESSION
+did not meet additional inclusion/exclusion criteria for treatment period,PRE_TREATMENT_EXCLUSION
+died before email was sent (<9.11.2015),DEATH
+doctor advice,PHYSICIAN_DECISION
+flushing symptoms,ADVERSE_EVENT
+id: benefit/risk judgment,PHYSICIAN_DECISION
+no information available regarding completion status,OTHER_UNSPECIFIED
+none of those categories,OTHER_UNSPECIFIED
+relapse at week 20 or later,DISEASE_PROGRESSION
+site is closing,SPONSOR_ADMINISTRATIVE
+(crf),OTHER_UNSPECIFIED
+caregiver was not bereaved,PRE_TREATMENT_EXCLUSION
+device not implanted,PRE_TREATMENT_EXCLUSION
+enrolled before trial registration,PRE_TREATMENT_EXCLUSION
+no legal concerns at baseline,PRE_TREATMENT_EXCLUSION
+"subjects missing data, completed",OTHER_UNSPECIFIED
+laboratory abnormality,ADVERSE_EVENT
+care recipient died before first follow-up,OTHER_UNSPECIFIED
+endpoint event,OTHER_UNSPECIFIED
+entered cumulative abatacept period,NOT_ATTRITION
+relapse of aml,DISEASE_PROGRESSION
+no longer interested,WITHDRAWAL_BY_SUBJECT
+assigned treatment by mistake,PRE_TREATMENT_EXCLUSION
+missed 12-month visit,LOST_TO_FOLLOW_UP
+sponsor directive,SPONSOR_ADMINISTRATIVE
+protocol entry criteria not met,PRE_TREATMENT_EXCLUSION
+"consent withdrawal, not due to an ae",WITHDRAWAL_BY_SUBJECT
+not qualified for randomization,PRE_TREATMENT_EXCLUSION
+too time consuming,WITHDRAWAL_BY_SUBJECT
+"w/drew consent, no f/u, or md choice",OTHER_UNSPECIFIED
+"death due to disease progression, lost to follow-up, consent withdrawal",OTHER_UNSPECIFIED
+did not meet final inclusion criteria,PRE_TREATMENT_EXCLUSION
+entered the long-term extension study,NOT_ATTRITION
+not giving consent for extension,OTHER_UNSPECIFIED
+subject noncompliance,PROTOCOL_VIOLATION
+other protocol violation,PROTOCOL_VIOLATION
+"patient refusal to continue,not due toae",WITHDRAWAL_BY_SUBJECT
+declined to respond,LOST_TO_FOLLOW_UP
+no follow-up,LOST_TO_FOLLOW_UP
+spoke with doctor,OTHER_UNSPECIFIED
+baseline measure non-negative,PRE_TREATMENT_EXCLUSION
+completed but not included in analysis due to technical error,OTHER_UNSPECIFIED
+losttofollowupfor3p-mace(statusalive),LOST_TO_FOLLOW_UP
+no valid opioid prescriptions during study timeframe,PRE_TREATMENT_EXCLUSION
+open label clopidogrel required,OTHER_UNSPECIFIED
+subject non-compliant,PROTOCOL_VIOLATION
+other reason not described above,OTHER_UNSPECIFIED
+completed post-treatment/fu visits,NOT_ATTRITION
+completion unknown,OTHER_UNSPECIFIED
+consent withdrawal not due to aes,WITHDRAWAL_BY_SUBJECT
+did not complete 3-month follow-up assessment but continued in the trial,NOT_ATTRITION
+"did not complete f reasons; lost to follow-up, subject withdrew, family illnesses, moving, etc",OTHER_UNSPECIFIED
+missing data needed for endpt analyses,OTHER_UNSPECIFIED
+placebo cross-over,OTHER_UNSPECIFIED
+switched treatment,OTHER_UNSPECIFIED
+discontinued for other reasons,OTHER_UNSPECIFIED
+treatment period withdrawal criteria met,OTHER_UNSPECIFIED
+0 sessions attended,PRE_TREATMENT_EXCLUSION
+blinded treatment ongoing at primary analysis cut-off: 22-jan-2025,NOT_ATTRITION
+"completed year 2, did not enter lte",OTHER_UNSPECIFIED
+died or lost health plan eligibility,OTHER_UNSPECIFIED
+inconclusive due to missing data,OTHER_UNSPECIFIED
+negative for hmpxv,PRE_TREATMENT_EXCLUSION
+randomized but never started treatment,PRE_TREATMENT_EXCLUSION
+withdrawn when sponsor terminated study,SPONSOR_ADMINISTRATIVE
+other eligibility criteria,PRE_TREATMENT_EXCLUSION
+unable to take rescue therapy,OTHER_UNSPECIFIED
+covid-19 restrictions,OTHER_UNSPECIFIED
+insufficient data to analyze,OTHER_UNSPECIFIED
+not satisfied criteria to enter period 2,OTHER_UNSPECIFIED
+unacceptable vaginal bleeding,ADVERSE_EVENT
+c-section prior to stage 2 of labor,OTHER_UNSPECIFIED
+contralateral breast cancer,OTHER_UNSPECIFIED
+"didn't complete crf page ""end of fu",OTHER_UNSPECIFIED
+excluded from db phase,OTHER_UNSPECIFIED
+failed to provide data beyond baseline,LOST_TO_FOLLOW_UP
+lack of response in ol period,LACK_OF_EFFICACY
+other/ various,OTHER_UNSPECIFIED
+refused ehr permission,WITHDRAWAL_BY_SUBJECT
+started a new line of therapy,OTHER_UNSPECIFIED
+withdrew/loss to follow-up,OTHER_UNSPECIFIED
+requirement for alternative therapy,OTHER_UNSPECIFIED
+loss of glucose control,LACK_OF_EFFICACY
+graft failure,OTHER_UNSPECIFIED
+clinical adverse experience,ADVERSE_EVENT
+moving,LOST_TO_FOLLOW_UP
+entered rescue procedure,LACK_OF_EFFICACY
+loss of pregnancy,OTHER_UNSPECIFIED
+did not attend study clinic,LOST_TO_FOLLOW_UP
+other adverse events,ADVERSE_EVENT
+incorrect enrolment,PRE_TREATMENT_EXCLUSION
+transplant,OTHER_UNSPECIFIED
+no longer willing to participate in study,WITHDRAWAL_BY_SUBJECT
+missed,LOST_TO_FOLLOW_UP
+participant stopped participation in the study,WITHDRAWAL_BY_SUBJECT
+missed one or more bleeds,OTHER_UNSPECIFIED
+h.a. request,SPONSOR_ADMINISTRATIVE
+lost to treatment follow-up,LOST_TO_FOLLOW_UP
+patient deterioration,DISEASE_PROGRESSION
+excluded medication,PROTOCOL_VIOLATION
+full consent withdrawn,WITHDRAWAL_BY_SUBJECT
+complete remission or complete remission incomplete not achieved,LACK_OF_EFFICACY
+disc. before end of follow-up period 1,OTHER_UNSPECIFIED
+ed greater than 24 hours,PRE_TREATMENT_EXCLUSION
+in follow-up as of 25 jan 2013,NOT_ATTRITION
+participant had flushing,ADVERSE_EVENT
+subject passively continued participation only with data obtained from their medical records,NOT_ATTRITION
+ugi ulcer,ADVERSE_EVENT
+event related to cardiac condition,ADVERSE_EVENT
+impending relapse with adverse event,OTHER_UNSPECIFIED
+inadequate bowel prep,OTHER_UNSPECIFIED
+1-year visit not done,LOST_TO_FOLLOW_UP
+did not have surgery,PRE_TREATMENT_EXCLUSION
+"drug noncompliance, moved, other",OTHER_UNSPECIFIED
+no migraine experienced,PRE_TREATMENT_EXCLUSION
+no opportunity to treat headache,PRE_TREATMENT_EXCLUSION
+no response or could not reach,LOST_TO_FOLLOW_UP
+study was suspended by dsmb because of laboratory quality control issues,SPONSOR_ADMINISTRATIVE
+withdrawing due to other reason,OTHER_UNSPECIFIED
+no reason available,OTHER_UNSPECIFIED
+randomization closed,SPONSOR_ADMINISTRATIVE
+investigator/sponsor discretion,OTHER_UNSPECIFIED
+negative yeast culture at baseline,PRE_TREATMENT_EXCLUSION
+no safety visit or follow up,LOST_TO_FOLLOW_UP
+part. discontinued; unrelated to drug,OTHER_UNSPECIFIED
+received negative results by mailed letter,OTHER_UNSPECIFIED
+recurrence of gastric ulcer,DISEASE_PROGRESSION
+switched to open label rescue,LACK_OF_EFFICACY
+burden of study procedures,WITHDRAWAL_BY_SUBJECT
+withdrawal due to caregiver circumstances,WITHDRAWAL_BY_SUBJECT
+patient refused to continue,WITHDRAWAL_BY_SUBJECT
+participation was terminated by sponsor,SPONSOR_ADMINISTRATIVE
+alive at database lock,NOT_ATTRITION
+discontinued from treatment,OTHER_UNSPECIFIED
+excluded subjects(no catheter inserted),PRE_TREATMENT_EXCLUSION
+exited prior to procedure (3 subjects crossed over from savr to tavr),PRE_TREATMENT_EXCLUSION
+infant of pregnant participant died after birth,OTHER_UNSPECIFIED
+missing primary outcome data,LOST_TO_FOLLOW_UP
+no longer receiving clinical benefit,LACK_OF_EFFICACY
+physician decided not to continue,PHYSICIAN_DECISION
+"physician, patient's decision, other",OTHER_UNSPECIFIED
+protocol modified to eliminate wk72 bx,SPONSOR_ADMINISTRATIVE
+met bp or pulse withdrawal criteria,OTHER_UNSPECIFIED
+sponsor discretion,SPONSOR_ADMINISTRATIVE
+other reasons not specified,OTHER_UNSPECIFIED
+received transplant,OTHER_UNSPECIFIED
+completion status unknown,OTHER_UNSPECIFIED
+ongoing but not completed,NOT_ATTRITION
+"captured as ""other"" in database",OTHER_UNSPECIFIED
+device upgrade to cied,OTHER_UNSPECIFIED
+"disease flare, transitioned to open-label retreatment",DISEASE_PROGRESSION
+"failed verification, did complete time 1 survey",PRE_TREATMENT_EXCLUSION
+follow up ended by sponsor,SPONSOR_ADMINISTRATIVE
+loss of medicaid/chip eligibility,LOST_TO_FOLLOW_UP
+patient received glycemic medication,PROTOCOL_VIOLATION
+randomization arm could not be verified by medication log,OTHER_UNSPECIFIED
+worsening/adverse event cancer disease,OTHER_UNSPECIFIED
+condition no longer requires study drug,OTHER_UNSPECIFIED
+protocol-defined stopping criteria met,OTHER_UNSPECIFIED
+entry criteria not met/non-compliance,OTHER_UNSPECIFIED
+did not treat,PRE_TREATMENT_EXCLUSION
+less than full participation,PROTOCOL_VIOLATION
+"worsening symptom, lack of efficacy",LACK_OF_EFFICACY
+alive on treatment,NOT_ATTRITION
+did not continue after week 24,OTHER_UNSPECIFIED
+did not qualify for part d per protocol,OTHER_UNSPECIFIED
+includes protocol amendments 3 and 4,SPONSOR_ADMINISTRATIVE
+stabilization criteria not met,PRE_TREATMENT_EXCLUSION
+surgery canceled; or subject or anesthes,OTHER_UNSPECIFIED
+toxicity (related ae),ADVERSE_EVENT
+randomized but never received study drug,PRE_TREATMENT_EXCLUSION
+protocol discontinuation criteria,OTHER_UNSPECIFIED
+early termination of study by sponsor,SPONSOR_ADMINISTRATIVE
+met protocol- defined stopping criteria,OTHER_UNSPECIFIED
+completed part b and not moving to partc,OTHER_UNSPECIFIED
+did not participate in part ii of study,OTHER_UNSPECIFIED
+indirect contact,OTHER_UNSPECIFIED
+no reason stated by the participants,WITHDRAWAL_BY_SUBJECT
+not being compliant with the seamless md app,PROTOCOL_VIOLATION
+ongoing study treatment at the time of primary analysis,NOT_ATTRITION
+participants refused further follow-up,WITHDRAWAL_BY_SUBJECT
+primary reason coded as 'other,OTHER_UNSPECIFIED
+refractory or relapsed aml,DISEASE_PROGRESSION
+study drug-related adverse event,ADVERSE_EVENT
+uncontrolled blood pressure,LACK_OF_EFFICACY
+refused assessment,WITHDRAWAL_BY_SUBJECT
+arm terminated by sponsor,SPONSOR_ADMINISTRATIVE
+ldl < 50 mg/dl,ADVERSE_EVENT
+active subjects at the time of posting,NOT_ATTRITION
+aministrative problems,SPONSOR_ADMINISTRATIVE
+awaiting biopsy at time of interim analysis. study closed. primary endpoint met,SPONSOR_ADMINISTRATIVE
+chose publicly available sars-cov-2 vaccine,OTHER_UNSPECIFIED
+completed 6 courses of chemotherapy,NOT_ATTRITION
+did not qualify (inclusion/exclusion),PRE_TREATMENT_EXCLUSION
+fetal/neonatal deaths,OTHER_UNSPECIFIED
+intermittent missing,LOST_TO_FOLLOW_UP
+other-ongoing,NOT_ATTRITION
+participant not willing to adhere to req,PROTOCOL_VIOLATION
+pathogen culture = no growth,PRE_TREATMENT_EXCLUSION
+no longer eligible,PRE_TREATMENT_EXCLUSION
+other: unspecified,OTHER_UNSPECIFIED
+untreated,PRE_TREATMENT_EXCLUSION
+not related to coronavirus disease-2019 (covid-19),OTHER_UNSPECIFIED
+physician's decision to withdraw,PHYSICIAN_DECISION
+closed site,SPONSOR_ADMINISTRATIVE
+not related to study drug,OTHER_UNSPECIFIED
+recurrence criteria met,DISEASE_PROGRESSION
+discontinued medication,OTHER_UNSPECIFIED
+did not qualify for double-blind phase,OTHER_UNSPECIFIED
+incomplete responders,LACK_OF_EFFICACY
+no prescripion after surgery,OTHER_UNSPECIFIED
+ongoing (still on treatment) pertains to treatment status at the time of the primary analysis,NOT_ATTRITION
+other: study stopped by sponsor due to administrative reasons,SPONSOR_ADMINISTRATIVE
+re-appearance of p. falciparum,LACK_OF_EFFICACY
+illness,OTHER_UNSPECIFIED
+other incl. lack of efficacy,OTHER_UNSPECIFIED
+confirmed or suspected diversion,PROTOCOL_VIOLATION
+incomplete data collection,OTHER_UNSPECIFIED
+medical,OTHER_UNSPECIFIED
+unknown/not specify,OTHER_UNSPECIFIED
+sponsor's discretion,SPONSOR_ADMINISTRATIVE
+chose not to enter 314 extension study,OTHER_UNSPECIFIED
+deemed unable to participate,PRE_TREATMENT_EXCLUSION
+individual different reasons,OTHER_UNSPECIFIED
+met the need for intervention criteria,OTHER_UNSPECIFIED
+poor or non-compliance,PROTOCOL_VIOLATION
+missed 2-year visit,LOST_TO_FOLLOW_UP
+non-protocol change to esa or iv iron,PROTOCOL_VIOLATION
+not responsive,LACK_OF_EFFICACY
+did not cont. into 2nd ext (unknown),OTHER_UNSPECIFIED
+institutional diagnosis of ifd,OTHER_UNSPECIFIED
+no opportunity to treat migraine,PRE_TREATMENT_EXCLUSION
+not sexually active,PRE_TREATMENT_EXCLUSION
+not true myocardial infarction,PRE_TREATMENT_EXCLUSION
+only completed 1 set of proms,LOST_TO_FOLLOW_UP
+other:participant's decision/unspecified,OTHER_UNSPECIFIED
+patient discontinued and other reasons,OTHER_UNSPECIFIED
+study medication non compliant,PROTOCOL_VIOLATION
+visit not completed due to pandemic,LOST_TO_FOLLOW_UP
+logistical difficulties,LOST_TO_FOLLOW_UP
+withdrawal by caregiver,WITHDRAWAL_BY_SUBJECT
+other - miscellaneous,OTHER_UNSPECIFIED
+discontinued mistakenly included,PRE_TREATMENT_EXCLUSION
+participant/legal guardian decision,WITHDRAWAL_BY_SUBJECT
+did not receive placebo/nalmefene,PRE_TREATMENT_EXCLUSION
+withdrawal,OTHER_UNSPECIFIED
+non-medical reason,OTHER_UNSPECIFIED
+prematurely withdrawn from the study,OTHER_UNSPECIFIED
+protocol specified withdrawal criteria,OTHER_UNSPECIFIED
+sponsor discontinuation of study,SPONSOR_ADMINISTRATIVE
+ak recurrence during the recurrence follow-up period,DISEASE_PROGRESSION
+did not abstain during open phase,PROTOCOL_VIOLATION
+did not received protocol treatment,PRE_TREATMENT_EXCLUSION
+participants terminated from study by sponsor,SPONSOR_ADMINISTRATIVE
+participants who completed safety follow-up,NOT_ATTRITION
+separated from mental health center,LOST_TO_FOLLOW_UP
+"the reason is either study terminated by the sponsor, or unknown",OTHER_UNSPECIFIED
+these are those not showing up at camp,LOST_TO_FOLLOW_UP
+withdrawal: hospitalization/hospice,OTHER_UNSPECIFIED
+withdrawn or lost to follow-up,OTHER_UNSPECIFIED
+discomfort,ADVERSE_EVENT
+participant met withdrawal criteria,OTHER_UNSPECIFIED
+do not meet inclusion criteria,PRE_TREATMENT_EXCLUSION
+creatinine or egfr withdrawal criteria,ADVERSE_EVENT
+missed timepoint,LOST_TO_FOLLOW_UP
+data unavailable due to lapsed ethical consent,SPONSOR_ADMINISTRATIVE
+"dropped due to provider change between either 6, 12 or 24 months",LOST_TO_FOLLOW_UP
+fiscal limitations to protocol,SPONSOR_ADMINISTRATIVE
+intra procedural exclusion - sealant not deployed,PRE_TREATMENT_EXCLUSION
+meeting criteria for trial medication stopping rules,OTHER_UNSPECIFIED
+never started adhd medication,PRE_TREATMENT_EXCLUSION
+participation in study discontinued by sponsor,SPONSOR_ADMINISTRATIVE
+rejections,WITHDRAWAL_BY_SUBJECT
+scheduling issues/non-compliance,OTHER_UNSPECIFIED
+staff turnover at enrolled clinics,SPONSOR_ADMINISTRATIVE
+termination of 150 mg group by sponsor,SPONSOR_ADMINISTRATIVE
+transplant planned,OTHER_UNSPECIFIED
+"safety, tolerability, or efficacy reason",OTHER_UNSPECIFIED
+administrative or other reason(s),OTHER_UNSPECIFIED
+consent withdrawal not due to adv. event,WITHDRAWAL_BY_SUBJECT
+not transplanted,PRE_TREATMENT_EXCLUSION
+did not complete assessment,LOST_TO_FOLLOW_UP
+changed companies,LOST_TO_FOLLOW_UP
+declined consent for study extension,OTHER_UNSPECIFIED
+did not qualify for randomization,PRE_TREATMENT_EXCLUSION
+discontinuation of 3 mg q4w and 6 mg q8w doses,SPONSOR_ADMINISTRATIVE
+dmc decision based on interim analysis,SPONSOR_ADMINISTRATIVE
+"entered for ada assessment only, not treated",PRE_TREATMENT_EXCLUSION
+partner discontinued due to the death of the female participant or adverse event,OTHER_UNSPECIFIED
+path ineligible,PRE_TREATMENT_EXCLUSION
+recurrence of any mood episode withoutae,DISEASE_PROGRESSION
+sponsor termination; moved to 3102 study,SPONSOR_ADMINISTRATIVE
+withdrawal for any other reason,OTHER_UNSPECIFIED
+subject noncompliant,PROTOCOL_VIOLATION
+dev. of study specific discont. criteria,OTHER_UNSPECIFIED
+early site closure,SPONSOR_ADMINISTRATIVE
+fatal adverse event,DEATH
+inclusion/exclusion not met,PRE_TREATMENT_EXCLUSION
+withdrawal due to caregiver circumstance,WITHDRAWAL_BY_SUBJECT
+withdrew for nonclinical reason,WITHDRAWAL_BY_SUBJECT
+benign final pathology,PRE_TREATMENT_EXCLUSION
+chose publicly available vaccine,OTHER_UNSPECIFIED
+"delayed treatment, omission of treatment, peripheral neuropathy, intercurrent illness",OTHER_UNSPECIFIED
+did not obtain mm card,PRE_TREATMENT_EXCLUSION
+extension not available,SPONSOR_ADMINISTRATIVE
+hospital discharge to non-partner pac or non- pac location,LOST_TO_FOLLOW_UP
+no data,OTHER_UNSPECIFIED
+no emergency department visits,PRE_TREATMENT_EXCLUSION
+on study treatment/follow up,NOT_ATTRITION
+participants who completed only safety follow-up,NOT_ATTRITION
+residents forgot their secret pin,OTHER_UNSPECIFIED
+sites terminated due to quality issues,SPONSOR_ADMINISTRATIVE
+verasense type posterior stabilizing (ps),OTHER_UNSPECIFIED
+withdrawal from the study,WITHDRAWAL_BY_SUBJECT
+transplanted,OTHER_UNSPECIFIED
+unable to adhere to visit schedule,PROTOCOL_VIOLATION
+month 12 scan not available,LOST_TO_FOLLOW_UP
+rescue,LACK_OF_EFFICACY
+arm 4 discontinued,SPONSOR_ADMINISTRATIVE
+change in protocol forbidding use of nintedanib / pirfenidone,SPONSOR_ADMINISTRATIVE
+completed t1 survey outside window,PROTOCOL_VIOLATION
+continuing lenalidomide,NOT_ATTRITION
+did not enter olc,OTHER_UNSPECIFIED
+follow-up period was terminated,SPONSOR_ADMINISTRATIVE
+informed consent form withdrawal,WITHDRAWAL_BY_SUBJECT
+"met study endpoint (major amputation, death)",OTHER_UNSPECIFIED
+non-randomized training subjects,PRE_TREATMENT_EXCLUSION
+off-treatment reason missing,OTHER_UNSPECIFIED
+other reason than stated above,OTHER_UNSPECIFIED
+other-non safety reason,OTHER_UNSPECIFIED
+porcine circovirus detection in vaccine,SPONSOR_ADMINISTRATIVE
+self- withdrawal or pi withdrawal,OTHER_UNSPECIFIED
+covid-19 related,OTHER_UNSPECIFIED
+(not collected),OTHER_UNSPECIFIED
+did not enter follow-up period,OTHER_UNSPECIFIED
+end of study time,SPONSOR_ADMINISTRATIVE
+participants not randomized,PRE_TREATMENT_EXCLUSION
+rolled over into different clinical trial,NOT_ATTRITION
+caregiver/child dyad dropped out before completing a full course of treatment,WITHDRAWAL_BY_SUBJECT
+cross-over to aa (under amendment 3),OTHER_UNSPECIFIED
+elective procedure,OTHER_UNSPECIFIED
+lost medicaid eligibility,LOST_TO_FOLLOW_UP
+most due to osteomylitis status,OTHER_UNSPECIFIED
+no colonoscopy video,OTHER_UNSPECIFIED
+"other reasons, not protocol specified",OTHER_UNSPECIFIED
+participant concerned about study treatment,WITHDRAWAL_BY_SUBJECT
+site prematurely closed by sponsor,SPONSOR_ADMINISTRATIVE
+staff left organization,SPONSOR_ADMINISTRATIVE
+transition to commercial eliglustat,OTHER_UNSPECIFIED
+unsuccessful implant exit per protocol,PRE_TREATMENT_EXCLUSION
+remained in other facility,LOST_TO_FOLLOW_UP
+other reasons for discontinuation,OTHER_UNSPECIFIED
+< 4 embryos,OTHER_UNSPECIFIED
+continuing in extended treatment period,NOT_ATTRITION
+continuing into zoledronic acid substudy,NOT_ATTRITION
+contraindicated drug started,PROTOCOL_VIOLATION
+incorrect infusion duration,PROTOCOL_VIOLATION
+non-completion due to death and trial stopped because enrollment did not meet projected target,OTHER_UNSPECIFIED
+"not included in extension, not treated",PRE_TREATMENT_EXCLUSION
+participant moved to open-label extension (ole) study,NOT_ATTRITION
+pd without histologic change,DISEASE_PROGRESSION
+reasons other than below,OTHER_UNSPECIFIED
+unavailable or unreadable 6 month lvesv,LOST_TO_FOLLOW_UP
+"women's request (31), high workload (8), returned home (4), partus in one hour (1), other (6)",OTHER_UNSPECIFIED
+never received study treatment,PRE_TREATMENT_EXCLUSION
+scheduling conflicts,WITHDRAWAL_BY_SUBJECT
+other non-compliance,PROTOCOL_VIOLATION
+decision unrelated to an adverse event,WITHDRAWAL_BY_SUBJECT
+change in treatment guidelines,OTHER_UNSPECIFIED
+missed medication > 1 wk,PROTOCOL_VIOLATION
+other but not sponsor termination,OTHER_UNSPECIFIED
+pulmonary exacerbation,DISEASE_PROGRESSION
+recurrence of any mood episode with ae,OTHER_UNSPECIFIED
+"relapse/impending relapse, non-ae",DISEASE_PROGRESSION
+restrictions related to the covid-19 outbreak,OTHER_UNSPECIFIED
+study ended early,SPONSOR_ADMINISTRATIVE
+study was administratively terminated,SPONSOR_ADMINISTRATIVE
+subject was not given study fluid,PRE_TREATMENT_EXCLUSION
+subject withdrawn from follow-up,WITHDRAWAL_BY_SUBJECT
+without eligible patients,PRE_TREATMENT_EXCLUSION
+decision of sponsor,SPONSOR_ADMINISTRATIVE
+failed inclusion criteria,PRE_TREATMENT_EXCLUSION
+no oocytes retrieved,OTHER_UNSPECIFIED
+no/too few/bad quality embryos,OTHER_UNSPECIFIED
+pandemic,OTHER_UNSPECIFIED
+prostate surgery/turp/alt. therapy,OTHER_UNSPECIFIED
+8 cm prior to initiation of study drug,PRE_TREATMENT_EXCLUSION
+"absent cin, invasion present or artifact",PRE_TREATMENT_EXCLUSION
+did not attend visit,LOST_TO_FOLLOW_UP
+did not enter phase 2,OTHER_UNSPECIFIED
+did not have residual symptoms,PRE_TREATMENT_EXCLUSION
+missing ndi and/or neuro. assessment,LOST_TO_FOLLOW_UP
+no episode of common cold,PRE_TREATMENT_EXCLUSION
+noncompliance/unspecified,OTHER_UNSPECIFIED
+other or study termination,OTHER_UNSPECIFIED
+participants rolled over to phase 3,NOT_ATTRITION
+patient moved to roll-over study,NOT_ATTRITION
+"patients in alternate home program (e.g., home health care, inpatient rehab, etc.) were unenrolled",LOST_TO_FOLLOW_UP
+post randomization exclusion,PRE_TREATMENT_EXCLUSION
+"reason not specified or unknown, etc",OTHER_UNSPECIFIED
+study drug dosing criteria not met,PRE_TREATMENT_EXCLUSION
+subjects did not complete week 12,OTHER_UNSPECIFIED
+eligibility criterion not met,PRE_TREATMENT_EXCLUSION
+discontinued prior to treatment,PRE_TREATMENT_EXCLUSION
+reached defined stopping criteria,OTHER_UNSPECIFIED
+entrance criteria not met,PRE_TREATMENT_EXCLUSION
+mrd negative,OTHER_UNSPECIFIED
+no need for re-injection,OTHER_UNSPECIFIED
+patient ready for early discharge,OTHER_UNSPECIFIED
+abnormal transcranial doppler (tcd),ADVERSE_EVENT
+censored owing to second surgery,OTHER_UNSPECIFIED
+did not have serology performed,LOST_TO_FOLLOW_UP
+entered extension phase,NOT_ATTRITION
+entered into open label extension study,NOT_ATTRITION
+medical/ethical/noncompliance reason,OTHER_UNSPECIFIED
+on treatment at time of snapshot,NOT_ATTRITION
+reached endpont,OTHER_UNSPECIFIED
+relapsed-all cause,DISEASE_PROGRESSION
+subjects did not complete week 36,OTHER_UNSPECIFIED
+survival follow-up stopped,SPONSOR_ADMINISTRATIVE
+withdrawn after infant series,OTHER_UNSPECIFIED
+use of prohibited medication,PROTOCOL_VIOLATION
+did not take study drug,PRE_TREATMENT_EXCLUSION
+hospitalized,OTHER_UNSPECIFIED
+"other, multiple categories",OTHER_UNSPECIFIED
+failed iud insertion,PRE_TREATMENT_EXCLUSION
+incomplete safety follow-up,LOST_TO_FOLLOW_UP
+other: reached stopping criteria,OTHER_UNSPECIFIED
+under review,OTHER_UNSPECIFIED
+colonoscopy cancelled,OTHER_UNSPECIFIED
+developed study discontinuation criteria,OTHER_UNSPECIFIED
+discontinuation by investigator or sponsor for any reason,OTHER_UNSPECIFIED
+"discontinued db, not entered fu phase",OTHER_UNSPECIFIED
+dyad partner did not join study or did not walk >0 steps,PRE_TREATMENT_EXCLUSION
+early termination of the trial,SPONSOR_ADMINISTRATIVE
+negative pcr result for sars-cov-2,PRE_TREATMENT_EXCLUSION
+one site was dismissed due to irb irregularity,SPONSOR_ADMINISTRATIVE
+other disease or participant decisions,OTHER_UNSPECIFIED
+patient/caregiver decision,WITHDRAWAL_BY_SUBJECT
+protocol-specific lab discon criteria,ADVERSE_EVENT
+switch to commercial drug,OTHER_UNSPECIFIED
+no longer required study drug,OTHER_UNSPECIFIED
+completed treatment as per protocol,NOT_ATTRITION
+not truly randomized (cohort-randomized with other family caregivers),PRE_TREATMENT_EXCLUSION
+protocol specific treatment unrelated,OTHER_UNSPECIFIED
+seizure or concern for seizure,ADVERSE_EVENT
+assessment outside of time frame,PROTOCOL_VIOLATION
+completed treatment in treatment phase,NOT_ATTRITION
+confirmed cdad,OTHER_UNSPECIFIED
+covid-related treatment/visit delay,OTHER_UNSPECIFIED
+entered rescue treatment with igiv-c,LACK_OF_EFFICACY
+left ed without completing study,WITHDRAWAL_BY_SUBJECT
+low protein concentration in sample,OTHER_UNSPECIFIED
+major deviation,PROTOCOL_VIOLATION
+no efficacy data,OTHER_UNSPECIFIED
+patients who did not complete post-operative ct,LOST_TO_FOLLOW_UP
+subject didn't finish/partial pilot data,OTHER_UNSPECIFIED
+withdrawn without primary end point event,OTHER_UNSPECIFIED
+withdrawn(more than one reason selected),OTHER_UNSPECIFIED
+lost to pretest,LOST_TO_FOLLOW_UP
+off treatment reasons not documented,OTHER_UNSPECIFIED
+other reason not stated above,OTHER_UNSPECIFIED
+participant refused continued treatment,WITHDRAWAL_BY_SUBJECT
+participants randomized but not treated,PRE_TREATMENT_EXCLUSION
+started but not treated,PRE_TREATMENT_EXCLUSION
+switched from pbo to ixe,OTHER_UNSPECIFIED
+assent form violation,PROTOCOL_VIOLATION
+covid-19 site restrictions,OTHER_UNSPECIFIED
+did not meet stabilization criteria,PRE_TREATMENT_EXCLUSION
+did not receive tranfusion,PRE_TREATMENT_EXCLUSION
+failed fit-testing,PRE_TREATMENT_EXCLUSION
+gvhd requiring change in treatment medication,OTHER_UNSPECIFIED
+hematopoietic stem-cell transplantation (hsct) planned,OTHER_UNSPECIFIED
+incomplete baseline; surgical complication; no opioid prescription,OTHER_UNSPECIFIED
+progression not resulting in death,DISEASE_PROGRESSION
+refused vaccination step of the study,WITHDRAWAL_BY_SUBJECT
+resumed oral/entral,OTHER_UNSPECIFIED
+these individuals simply did not comply with baseline screening in this compliance study,PROTOCOL_VIOLATION
+unknown/missing,OTHER_UNSPECIFIED
+poor / non-compliance,PROTOCOL_VIOLATION
+did not achieve pasi50,LACK_OF_EFFICACY
+enrollment closed,SPONSOR_ADMINISTRATIVE
+dropped out,OTHER_UNSPECIFIED
+transplantation,OTHER_UNSPECIFIED
+virologic breakthrough,LACK_OF_EFFICACY
+stopped participation by sponsor,SPONSOR_ADMINISTRATIVE
+"travel, moving, etc",LOST_TO_FOLLOW_UP
+withdrawal of patient consent,WITHDRAWAL_BY_SUBJECT
+adverse event (includes death),ADVERSE_EVENT
+"all death, all mi, all revascularization",OTHER_UNSPECIFIED
+completed extension 1 (weeks 26-40),NOT_ATTRITION
+did not enter long-term study,OTHER_UNSPECIFIED
+did not have aaa surgery,PRE_TREATMENT_EXCLUSION
+endometrial biopsy showing proliferative disorder,OTHER_UNSPECIFIED
+failure to achieve psa response at week 13,LACK_OF_EFFICACY
+limited adherence to study requirements,PROTOCOL_VIOLATION
+medically excluded or aged out prior to initiating intervention,PRE_TREATMENT_EXCLUSION
+met relapse criteria per investigator,DISEASE_PROGRESSION
+never initiated chemotherapy,PRE_TREATMENT_EXCLUSION
+ongoing follow-up at time of analysis,NOT_ATTRITION
+other reasons than listing,OTHER_UNSPECIFIED
+other: miscalculation of the visit date,OTHER_UNSPECIFIED
+participant relapsed,DISEASE_PROGRESSION
+patient no longer meets study criteria,PRE_TREATMENT_EXCLUSION
+termination of the double-blind period,SPONSOR_ADMINISTRATIVE
+we were prevented from collecting a1c data from many patients due to pandemic-related restrictions,OTHER_UNSPECIFIED
+laboratory adverse event,ADVERSE_EVENT
+entry criteria exclusion,PRE_TREATMENT_EXCLUSION
+withdrawal by study team,PHYSICIAN_DECISION
+cancelled surgery,OTHER_UNSPECIFIED
+excluded from analysis,OTHER_UNSPECIFIED
+enrolled but treatment not administered,PRE_TREATMENT_EXCLUSION
+non-medical reasons,OTHER_UNSPECIFIED
+undetermined,OTHER_UNSPECIFIED
+request to discontinue study treatment,WITHDRAWAL_BY_SUBJECT
+received non-study polio vaccine,OTHER_UNSPECIFIED
+did not complete all 3 scheduled visits,LOST_TO_FOLLOW_UP
+did not meet medication start criteria,PRE_TREATMENT_EXCLUSION
+enrolled in open-label extension study,NOT_ATTRITION
+entered retreatment,LACK_OF_EFFICACY
+failure to induce psvt,PRE_TREATMENT_EXCLUSION
+hyperglycemia rescue,LACK_OF_EFFICACY
+inadequate collection,OTHER_UNSPECIFIED
+late exclusion criteria met,PRE_TREATMENT_EXCLUSION
+"lost to follow up, adverse event etc",OTHER_UNSPECIFIED
+mood episode,DISEASE_PROGRESSION
+no euploid embryos available,OTHER_UNSPECIFIED
+not consented or declined pas,WITHDRAWAL_BY_SUBJECT
+other or missing,OTHER_UNSPECIFIED
+participants excluded due to gcp compliance issue,PROTOCOL_VIOLATION
+safety outcome reached,OTHER_UNSPECIFIED
+sponsor discontinue study,SPONSOR_ADMINISTRATIVE
+staff turnover/left the program,SPONSOR_ADMINISTRATIVE
+study follow-up ongoing,NOT_ATTRITION
+subject refused consent for airdoc,WITHDRAWAL_BY_SUBJECT
+transfer to assisted pd,OTHER_UNSPECIFIED
+transitioned to pemigatinib,OTHER_UNSPECIFIED

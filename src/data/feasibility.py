@@ -49,15 +49,26 @@ def match_score(fg: dict, arm: dict) -> float:
     return max(scores)
 
 
-def match_groups(flow_groups: list, arm_groups: list):
-    """One-to-one assignment maximizing similarity; returns assigned scores per flow group."""
+def assign_groups(flow_groups: list, arm_groups: list):
+    """One-to-one assignment maximizing similarity.
+
+    Returns (arm_index_per_flow_group, score_per_flow_group); unassigned flow
+    groups (more flow groups than arms) get arm index -1 and score 0.
+    """
+    arm_idx = np.full(len(flow_groups), -1)
+    scores = np.zeros(len(flow_groups))
     if not flow_groups or not arm_groups:
-        return []
+        return arm_idx, scores
     S = np.array([[match_score(f, a) for a in arm_groups] for f in flow_groups])
     rows, cols = linear_sum_assignment(-S)
-    assigned = np.zeros(len(flow_groups))  # unassigned flow groups (more FGs than arms) score 0
-    assigned[rows] = S[rows, cols]
-    return assigned.tolist()
+    arm_idx[rows] = cols
+    scores[rows] = S[rows, cols]
+    return arm_idx, scores
+
+
+def match_groups(flow_groups: list, arm_groups: list):
+    """Assigned similarity score per flow group (see assign_groups)."""
+    return assign_groups(flow_groups, arm_groups)[1].tolist()
 
 
 def start_year(status_module: dict):
