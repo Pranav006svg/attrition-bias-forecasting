@@ -13,11 +13,15 @@ Feature families:
   arm               arm type, intervention types (itype_*), number of interventions
   prior_evidence    prior_* features
 
-Outputs: results/tables/final_shap_top15.csv, results/tables/final_shap_families.csv
+Outputs: results/tables/final_shap_top15.csv, results/tables/final_shap_families.csv,
+results/tables/final_shap_families_normalized.csv (mean |SHAP| per feature within each
+family, i.e. family sum / number of features, and its share across families; this removes
+the advantage of large families such as the 300 TF-IDF features).
 
 Usage:
-    python -m src.eval.shap_analysis
+    python -m src.eval.shap_analysis [--normalized-only]   # --normalized-only: derive from saved family table
 """
+import sys
 from pathlib import Path
 
 import numpy as np
@@ -49,7 +53,20 @@ def family(col):
     raise ValueError(f"unassigned feature {col}")
 
 
+def normalized_families():
+    f = pd.read_csv(TABLES / "final_shap_families.csv")
+    f["mean_abs_shap_per_feature"] = f.mean_abs_shap_sum / f.n_features
+    f["share_per_feature_normalized"] = f.mean_abs_shap_per_feature / f.groupby("target").mean_abs_shap_per_feature.transform("sum")
+    out = f[["target", "family", "n_features", "mean_abs_shap_per_feature", "share_per_feature_normalized",
+             "share_of_total"]].rename(columns={"share_of_total": "share_summed"})
+    out.to_csv(TABLES / "final_shap_families_normalized.csv", index=False)
+    print(out.pivot(index="target", columns="family", values="share_per_feature_normalized")[FAMILIES].round(3).to_string())
+    return out
+
+
 def main():
+    if "--normalized-only" in sys.argv:
+        return normalized_families()
     c = load()
     X, A = c["X_test"], c["A_test"]
     fam = pd.Series({col: family(col) for col in X.columns})
@@ -73,6 +90,7 @@ def main():
     top.to_csv(TABLES / "final_shap_top15.csv", index=False)
     fams.to_csv(TABLES / "final_shap_families.csv", index=False)
     print(fams.pivot(index="target", columns="family", values="share_of_total")[FAMILIES].round(3).to_string())
+    normalized_families()
 
 
 if __name__ == "__main__":

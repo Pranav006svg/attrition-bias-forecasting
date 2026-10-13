@@ -186,6 +186,34 @@ Share of summed mean |SHAP| by feature family (log-odds scale). Shares are sums 
 
 Top-15 features per target: results/tables/final_shap_top15.csv.
 
+### Robustness check: per-feature-normalized SHAP families
+
+Mean |SHAP| per feature within each family (family sum / number of features), as a share across families. This removes the advantage of large families (300 TF-IDF features).
+
+| Target | design | condition | eligibility_text | arm | prior_evidence |
+|---|---:|---:|---:|---:|---:|
+| adverse_event | 64.2% | 2.7% | 5.1% | 26.5% | 1.5% |
+| arm_rate_primary | 53.1% | 18.2% | 12.8% | 8.6% | 7.3% |
+| lack_of_efficacy | 71.7% | 4.5% | 7.7% | 13.6% | 2.5% |
+| lost_to_follow_up | 60.4% | 10.1% | 7.0% | 21.2% | 1.2% |
+| pre_treatment_exclusion | 39.2% | 8.3% | 45.2% | 6.8% | 0.6% |
+| withdrawal_by_subject | 59.1% | 5.8% | 13.8% | 18.0% | 3.3% |
+
+### Robustness check: start-year ablation
+
+flat_lgbm and FINAL refit without the start_year feature (same grid, selected on validation). Difference = without - with start_year (paired trial-grouped bootstrap, test split). For MAE and KL, lower is better; for concordance, higher is better.
+
+| Model | Target | Subset | With start_year | Without start_year | Difference | p | Without vs reference_class |
+|---|---|---|---|---|---|---|---|
+| flat_lgbm | arm_rate_primary MAE | all | 0.111 [0.108, 0.114] | 0.113 [0.110, 0.116] | 0.003 [0.002, 0.003] | 2.8e-14 | -0.014 [-0.016, -0.012] (p=3.9e-54) |
+| flat_lgbm | composition mean_KL | all | 1.103 [1.083, 1.125] | 1.108 [1.087, 1.129] | 0.004 [0.001, 0.007] | 0.005 | -0.129 [-0.140, -0.118] (p=7.5e-120) |
+| flat_lgbm | pairwise_primary concordance | all | 0.516 [0.500, 0.533] | 0.519 [0.503, 0.536] | 0.003 [-0.017, 0.023] | 0.753 | – |
+| flat_lgbm | pairwise_primary concordance | reliable | 0.530 [0.505, 0.555] | 0.526 [0.500, 0.552] | -0.004 [-0.030, 0.024] | 0.754 | – |
+| FINAL | arm_rate_primary MAE | all | 0.110 [0.107, 0.114] | 0.112 [0.109, 0.115] | 0.002 [0.001, 0.002] | 9.0e-07 | -0.016 [-0.017, -0.014] (p=3.5e-56) |
+| FINAL | composition mean_KL | all | 1.104 [1.084, 1.126] | 1.111 [1.091, 1.132] | 0.007 [0.004, 0.010] | 2.4e-07 | -0.125 [-0.136, -0.115] (p=4.0e-119) |
+| FINAL | pairwise_primary concordance | all | 0.514 [0.499, 0.529] | 0.531 [0.516, 0.547] | 0.017 [0.000, 0.035] | 0.055 | – |
+| FINAL | pairwise_primary concordance | reliable | 0.548 [0.521, 0.574] | 0.542 [0.519, 0.568] | -0.006 [-0.032, 0.029] | 0.681 | – |
+
 ## Sensitivity of the primary endpoints
 
 | Matched set | Split | Endpoint | Subset | n trials | Difference (FINAL - comparator) | p |

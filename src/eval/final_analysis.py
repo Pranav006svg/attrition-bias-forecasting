@@ -486,6 +486,34 @@ def write_summary(est, tests, conf, plan, sens, A, T, n_covered):
         for t, r in pv.iterrows():
             L.append(f"| {t} | " + " | ".join(f"{100 * r[f]:.1f}%" for f in fams) + " |")
         L += ["", "Top-15 features per target: results/tables/final_shap_top15.csv.", ""]
+    npath = TABLES / "final_shap_families_normalized.csv"
+    if npath.exists():
+        nf2 = pd.read_csv(npath)
+        fams = ["design", "condition", "eligibility_text", "arm", "prior_evidence"]
+        pv = nf2.pivot(index="target", columns="family", values="share_per_feature_normalized")[fams]
+        L += ["### Robustness check: per-feature-normalized SHAP families", "",
+              "Mean |SHAP| per feature within each family (family sum / number of features), as a share across "
+              "families. This removes the advantage of large families (300 TF-IDF features).", "",
+              "| Target | " + " | ".join(fams) + " |", "|---|" + "---:|" * len(fams)]
+        for t, r in pv.iterrows():
+            L.append(f"| {t} | " + " | ".join(f"{100 * r[f]:.1f}%" for f in fams) + " |")
+        L.append("")
+    apath = TABLES / "final_start_year_ablation.csv"
+    if apath.exists():
+        ab = pd.read_csv(apath)
+        L += ["### Robustness check: start-year ablation", "",
+              "flat_lgbm and FINAL refit without the start_year feature (same grid, selected on validation). "
+              "Difference = without - with start_year (paired trial-grouped bootstrap, test split). For MAE and KL, "
+              "lower is better; for concordance, higher is better.", "",
+              "| Model | Target | Subset | With start_year | Without start_year | Difference | p | Without vs reference_class |",
+              "|---|---|---|---|---|---|---|---|"]
+        for _, r in ab.iterrows():
+            vs = (f"{fmt(r.without_year_minus_reference, r.vs_ref_ci_low, r.vs_ref_ci_high)} (p={pfmt(r.vs_ref_p)})"
+                  if pd.notna(r.get("without_year_minus_reference")) else "–")
+            L.append(f"| {r.model} | {r.target} | {r.subset} | {fmt(r.with_year, r.with_year_ci_low, r.with_year_ci_high)} | "
+                     f"{fmt(r.without_year, r.without_year_ci_low, r.without_year_ci_high)} | "
+                     f"{fmt(r.diff_without_minus_with, r.diff_ci_low, r.diff_ci_high)} | {pfmt(r.p)} | {vs} |")
+        L.append("")
 
     L += ["## Sensitivity of the primary endpoints", "",
           "| Matched set | Split | Endpoint | Subset | n trials | Difference (FINAL - comparator) | p |",
