@@ -60,7 +60,40 @@ def auprc(y, s):
     return float(average_precision_score(y, s)) if y.sum() > 0 else np.nan
 
 
-def bootstrap_ci(fn, groups, *arrays, n_boot=N_BOOT, seed=SEED):
+def paired_bootstrap_test(fn, groups, *arrays, n_boot=N_BOOT, seed=SEED):
+    """Paired trial-grouped bootstrap test of a difference statistic.
+
+    fn(*arrays) returns a difference (e.g. metric(model A) - metric(model B)) computed on the
+    same resample. Returns (point, ci_low, ci_high, p_wald, p_percentile):
+      p_wald       two-sided normal test of point / bootstrap SE (continuous; used for Holm)
+      p_percentile two-sided percentile-bootstrap p with add-one correction,
+                   2 * (min(#diff <= 0, #diff >= 0) + 1) / (B + 1); its resolution is limited by B.
+    """
+    from scipy.stats import norm
+    point, lo, hi, stats = bootstrap_ci(fn, groups, *arrays, n_boot=n_boot, seed=seed, return_stats=True)
+    s = stats[~np.isnan(stats)]
+    if len(s) < 2:
+        return point, lo, hi, np.nan, np.nan
+    se = float(np.std(s, ddof=1))
+    p_wald = float(2 * norm.sf(abs(point) / se)) if se > 0 else (0.0 if point != 0 else 1.0)
+    p_perc = min(1.0, 2 * (min((s <= 0).sum(), (s >= 0).sum()) + 1) / (len(s) + 1))
+    return point, lo, hi, p_wald, float(p_perc)
+
+
+def holm(pvalues):
+    """Holm step-down adjusted p-values (NaN entries are ignored and returned as NaN)."""
+    p = np.asarray(pvalues, float)
+    out = np.full(len(p), np.nan)
+    idx = np.where(~np.isnan(p))[0]
+    order = idx[np.argsort(p[idx])]
+    m, running = len(order), 0.0
+    for rank, i in enumerate(order):
+        running = max(running, min(1.0, (m - rank) * p[i]))
+        out[i] = running
+    return out
+
+
+def bootstrap_ci(fn, groups, *arrays, n_boot=N_BOOT, seed=SEED, return_stats=False):
     """Point estimate + 95% percentile CI, resampling whole groups (trials) with replacement.
 
     fn(*arrays_subset) -> float; groups: group id per row of every array.
@@ -81,4 +114,6 @@ def bootstrap_ci(fn, groups, *arrays, n_boot=N_BOOT, seed=SEED):
         idx = order[pos]
         stats[b] = fn(*(a[idx] for a in arrays))
     lo, hi = np.nanpercentile(stats, [2.5, 97.5])
+    if return_stats:
+        return point, float(lo), float(hi), stats
     return point, float(lo), float(hi)

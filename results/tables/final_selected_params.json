@@ -1,0 +1,184 @@
+{
+ "FINAL_primary": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 20,
+  "best_iteration": 410,
+  "val_score": 0.1120189432523234
+ },
+ "FINAL_nonendpoint": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 20,
+  "best_iteration": 197,
+  "val_score": 0.09664487727801795
+ },
+ "FINAL_y_prop_adverse_event": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 195,
+  "val_score": 0.33220413185272996
+ },
+ "FINAL_y_prop_lack_of_efficacy": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 20,
+  "best_iteration": 373,
+  "val_score": 0.10470369252940478
+ },
+ "FINAL_y_prop_disease_progression": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 128,
+  "val_score": 0.06201526265080481
+ },
+ "FINAL_y_prop_death": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 20,
+  "best_iteration": 484,
+  "val_score": 0.18329479441380478
+ },
+ "FINAL_y_prop_withdrawal_by_subject": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 145,
+  "val_score": 0.5925281616926512
+ },
+ "FINAL_y_prop_lost_to_follow_up": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 148,
+  "val_score": 0.48121874691487493
+ },
+ "FINAL_y_prop_physician_decision": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 20,
+  "best_iteration": 30,
+  "val_score": 0.13688205475723508
+ },
+ "FINAL_y_prop_protocol_violation": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 282,
+  "val_score": 0.2369344556620537
+ },
+ "FINAL_y_prop_pre_treatment_exclusion": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 114,
+  "val_score": 0.1512967376167104
+ },
+ "FINAL_y_prop_other_unspecified": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 166,
+  "val_score": 0.3437002088426336
+ },
+ "flat_lgbm_primary": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 20,
+  "best_iteration": 308,
+  "val_score": 0.11314859981538118
+ },
+ "flat_lgbm_nonendpoint": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 284,
+  "val_score": 0.09563661921622373
+ },
+ "flat_lgbm_y_prop_adverse_event": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 162,
+  "val_score": 0.332460802554446
+ },
+ "flat_lgbm_y_prop_lack_of_efficacy": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 20,
+  "best_iteration": 160,
+  "val_score": 0.10429228077867442
+ },
+ "flat_lgbm_y_prop_disease_progression": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 291,
+  "val_score": 0.06166217122342371
+ },
+ "flat_lgbm_y_prop_death": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 435,
+  "val_score": 0.1815966926712753
+ },
+ "flat_lgbm_y_prop_withdrawal_by_subject": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 110,
+  "val_score": 0.5936620511028154
+ },
+ "flat_lgbm_y_prop_lost_to_follow_up": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 205,
+  "val_score": 0.48071948520187224
+ },
+ "flat_lgbm_y_prop_physician_decision": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 20,
+  "best_iteration": 36,
+  "val_score": 0.13673338317397804
+ },
+ "flat_lgbm_y_prop_protocol_violation": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 76,
+  "val_score": 0.2373100619282814
+ },
+ "flat_lgbm_y_prop_pre_treatment_exclusion": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 20,
+  "best_iteration": 145,
+  "val_score": 0.15135781746649876
+ },
+ "flat_lgbm_y_prop_other_unspecified": {
+  "objective": "cross_entropy",
+  "num_leaves": 15,
+  "min_child_samples": 100,
+  "best_iteration": 286,
+  "val_score": 0.34305141799501593
+ },
+ "trial_lgbm_primary": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 479,
+  "val_score": 0.11184885011479985
+ },
+ "trial_lgbm_nonendpoint": {
+  "objective": "cross_entropy",
+  "num_leaves": 63,
+  "min_child_samples": 100,
+  "best_iteration": 153,
+  "val_score": 0.09268261106685124
+ }
+}

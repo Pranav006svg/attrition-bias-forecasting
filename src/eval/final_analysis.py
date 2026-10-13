@@ -1,0 +1,412 @@
+"""Final models, pre-specified analyses, conformal intervals, planning simulation, sensitivity.
+
+A) Models (fit on train, early stopping / grid on val, reported on test):
+   reference_class, trial_lgbm, flat_lgbm (base features), FINAL = flat_lgbm +
+   time-respecting prior-evidence features (NaN when no evidence).
+   Subsets: all, reliable, covered, covered_reliable.
+B) Pre-specified primary endpoints (unadjusted, two-sided paired bootstrap):
+   1. arm_rate_primary MAE, all test arms: FINAL vs reference_class
+   2. composition mean KL, all test arms with >= 1 primary withdrawal: FINAL vs reference_class
+   3. pairwise_primary concordance, covered_reliable pairs: FINAL vs flat_lgbm
+   Every other FINAL-vs-comparator paired test is secondary; Holm-adjusted as one family.
+C) Mondrian split-conformal 90% intervals for the primary arm rate (calibrated on val),
+   bins by arm size (started 10-49, 50-99, 100-299, >=300), plus a normalized variant
+   with score |y - p| / sqrt(p(1-p)/n). NOTE: arm size here is the observed number
+   started, used as a proxy for the planned arm size available at design time.
+D) Recruitment-planning simulation on test arms.
+E) Sensitivity of the primary endpoints: m70, m90 matched sets and a random
+   trial-grouped split of m80.
+
+Usage:
+    python -m src.eval.final_analysis
+"""
+import json
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+from src.data.build_benchmark import FLAG_THRESHOLDS, RELIABLE_MIN_STARTED
+from src.eval import metrics as M
+from src.features.build_features import FeatureBuilder
+from src.features.prior_evidence import PRIOR_COLS, compute_prior_features
+from src.models.baselines import (KINDS, PROP_COLS, RATE_OBJECTIVES, concordance, concordance_pairs, fit_flat,
+                                  fit_lgbm, predict, reference_class, renormalize, trial_differentials)
+
+SEED = 42
+ALPHA = 0.10
+PROCESSED = Path("data/processed")
+TABLES = Path("results/tables")
+SPLITS = ["train", "val", "test"]
+SUBSETS = ["all", "reliable", "covered", "covered_reliable"]
+MODELS = ["reference_class", "trial_lgbm", "flat_lgbm", "FINAL"]
+SIZE_BINS = [(10, 49), (50, 99), (100, 299), (300, None)]
+MAX_ASSUMED_ATTRITION = 0.95
+PRIMARY_ENDPOINTS = [
+    ("all", "arm_rate_primary", "MAE", "reference_class"),
+    ("all", "composition", "mean_KL", "reference_class"),
+    ("covered_reliable", "pairwise_primary", "concordance", "flat_lgbm"),
+]
+
+
+# ------------------------------------------------------------------ data + models
+def load_set(name="m80", split_scheme="temporal"):
+    suffix = "" if name == "m80" else f"_{name}"
+    arms = pd.read_parquet(PROCESSED / f"arms{suffix}.parquet")
+    trials = pd.read_parquet(PROCESSED / f"trials{suffix}.parquet")
+    if split_scheme == "random_grouped":
+        rng = np.random.default_rng(SEED)
+        sizes = trials.split.value_counts()
+        perm = rng.permutation(trials.nct_id.values)
+        new, start = {}, 0
+        for s in SPLITS:
+            new.update({n: s for n in perm[start:start + sizes[s]]})
+            start += sizes[s]
+        trials = trials.assign(split=trials.nct_id.map(new))
+        arms = arms.assign(split=arms.nct_id.map(new))
+    arms = arms.merge(trials[["nct_id", "phase", "mesh_branches"]], on="nct_id")
+    arms = arms.sort_values(["nct_id", "arm_idx"]).reset_index(drop=True)
+    return arms, trials
+
+
+def fit_models(arms, trials, P, full=True):
+    """Predictions for val/test: {split: {model: {"rate_primary", "rate_nonendpoint", "comp"}}}."""
+    A = {s: arms[arms.split == s] for s in SPLITS}
+    T = {s: trials[trials.split == s].reset_index(drop=True) for s in SPLITS}
+    fb = FeatureBuilder().fit(T["train"], A["train"])
+    TX = {s: fb.trial_matrix(T[s]) for s in SPLITS}
+    AX = {s: fb.arm_matrix(A[s], TX[s]) for s in SPLITS}
+    AXp = {s: AX[s].join(P.loc[A[s].index, PRIOR_COLS]) for s in SPLITS}
+    Ar = {s: A[s].reset_index(drop=True) for s in SPLITS}
+    AXr = {s: AX[s].reset_index(drop=True) for s in SPLITS}
+    AXpr = {s: AXp[s].reset_index(drop=True) for s in SPLITS}
+    preds, selected = {s: {} for s in ["val", "test"]}, {}
+
+    for s in preds:  # reference class
+        p = {}
+        for k in KINDS:
+            p[f"rate_{k}"] = reference_class(Ar["train"], Ar[s], [f"y_{k}_attrition_rate"])[0][:, 0]
+        p["comp"] = renormalize(reference_class(Ar["train"], Ar[s], PROP_COLS, mask_col="y_has_composition")[0])
+        preds[s]["reference_class"] = p
+
+    fit_flat("FINAL", AXpr, Ar, preds, selected)
+    if full:
+        fit_flat("flat_lgbm", AXr, Ar, preds, selected)
+        TXf = {s: TX[s].drop(columns="nct_id") for s in SPLITS}
+        for s in preds:
+            preds[s]["trial_lgbm"] = {"comp": None}
+        for k in KINDS:
+            ty = {s: Ar[s].groupby("nct_id")[f"y_{k}_attrition_rate"].mean().reindex(T[s].nct_id).values for s in SPLITS}
+            model, info = fit_lgbm(TXf["train"], ty["train"], TXf["val"], ty["val"], RATE_OBJECTIVES, M.mae)
+            selected[f"trial_lgbm_{k}"] = info
+            for s in preds:
+                tp = pd.Series(predict(model, TXf[s]), index=T[s].nct_id.values)
+                preds[s]["trial_lgbm"][f"rate_{k}"] = tp.reindex(Ar[s].nct_id).values
+    else:  # sensitivity: only what the primary endpoints need
+        for s in preds:
+            preds[s]["flat_lgbm"] = {}
+        model, info = fit_lgbm(AXr["train"], Ar["train"].y_primary_attrition_rate.values, AXr["val"],
+                               Ar["val"].y_primary_attrition_rate.values, RATE_OBJECTIVES, M.mae)
+        selected["flat_lgbm_primary"] = info
+        for s in preds:
+            preds[s]["flat_lgbm"]["rate_primary"] = predict(model, AXr[s])
+    covered = {}
+    for s in ["val", "test"]:
+        a = Ar[s].assign(_cov=P.loc[A[s].index, "prior_n_trials"].values > 0)
+        allcov = a[a.meta_role == "experimental"].groupby("nct_id")._cov.all()
+        covered[s] = set(allcov.index[allcov]) & set(T[s].nct_id[T[s].y_has_differential])
+    return preds, Ar, T, covered, selected
+
+
+# ------------------------------------------------------------------ evaluation specs
+def specs(arms, trials, covered_ids, preds, subsets=SUBSETS, only=None):
+    """Yield (subset, target, metric, fn, groups, y, {model: prediction array})."""
+    td_all = trials[trials.y_has_differential].set_index("nct_id")
+    ie, ic, pg, prel = concordance_pairs(arms)
+    in_cov_arm = arms.nct_id.isin(covered_ids).values
+    in_cov_pair = np.isin(pg, list(covered_ids))
+    big = arms.y_started.values >= RELIABLE_MIN_STARTED
+    g = arms.nct_id.values
+    for subset in subsets:
+        am = {"all": np.ones(len(arms), bool), "reliable": big, "covered": in_cov_arm,
+              "covered_reliable": in_cov_arm & big}[subset]
+        pm = {"all": np.ones(len(ie), bool), "reliable": prel, "covered": in_cov_pair,
+              "covered_reliable": in_cov_pair & prel}[subset]
+        td = {"all": td_all, "reliable": td_all[td_all.meta_reliable],
+              "covered": td_all[td_all.index.isin(covered_ids)],
+              "covered_reliable": td_all[td_all.index.isin(covered_ids) & td_all.meta_reliable]}[subset]
+        tg = td.index.values
+        for kind in KINDS:
+            y = arms[f"y_{kind}_attrition_rate"].values
+            pr = {m: p[f"rate_{kind}"] for m, p in preds.items() if f"rate_{kind}" in p}
+            for metric, fn in [("MAE", M.mae), ("RMSE", M.rmse), ("Spearman", M.spearman)]:
+                yield subset, f"arm_rate_{kind}", metric, fn, g[am], y[am], {m: v[am] for m, v in pr.items()}
+            yield (subset, f"pairwise_{kind}", "concordance", concordance, pg[pm], (y[ie] - y[ic])[pm],
+                   {m: (v[ie] - v[ic])[pm] for m, v in pr.items()})
+        mc = arms.y_has_composition.values & am
+        prc = {m: p["comp"][mc] for m, p in preds.items() if p.get("comp") is not None}
+        if prc:
+            T_ = arms.loc[mc, PROP_COLS].values
+            yield subset, "composition", "mean_KL", lambda t, q: float(M.kl_rows(t, q).mean()), g[mc], T_, prc
+            yield (subset, "composition", "mean_Aitchison", lambda t, q: float(M.aitchison_rows(t, q).mean()),
+                   g[mc], T_, prc)
+        for thr in FLAG_THRESHOLDS:
+            yf = td[f"y_flag_primary_{thr}_sig"].astype(int).values
+            sc = {m: trial_differentials(arms, p["rate_primary"]).reindex(td.index).pred_absmax.values
+                  for m, p in preds.items() if "rate_primary" in p}
+            for metric, fn in [("AUROC", M.auroc), ("AUPRC", M.auprc)]:
+                yield subset, f"flag_primary_{thr}_sig", metric, fn, tg, yf, sc
+
+
+def evaluate(arms, trials, covered_ids, preds, subsets=SUBSETS):
+    est, tests = [], []
+    for subset, target, metric, fn, groups, y, pr in specs(arms, trials, covered_ids, preds, subsets):
+        if len(y) == 0:
+            continue
+        for m, p in pr.items():
+            v, lo, hi = M.bootstrap_ci(fn, groups, y, p)
+            est.append({"subset": subset, "target": target, "metric": metric, "model": m, "value": v,
+                        "ci_low": lo, "ci_high": hi, "n_trials": len(np.unique(groups)), "n_rows": len(y)})
+        if "FINAL" not in pr:
+            continue
+        for comp in [m for m in MODELS if m in pr and m != "FINAL"]:
+            d, lo, hi, p, p_perc = M.paired_bootstrap_test(lambda yy, a, b, f=fn: f(yy, a) - f(yy, b), groups, y,
+                                                           pr["FINAL"], pr[comp])
+            primary = (subset, target, metric, comp) in PRIMARY_ENDPOINTS
+            tests.append({"subset": subset, "target": target, "metric": metric, "comparison": f"FINAL - {comp}",
+                          "family": "primary" if primary else "secondary", "diff": d, "ci_low": lo, "ci_high": hi,
+                          "p_raw": p, "p_boot_percentile": p_perc, "n_trials": len(np.unique(groups)), "n_rows": len(y)})
+    tests = pd.DataFrame(tests)
+    if len(tests):
+        sec = tests.family == "secondary"
+        tests["p_holm"] = np.nan
+        tests.loc[sec, "p_holm"] = M.holm(tests.loc[sec, "p_raw"].values)
+    return pd.DataFrame(est), tests
+
+
+# ------------------------------------------------------------------ C) conformal
+def size_bin(n):
+    for lo, hi in SIZE_BINS:
+        if n >= lo and (hi is None or n <= hi):
+            return f"{lo}-{hi}" if hi else f">={lo}"
+    return "<10"
+
+
+def conformal(val_arms, val_pred, test_arms, test_pred):
+    def q_hat(scores):
+        n = len(scores)
+        k = min(n, int(np.ceil((n + 1) * (1 - ALPHA))))
+        return float(np.sort(scores)[k - 1])
+
+    yv, yt = val_arms.y_primary_attrition_rate.values, test_arms.y_primary_attrition_rate.values
+    bv, bt = val_arms.y_started.map(size_bin).values, test_arms.y_started.map(size_bin).values
+    out = {}
+    # Mondrian (per size bin) absolute-residual conformal.
+    qs = {b: q_hat(np.abs(yv - val_pred)[bv == b]) for b in np.unique(bv)}
+    q_t = np.array([qs[b] for b in bt])
+    out["mondrian"] = (np.clip(test_pred - q_t, 0, 1), np.clip(test_pred + q_t, 0, 1))
+    # Normalized: |y - p| / sqrt(p(1-p)/n), single calibration.
+    def sd(p, n):
+        pc = np.clip(p, 0.01, 0.99)
+        return np.sqrt(pc * (1 - pc) / n)
+    qn = q_hat(np.abs(yv - val_pred) / sd(val_pred, val_arms.y_started.values))
+    w = qn * sd(test_pred, test_arms.y_started.values)
+    out["normalized"] = (np.clip(test_pred - w, 0, 1), np.clip(test_pred + w, 0, 1))
+
+    rows = []
+    for name, (lo, hi) in out.items():
+        cov = (yt >= lo) & (yt <= hi)
+        for b in ["all"] + [size_bin(l) for l, _ in SIZE_BINS]:
+            m = np.ones(len(yt), bool) if b == "all" else (bt == b)
+            v, cl, ch = M.bootstrap_ci(lambda c: float(c.mean()), test_arms.nct_id.values[m], cov[m])
+            rows.append({"method": name, "size_bin": b, "n_arms": int(m.sum()), "coverage": v, "cov_ci_low": cl,
+                         "cov_ci_high": ch, "mean_width": float((hi - lo)[m].mean()),
+                         "calib_quantile": qs.get(b, np.nan) if name == "mondrian" else qn})
+    return pd.DataFrame(rows), out
+
+
+# ------------------------------------------------------------------ D) planning simulation
+def planning(test_arms, assumed: dict):
+    started = test_arms.y_started.values.astype(float)
+    completers = started - test_arms.y_withdrawals_primary.values
+    g = test_arms.nct_id.values
+    rows = []
+    for name, a in assumed.items():
+        a = np.minimum(np.broadcast_to(a, started.shape).astype(float), MAX_ASSUMED_ATTRITION)
+        target = completers / (1 - a)
+        rel = (target - started) / started
+        for metric, fn in [("pct_under_recruited", lambda r: float((r < 0).mean() * 100)),
+                           ("mean_over_recruitment_pct_among_not_under", lambda r: float(r[r >= 0].mean() * 100)
+                            if (r >= 0).any() else np.nan),
+                           ("mean_shortfall_pct_among_under", lambda r: float(-r[r < 0].mean() * 100)
+                            if (r < 0).any() else np.nan),
+                           ("mean_relative_error_pct", lambda r: float(r.mean() * 100))]:
+            v, lo, hi = M.bootstrap_ci(fn, g, rel)
+            rows.append({"strategy": name, "metric": metric, "value": v, "ci_low": lo, "ci_high": hi,
+                         "n_arms": len(started)})
+    return pd.DataFrame(rows)
+
+
+# ------------------------------------------------------------------ main
+def main():
+    dates = pd.read_parquet("data/interim/trial_dates.parquet")
+    arms, trials = load_set("m80", "temporal")
+    P = compute_prior_features(arms, dates)
+    preds, A, T, covered, selected = fit_models(arms, trials, P, full=True)
+
+    est, tests = evaluate(A["test"], T["test"], covered["test"], preds["test"])
+    conf, intervals = conformal(A["val"], preds["val"]["FINAL"]["rate_primary"],
+                                A["test"], preds["test"]["FINAL"]["rate_primary"])
+    plan = planning(A["test"], {
+        "fixed_20pct": 0.20,
+        "reference_class_mean": preds["test"]["reference_class"]["rate_primary"],
+        "FINAL_point": preds["test"]["FINAL"]["rate_primary"],
+        "FINAL_conformal_upper_90": intervals["mondrian"][1],
+    })
+
+    sens_rows = []
+    for set_name, scheme in [("m80", "temporal"), ("m70", "temporal"), ("m90", "temporal"), ("m80", "random_grouped")]:
+        if (set_name, scheme) == ("m80", "temporal"):
+            t = tests[tests.family == "primary"]
+        else:
+            a2, t2 = load_set(set_name, scheme)
+            P2 = compute_prior_features(a2, dates)
+            pr2, A2, T2, cov2, _ = fit_models(a2, t2, P2, full=False)
+            needed = {s for s, *_ in PRIMARY_ENDPOINTS}
+            _, t = evaluate(A2["test"], T2["test"], cov2["test"], pr2["test"], subsets=sorted(needed))
+            t = t[t.apply(lambda r: (r.subset, r.target, r.metric, r.comparison.split(" - ")[1]) in PRIMARY_ENDPOINTS,
+                          axis=1)]
+        sens_rows.append(t.assign(matched_set=set_name, split_scheme=scheme))
+        print(f"sensitivity {set_name}/{scheme} done")
+    sens = pd.concat(sens_rows, ignore_index=True)
+
+    TABLES.mkdir(parents=True, exist_ok=True)
+    est.to_csv(TABLES / "final_estimates.csv", index=False)
+    tests.to_csv(TABLES / "final_paired_tests.csv", index=False)
+    conf.to_csv(TABLES / "final_conformal.csv", index=False)
+    plan.to_csv(TABLES / "final_planning_simulation.csv", index=False)
+    sens.to_csv(TABLES / "final_sensitivity.csv", index=False)
+    (TABLES / "final_selected_params.json").write_text(json.dumps(selected, indent=1, default=str), encoding="utf-8")
+    write_summary(est, tests, conf, plan, sens, A, T, covered)
+
+
+# ------------------------------------------------------------------ summary
+def fmt(v, lo, hi, d=3):
+    return f"{v:.{d}f} [{lo:.{d}f}, {hi:.{d}f}]"
+
+
+def pfmt(p):
+    if pd.isna(p):
+        return "n/a"
+    return f"{p:.1e}" if p < 0.001 else f"{p:.3f}"
+
+
+def write_summary(est, tests, conf, plan, sens, A, T, covered):
+    L = ["# Forecasting arm-level attrition from pre-enrollment protocol data: final results", "",
+         "## Setup", "",
+         f"- Benchmark: ClinicalTrials.gov interventional randomized trials with posted results, >= 1 control arm, all "
+         f"participant-flow groups matched to protocol arms (rapidfuzz score >= 80), every arm started >= 10.",
+         f"- Temporal split by start year: train < 2015, validation 2015-2016, test >= 2017. Trials (arms): train "
+         f"{len(T['train']):,} ({len(A['train']):,}), validation {len(T['val']):,} ({len(A['val']):,}), test "
+         f"{len(T['test']):,} ({len(A['test']):,}).",
+         "- Models were fit on train and hyperparameters were selected on validation; no model fitting or tuning used "
+         "the test split.",
+         "- Models: reference class (mean by phase x MeSH branch x arm type with back-off below 20 arms); trial-level "
+         "LightGBM (one rate per trial); flat per-arm LightGBM on protocol features (flat_lgbm); FINAL = flat_lgbm plus "
+         "time-respecting prior-evidence features (same normalized drug in earlier trials whose results were posted "
+         "before the target trial started; missing when no evidence).",
+         f"- Subsets: all; reliable (arms started >= 100; trials whose pooled control and every experimental arm started "
+         f">= 100); covered (trials whose experimental arms all have prior evidence: {len(covered['test']):,} test "
+         "trials); covered_reliable.",
+         "- 95% CIs: 1,000 bootstrap resamples of trials (seed 42), percentile intervals. Paired comparisons resample "
+         "trials jointly for both models; p-values are two-sided Wald tests of the paired difference using its "
+         "bootstrap standard error (percentile-bootstrap p-values with add-one correction are also given in "
+         "results/tables/final_paired_tests.csv; with 1,000 resamples their resolution is ~0.002).",
+         "- Transparency on test-set use: the test split was also used in earlier exploratory analyses of this "
+         "project (baselines, arm-feature enrichment, prior-evidence experiment), and the choice of FINAL and of the "
+         "primary endpoints below was made after seeing those results. In particular, endpoint 3 was first observed "
+         "in the prior-evidence experiment. These endpoints are therefore pre-specified for this report but not "
+         "confirmatory; a prospective evaluation on trials posting results after this analysis is needed.", "",
+         "## Pre-specified primary endpoints (test set, unadjusted)", "",
+         "| # | Endpoint | Subset | FINAL | Comparator | Difference (FINAL - comparator) | p |",
+         "|---|---|---|---|---|---|---|"]
+    for i, (subset, target, metric, comp) in enumerate(PRIMARY_ENDPOINTS, 1):
+        t = tests[(tests.subset == subset) & (tests.target == target) & (tests.metric == metric)
+                  & (tests.comparison == f"FINAL - {comp}")].iloc[0]
+        f = est[(est.subset == subset) & (est.target == target) & (est.metric == metric) & (est.model == "FINAL")].iloc[0]
+        c = est[(est.subset == subset) & (est.target == target) & (est.metric == metric) & (est.model == comp)].iloc[0]
+        L.append(f"| {i} | {target} {metric} | {subset} | {fmt(f.value, f.ci_low, f.ci_high)} | {comp}: "
+                 f"{fmt(c.value, c.ci_low, c.ci_high)} | {fmt(t['diff'], t.ci_low, t.ci_high)} | {pfmt(t.p_raw)} |")
+    L += ["", "Lower is better for MAE and KL; higher is better for concordance (0.5 = chance). Primary endpoints are "
+          "reported without multiplicity adjustment.", ""]
+
+    L += ["## Model comparison (test set)", ""]
+    targets = [("arm_rate_primary", "MAE"), ("arm_rate_primary", "Spearman"), ("arm_rate_nonendpoint", "MAE"),
+               ("arm_rate_nonendpoint", "Spearman"), ("composition", "mean_KL"), ("composition", "mean_Aitchison"),
+               ("pairwise_primary", "concordance"), ("pairwise_nonendpoint", "concordance"),
+               ("flag_primary_10_sig", "AUROC"), ("flag_primary_10_sig", "AUPRC"),
+               ("flag_primary_5_sig", "AUROC"), ("flag_primary_5_sig", "AUPRC")]
+    for subset in SUBSETS:
+        e = est[est.subset == subset]
+        if e.empty:
+            continue
+        L += [f"### Subset: {subset}", "", "| Target | Metric | n (trials / rows) | " + " | ".join(MODELS) + " |",
+              "|---|---|---|" + "---|" * len(MODELS)]
+        for target, metric in targets:
+            r = e[(e.target == target) & (e.metric == metric)]
+            if r.empty:
+                continue
+            cells = []
+            for m in MODELS:
+                x = r[r.model == m]
+                cells.append("–" if x.empty or pd.isna(x.value.iloc[0]) else
+                             fmt(x.value.iloc[0], x.ci_low.iloc[0], x.ci_high.iloc[0]))
+            L.append(f"| {target} | {metric} | {int(r.n_trials.iloc[0]):,} / {int(r.n_rows.iloc[0]):,} | " + " | ".join(cells) + " |")
+        L.append("")
+
+    sec = tests[tests.family == "secondary"]
+    L += ["## Secondary paired comparisons (Holm-adjusted across the secondary family)", "",
+          f"{len(sec)} secondary tests. Tests with Holm-adjusted p < 0.05:", "",
+          "| Subset | Target | Metric | Comparison | Difference | p raw | p Holm |", "|---|---|---|---|---|---|---|"]
+    for _, t in sec[sec.p_holm < 0.05].sort_values(["subset", "target", "metric"]).iterrows():
+        L.append(f"| {t.subset} | {t.target} | {t.metric} | {t.comparison} | {fmt(t['diff'], t.ci_low, t.ci_high)} | "
+                 f"{pfmt(t.p_raw)} | {pfmt(t.p_holm)} |")
+    L += ["", "All secondary tests (raw and adjusted p) are in results/tables/final_paired_tests.csv.", ""]
+
+    L += ["## Conformal prediction intervals for the primary arm attrition rate (FINAL, target 90%)", "",
+          "Split-conformal, calibrated on validation arms. Mondrian = absolute-residual quantile per arm-size bin; "
+          "normalized = single quantile of |y - p| / sqrt(p(1-p)/n). Arm size is the observed number started, used "
+          "here as a proxy for the planned arm size that is known at design time.", "",
+          "| Method | Arm size (started) | Test arms | Coverage | Mean width |", "|---|---|---:|---|---:|"]
+    for _, r in conf.iterrows():
+        L.append(f"| {r.method} | {r.size_bin} | {r.n_arms:,} | {fmt(r.coverage, r.cov_ci_low, r.cov_ci_high)} | "
+                 f"{r.mean_width:.3f} |")
+    L.append("")
+
+    L += ["## Recruitment-planning simulation (test arms)", "",
+          "Required completers = observed completers (started minus primary-attrition withdrawals). Recruitment target = "
+          f"completers / (1 - assumed attrition), assumed attrition capped at {MAX_ASSUMED_ATTRITION:.2f}. Under-recruited = "
+          "target below the number actually started.", "",
+          "| Strategy | % arms under-recruited | Mean over-recruitment % (arms not under) | Mean shortfall % (arms under) |",
+          "|---|---|---|---|"]
+    for s in plan.strategy.unique():
+        p = plan[plan.strategy == s].set_index("metric")
+        cell = lambda m: fmt(p.loc[m].value, p.loc[m].ci_low, p.loc[m].ci_high, 1)
+        L.append(f"| {s} | {cell('pct_under_recruited')} | {cell('mean_over_recruitment_pct_among_not_under')} | "
+                 f"{cell('mean_shortfall_pct_among_under')} |")
+    L.append("")
+
+    L += ["## Sensitivity of the primary endpoints", "",
+          "| Matched set | Split | Endpoint | Subset | n trials | Difference (FINAL - comparator) | p |",
+          "|---|---|---|---|---:|---|---|"]
+    for _, t in sens.iterrows():
+        L.append(f"| {t.matched_set} | {t.split_scheme} | {t.target} {t.metric} ({t.comparison}) | {t.subset} | "
+                 f"{int(t.n_trials):,} | {fmt(t['diff'], t.ci_low, t.ci_high)} | {pfmt(t.p_raw)} |")
+    L += ["", "The random trial-grouped split ignores calendar time for model fitting (prior evidence remains "
+          "time-respecting) and is reported only as a sensitivity analysis.", ""]
+    Path("results/final_summary.md").write_text("\n".join(L), encoding="utf-8")
+    print("\n".join(L))
+
+
+if __name__ == "__main__":
+    main()
